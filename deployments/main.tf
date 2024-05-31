@@ -2,14 +2,9 @@ data "docker_network" "proxy" {
   name = "proxy"
 }
 
-data "docker_registry_image" "app" {
-  name = "capcom6/${var.app-name}:${var.app-version}"
-}
-
 resource "docker_image" "app" {
-  name          = data.docker_registry_image.app.name
-  pull_triggers = [data.docker_registry_image.app.sha256_digest]
-  keep_locally  = true
+  name         = "capcom6/${var.app-name}:${var.app-version}"
+  keep_locally = true
 }
 
 resource "docker_service" "app" {
@@ -17,7 +12,7 @@ resource "docker_service" "app" {
 
   task_spec {
     container_spec {
-      image = docker_image.app.image_id
+      image = docker_image.app.name
     }
 
     networks_advanced {
