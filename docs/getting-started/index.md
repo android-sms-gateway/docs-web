@@ -8,7 +8,7 @@ The Android SMS Gateway can operate in three distinct modes, all utilizing the s
 
 To begin with any of these modes, you must first install the Android SMS Gateway app on your device, as described in the [Installation](../installation.md) section.
 
-For more details on how to use the API, please consult the [API](../api.md) section.
+For more details on how to use the API, please consult the [API](../integration/api.md) section.
 
 ## Building Your Own Gateway
 
