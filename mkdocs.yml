@@ -45,6 +45,8 @@ nav:
   - FAQ:
       - General: faq/general.md
       - Errors: faq/errors.md
+  - Resources:
+      - Third-Party: resources/3rdparty.md
   - Contributing: contributing.md
   - License: license.md
 validation:
