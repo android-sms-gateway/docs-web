@@ -21,7 +21,8 @@ To enhance privacy, you can host a private server within your own infrastructure
    - Define `gateway.private_token` as the access token for device registration in private mode. Ensure this token matches the one on the devices set to private mode.
 2. Start the server in Docker with the following command: 
    ```sh
-   docker run -p 3000:3000 -v $(pwd)/config.yml:/app/config.yml capcom6/sms-gateway:latest
+   docker run -p 3000:3000 -v $(pwd)/config.yml:/app/config.yml \
+    capcom6/sms-gateway:latest
    ```
 3. Configure your reverse proxy, enable SSL, and modify your firewall settings to permit Internet access to the server.
 

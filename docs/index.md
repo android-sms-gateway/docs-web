@@ -4,7 +4,7 @@
     <img src="/assets/logo.png" alt="Logo">
 </div>
 
-Android SMS Gateway turns your Android smartphone into an SMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API. This makes it ideal for integrating SMS functionality into your own applications or services.
+Android SMS Gateway turns your Android smartphone into an SMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API and receive webhooks on incoming SMS. This makes it ideal for integrating SMS functionality into your own applications or services.
 
 <p align="center"><img src="/assets/screenshot.png" width="360"></p>
 
@@ -21,14 +21,16 @@ Android SMS Gateway turns your Android smartphone into an SMS gateway. It's a li
 - **Message expiration:** The application allows setting an expiration time for messages. Messages will not be sent if they have expired.
 - **Random delay between messages:** Introduces a random delay between sending messages to avoid mobile operator restrictions.
 - **Private server support:** The application allows for the use of a backend server in the user's infrastructure for enhanced security.
+- **Webhooks on incoming SMS:** The application allows setting up webhooks to be sent to a specified URL whenever an SMS is received.
 
 ## Ideal For
 
 - Notifications
 - Alerts
 - Two-factor authentication codes
+- Receiving incoming SMS
 
-Android SMS Gateway offers a convenient and reliable solution for sending notifications, alerts, or two-factor authentication codes.
+Android SMS Gateway offers a convenient and reliable solution for sending notifications, alerts, or two-factor authentication codes, and also allows you to receive webhooks when an SMS is received.
 
 *Note*: It is not recommended to use this for batch sending due to potential mobile operator restrictions.
 

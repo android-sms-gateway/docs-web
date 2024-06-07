@@ -18,5 +18,8 @@ This mode is ideal for sending messages from a local network.
 5. To send a message from within the local network, execute a `curl` command like the following. Be sure to replace `<username>`, `<password>`, and `<device_local_ip>` with the actual values provided in the previous step:
 
     ```sh
-    curl -X POST -u <username>:<password> -H "Content-Type: application/json" -d '{ "message": "Hello, world!", "phoneNumbers": ["79990001234", "79995556677"] }' http://<device_local_ip>:8080/message
+    curl -X POST -u <username>:<password> \
+        -H "Content-Type: application/json" \
+        -d '{ "message": "Hello, world!", "phoneNumbers": ["+79990001234", "+79995556677"] }' \
+        http://<device_local_ip>:8080/message
     ```

@@ -35,6 +35,7 @@ nav:
       - Public Cloud Server: getting-started/public-cloud-server.md
       - Private Server: getting-started/private-server.md
       - Custom Gateway Setup: getting-started/custom-gateway.md
+      - Webhooks: getting-started/webhooks.md
   - Integration:
       - API: integration/api.md
   - Pricing: pricing.md
@@ -61,3 +62,11 @@ plugins:
         remove_comments: true
       cache_safe: true
   - social
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

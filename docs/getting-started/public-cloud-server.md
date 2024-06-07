@@ -18,5 +18,8 @@ Use the cloud server mode when dealing with dynamic or shared device IP addresse
 5. To send a message via the cloud server, perform a `curl` request with a command similar to the following, substituting `<username>` and `<password>` with the actual values obtained in step 4:
 
     ```sh
-    curl -X POST -u <username>:<password> -H "Content-Type: application/json" -d '{ "message": "Hello, world!", "phoneNumbers": ["79990001234", "79995556677"] }' https://sms.capcom.me/api/3rdparty/v1/message
+    curl -X POST -u <username>:<password> \
+      -H "Content-Type: application/json" \
+      -d '{ "message": "Hello, world!", "phoneNumbers": ["+79990001234", "+79995556677"] }' \
+      https://sms.capcom.me/api/3rdparty/v1/message
     ```
