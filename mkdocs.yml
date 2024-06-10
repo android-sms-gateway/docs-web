@@ -8,6 +8,7 @@ theme:
   features:
     - content.code.copy
     - content.code.annotate
+    - navigation.indexes
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -31,6 +32,7 @@ theme:
         name: Switch to system preference
 nav:
   - Home: index.md
+  - Blog: blog/index.md
   - Installation: installation.md
   - Getting Started:
       - Overview: getting-started/index.md
@@ -93,6 +95,16 @@ plugins:
   - social
   - git-revision-date-localized:
       enable_creation_date: true
+  - blog:
+      blog_dir: blog
+      blog_toc: true
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
