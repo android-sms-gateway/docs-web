@@ -10,6 +10,13 @@ HOST_PORT ?= 8000
 # Makefile targets
 .PHONY: build run stop clean
 
+# Set the default target
+default: serve
+
+# Serve the documentation
+serve:
+	pipenv run mkdocs serve
+
 # Build the Docker image
 build:
 	docker build -t $(IMAGE_NAME) .
