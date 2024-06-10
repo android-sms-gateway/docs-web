@@ -31,6 +31,7 @@ theme:
         name: Switch to system preference
 nav:
   - Home: index.md
+  - Blog: blog/index.md
   - Installation: installation.md
   - Getting Started:
       - Overview: getting-started/index.md
@@ -93,6 +94,7 @@ plugins:
   - social
   - git-revision-date-localized:
       enable_creation_date: true
+  - blog
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
