@@ -1,0 +1,112 @@
+# Webhooks
+
+Webhooks offer a powerful mechanism to receive real-time notifications of events like incoming SMS messages. This integration guide will walk you through setting up webhooks to receive such notifications directly from your device.
+
+## Supported Events
+
+Currently, the following event is supported:
+
+- `sms:received` - Triggered when an SMS is received by the device. The payload for this event includes:
+    * `message`: The content of the SMS message.
+    * `phoneNumber`: The phone number that sent the SMS.
+    * `receivedAt`: The timestamp when the message was received.
+
+Please note that as the application evolves, additional events may be supported in the future.
+
+## Prerequisites
+
+Before you begin, ensure the following:
+
+- You have [SMS Gateway for Android](https://github.com/capcom6/android-sms-gateway/releases/latest) installed on your device in any mode: Local, Cloud or Private.
+- You have a server with a valid SSL certificate to securely receive HTTPS requests, which should be accessible from the internet.
+- Your device has an internet connection to send and receive data.
+
+## Step-by-Step Integration
+
+### Step 1: Set Up Your Server
+
+For your webhooks to work, you need an HTTP server capable of handling HTTPS POST requests. This server will be the endpoint for the incoming webhook data.
+
+- For Production: Ensure your server has a valid SSL certificate.
+- For Testing: Use services like [webhook.site](https://webhook.site) to create a temporary URL that can capture webhook data.
+
+### Step 2: Register Your Webhook Endpoint
+
+To start receiving webhook notifications, you must register your webhook endpoint with the device. Utilize the `curl` command to send a POST request to the appropriate address, depending on whether you're in Local, Cloud, or Private mode.
+
+```sh
+curl -X POST -u <username>:<password> \
+  -H "Content-Type: application/json" \
+  -d '{ "id": "<unique-id>", "url": "https://webhook.site/<your-uuid>", "event": "sms:received" }' \
+  https://sms.capcom.me/api/3rdparty/v1/webhooks
+```
+
+Replace `<username>`, `<password>`, `<unique-id>`, and `<your-uuid>` with your actual credentials and information.
+
+In Cloud or Private modes, please allow some time for the webhooks list to synchronize with your device.
+
+### Step 3: Verify Your Webhook
+
+You can verify that it has been successfully registered by executing the following `curl` command:
+
+```sh
+curl -X GET -u <username>:<password> \
+  https://sms.capcom.me/api/3rdparty/v1/webhooks
+```
+
+Please note that webhooks registered in Local mode are separate from those registered in Cloud/Private mode. Therefore, when you make this request to the device's local server, you will only see the webhooks registered in Local mode, and similarly, a request to the Cloud/Private server will only show the webhooks registered there.
+
+### Step 4: Testing the Webhook
+
+Send an SMS to the phone number associated with the device to test the webhook.
+
+### Step 5: Receiving the Webhook Payload
+
+Upon receiving an SMS, your device will make a POST request to the registered webhook URL with a payload structured as follows:
+
+```json
+{
+  "event": "sms:received",
+  "deviceId": "device-id",
+  "payload": {
+    "message": "Received SMS text",
+    "phoneNumber": "+79990001234",
+    "receivedAt": "2024-06-07T11:41:31.000+07:00"
+  }
+}
+```
+
+Your server should process this request and respond with an HTTP status code in the `2xx` range to indicate successful receipt. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
+
+The app implements an exponential backoff retry strategy: it will wait 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. If after roughly 2 days the webhook has still not been successfully delivered, the app will cease retry attempts.
+
+### Step 6: Deregistering a Webhook
+
+If you no longer wish to receive webhook notifications, deregister your webhook with the following curl command:
+
+```sh
+curl -X DELETE -u <username>:<password> \
+  https://sms.capcom.me/api/3rdparty/v1/webhooks/unique-id
+```
+
+## References
+
+- [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
+
+## Security Considerations
+
+- Use HTTPS for your webhook endpoint to ensure secure data transmission.
+- Protect your webhook endpoint against unauthorized access. For example, you can specify authorization key as query-parameter when registering the webhook.
+- Regularly rotate your authentication credentials.
+  
+## Troubleshooting
+
+- Ensure the device can reach the internet and that there are no firewalls blocking outgoing requests.
+- Validate that the webhook URL is correct and the server is running.
+- Check the server logs for any errors during the webhook POST request handling.
+
+## Conclusion
+
+By following these steps, you've successfully integrated webhooks into your system to receive real-time notifications for incoming SMS messages. This setup enables you to respond to messages promptly and automate workflows based on SMS content.
+
+Remember to adhere to best practices for security and perform thorough testing to ensure reliable webhook delivery.

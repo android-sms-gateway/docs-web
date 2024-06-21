@@ -38,6 +38,7 @@ nav:
       - Webhooks: getting-started/webhooks.md
   - Integration:
       - API: integration/api.md
+      - Webhooks: integration/webhooks.md
   - Pricing: pricing.md
   - Privacy:
       - Policy: privacy/policy.md
