@@ -19,7 +19,7 @@ Before you begin, ensure the following:
 
 - You have [SMS Gateway for Android](https://github.com/capcom6/android-sms-gateway/releases/latest) installed on your device in any mode: Local, Cloud or Private.
 - You have a server with a valid SSL certificate to securely receive HTTPS requests, which should be accessible from the internet.
-- Your device has an internet connection to send and receive data.
+- Your device has access to your server.
 
 ## Step-by-Step Integration
 
@@ -101,7 +101,7 @@ curl -X DELETE -u <username>:<password> \
   
 ## Troubleshooting
 
-- Ensure the device can reach the internet and that there are no firewalls blocking outgoing requests.
+- Ensure the device can reach your server and that there are no firewalls blocking outgoing requests.
 - Validate that the webhook URL is correct and the server is running.
 - Check the server logs for any errors during the webhook POST request handling.
 
