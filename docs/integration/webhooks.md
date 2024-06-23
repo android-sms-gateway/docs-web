@@ -66,17 +66,19 @@ Upon receiving an SMS, your device will make a POST request to the registered we
 
 ```json
 {
+  "deviceId": "ffffffffceb0b1db0000018e937c815b",
   "event": "sms:received",
-  "deviceId": "device-id",
+  "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
-    "message": "Received SMS text",
-    "phoneNumber": "+79990001234",
-    "receivedAt": "2024-06-07T11:41:31.000+07:00"
-  }
+    "message": "Android is always a sweet treat!",
+    "phoneNumber": "6505551212",
+    "receivedAt": "2024-06-22T15:46:11.000+07:00"
+  },
+  "webhookId": "LreFUt-Z3sSq0JufY9uWB"
 }
 ```
 
-Your server should process this request and respond with an HTTP status code in the `2xx` range to indicate successful receipt. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
+Your server should process this request and respond with an HTTP status code in the `2xx` range to indicate successful receipt in 30 seconds. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
 
 The app implements an exponential backoff retry strategy: it will wait 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. If after roughly 2 days the webhook has still not been successfully delivered, the app will cease retry attempts.
 

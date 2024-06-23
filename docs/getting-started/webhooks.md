@@ -21,12 +21,15 @@ Follow these steps to set up webhooks:
 
     ```json
     {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
       "event": "sms:received",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
       "payload": {
-        "message": "Received SMS text",
-        "phoneNumber": "+79990001234",
-        "receivedAt": "2024-06-07T11:41:31.000+07:00"
-      }
+        "message": "Android is always a sweet treat!",
+        "phoneNumber": "6505551212",
+        "receivedAt": "2024-06-22T15:46:11.000+07:00"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }
     ```
 
