@@ -91,10 +91,6 @@ curl -X DELETE -u <username>:<password> \
   https://sms.capcom.me/api/3rdparty/v1/webhooks/unique-id
 ```
 
-## References
-
-- [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
-
 ## Security Considerations
 
 - Use HTTPS for your webhook endpoint to ensure secure data transmission.
@@ -112,3 +108,11 @@ curl -X DELETE -u <username>:<password> \
 By following these steps, you've successfully integrated webhooks into your system to receive real-time notifications for incoming SMS messages. This setup enables you to respond to messages promptly and automate workflows based on SMS content.
 
 Remember to adhere to best practices for security and perform thorough testing to ensure reliable webhook delivery.
+
+## References
+
+- [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
+
+## Examples
+
+- [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn) - A Cloud Function to seamlessly forward SMS messages to a Telegram chat using webhooks.
