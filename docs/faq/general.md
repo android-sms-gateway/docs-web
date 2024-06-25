@@ -65,3 +65,8 @@ The app offers a feature to restrict the number of messages sent within a specif
 
 It's not possible to completely hide messages on the device without major changes in the app due to Android's limitations. Messages sent will appear in the default messaging app. The best way to keep messages private is to restrict physical access to the phone.
 
+## How can I check the online status of the device?
+
+In Local mode, you can simply attempt to connect to the API. For example, try accessing the `/health` endpoint.
+
+In Cloud/Private mode, the app operates asynchronously, relying on PUSH notifications. This means there isn't a continuous connection to the server, making it challenging to confirm if the device is online at any given moment. However, you can obtain some information through the [`GET /device`](https://sms.capcom.me/api/#/User/get_3rdparty_v1_device) endpoint. The response from this endpoint includes a `lastSeen` field, indicating the last time the device connected to the server. Keep in mind, in idle mode, the Android app may connect to the server no more frequently than once every 15 minutes, so this information might not reflect the real-time status.
