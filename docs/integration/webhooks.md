@@ -10,6 +10,7 @@ Currently, the following event is supported:
     * `message`: The content of the SMS message.
     * `phoneNumber`: The phone number that sent the SMS.
     * `receivedAt`: The timestamp when the message was received.
+- `system:ping` - Triggered when the device pings the server. Has no payload.
 
 Please note that as the application evolves, additional events may be supported in the future.
 
