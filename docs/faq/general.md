@@ -67,6 +67,16 @@ It's not possible to completely hide messages on the device without major change
 
 ## How can I check the online status of the device?
 
-In Local mode, you can simply attempt to connect to the API. For example, try accessing the `/health` endpoint.
+### Local mode
 
-In Cloud/Private mode, the app operates asynchronously, relying on PUSH notifications. This means there isn't a continuous connection to the server, making it challenging to confirm if the device is online at any given moment. However, you can obtain some information through the [`GET /device`](https://sms.capcom.me/api/#/User/get_3rdparty_v1_device) endpoint. The response from this endpoint includes a `lastSeen` field, indicating the last time the device connected to the server. Keep in mind, in idle mode, the Android app may connect to the server no more frequently than once every 15 minutes, so this information might not reflect the real-time status.
+Attempting to connect to the device's API directly can give you an immediate sense of its online status. Accessing the `/health` endpoint is a straightforward way to do this.
+
+### Cloud mode
+
+The app operates asynchronously, relying on PUSH notifications rather than maintaining a continuous connection to the server. You can use the `GET /device` endpoint to obtain some information about the device's state. The response includes a `lastSeen` field, showing the last time the device connected to the server. Due to the app's idle mode behavior, the device may only connect to the server once every 15 minutes, meaning the `lastSeen` time may not always represent the current status.
+
+### Any mode
+
+Irrespective of the mode, you can register a `system:ping` webhook to monitor the device's online status. This webhook will notify your server about the status of the app at user-defined intervals, set within the app's Settings on the device. This feature offers a proactive approach to track connectivity and ensure the device is functioning as expected across any operational mode.
+
+**Note**: Using the ping feature will increase battery usage. It's important to balance the need for frequent status updates with the impact on device battery life, especially if the device is expected to operate for extended periods without charging.
