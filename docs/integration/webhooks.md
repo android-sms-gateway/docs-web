@@ -75,7 +75,7 @@ Upon receiving an SMS, your device will make a POST request to the registered we
     "phoneNumber": "6505551212",
     "receivedAt": "2024-06-22T15:46:11.000+07:00"
   },
-  "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+  "webhookId": "<unique-id>"
 }
 ```
 
@@ -89,7 +89,7 @@ If you no longer wish to receive webhook notifications, deregister your webhook 
 
 ```sh
 curl -X DELETE -u <username>:<password> \
-  https://sms.capcom.me/api/3rdparty/v1/webhooks/unique-id
+  'https://sms.capcom.me/api/3rdparty/v1/webhooks/%3Cunique-id%3E'
 ```
 
 ## Security Considerations
