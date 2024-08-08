@@ -18,11 +18,14 @@ The Android SMS Gateway is open-source software and is free to use. We offer thr
 
 If you find value in this project and would like to show your support, please consider making a donation. We currently accept the following cryptocurrencies:
 
-- Bitcoin (BTC): [bc1q2yntlj495qkazmnmxux786c05p30zlm46tryh4](bitcoin:bc1q2yntlj495qkazmnmxux786c05p30zlm46tryh4)
+- Bitcoin (BTC): [33w9xBMQVQ8XbTSZfkYFArZ4W5KjAGcgrj](bitcoin:33w9xBMQVQ8XbTSZfkYFArZ4W5KjAGcgrj)
 - TON: [UQD6dfzWZqgcfE10FLPeeaDdUTfXv1TEOau8iwHQJQ0pGT-h](ton://transfer/UQD6dfzWZqgcfE10FLPeeaDdUTfXv1TEOau8iwHQJQ0pGT-h)
-- Litecoin (LTC): [ltc1qrke3ys2cph3ttgunyw5799v79ajv9jcexzxc9x](litecoin:ltc1qrke3ys2cph3ttgunyw5799v79ajv9jcexzxc9x)
-- Ethereum (ERC20): [0x344B5Ed5229e96dAdcbA300d09Adba55221ab6bA](ethereum:0x344B5Ed5229e96dAdcbA300d09Adba55221ab6bA)
-- Binance Coin (BEP20): [0x9372EE7879C48c0da27ce2244F97d49ECC216a8c](binance:0x9372EE7879C48c0da27ce2244F97d49ECC216a8c)
+- Litecoin (LTC): [ltc1q5fyveqa0lr3l8cgylmn5u8e2sww54366h2yg34](litecoin:ltc1q5fyveqa0lr3l8cgylmn5u8e2sww54366h2yg34)
+- Ethereum (ERC20): [0x88Dd384B4e622f24564CF744952884e3ef150A80](ethereum:0x88Dd384B4e622f24564CF744952884e3ef150A80)
+- Binance Coin (BEP20): [0x88Dd384B4e622f24564CF744952884e3ef150A80](binance:0x88Dd384B4e622f24564CF744952884e3ef150A80)
+- Volet/AdvCash (USD): `U 8608 5220 4843`
+- Volet/AdvCash (EUR): `E 9140 0898 6317`
+- Payeer: `P1121553867`
 
 Donations are primarily used to cover infrastructure costs. We are deeply thankful for your support.
 
