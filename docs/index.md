@@ -22,7 +22,7 @@ Android SMS Gateway turns your Android smartphone into an SMS gateway. It's a li
 - **Random delay between messages:** Introduces a random delay between sending messages to avoid mobile operator restrictions.
 - **Private server support:** The application allows for the use of a backend server in the user's infrastructure for enhanced security.
 - **App status reporting:** Ability to report current app status by sending requests to specified URL at any user-defined intervals.
-- **Webhooks on incoming SMS:** The application allows setting up webhooks to be sent to a specified URL whenever an SMS is received.
+- **Webhooks:** The application allows setting up webhooks to be sent on specified events.
 
 ## Ideal For
 
