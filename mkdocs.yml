@@ -49,7 +49,9 @@ nav:
       - General: faq/general.md
       - Errors: faq/errors.md
   - Resources:
+      - Examples: resources/examples.md
       - Third-Party: resources/3rdparty.md
+      - Usages: resources/usages.md
   - Contributing: contributing.md
   - License: license.md
 validation:
