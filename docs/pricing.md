@@ -29,4 +29,4 @@ If you find value in this project and would like to show your support, please co
 
 Donations are primarily used to cover infrastructure costs. We are deeply thankful for your support.
 
-For any additional questions or for further clarification, please do not hesitate to [contact us](mailto:i@capcom.me).
+For any additional questions or for further clarification, please do not hesitate to [contact us](mailto:sms@capcom.me).
