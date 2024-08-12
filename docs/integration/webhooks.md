@@ -11,7 +11,7 @@ Currently, the following event is supported:
     * `phoneNumber`: The phone number that sent the SMS.
     * `receivedAt`: The timestamp when the message was received.
 - `sms:sent` - Triggered when an SMS is sent by the device. The payload for this event includes:
-    * `id`: The ID of the SMS message.
+    * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
     * `sentAt`: The timestamp when the message was sent.
 - `system:ping` - Triggered when the device pings the server. Has no payload.
