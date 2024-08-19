@@ -1,5 +1,9 @@
 # FAQ - Errors
 
+## `RESULT_ERROR_GENERIC_FAILURE` Error
+
+The `RESULT_ERROR_GENERIC_FAILURE` error can occur for various reasons. One of the most common causes is insufficient balance on the SIM card. Check your carrier's balance and add funds if needed.
+
 ## `RESULT_ERROR_LIMIT_EXCEEDED` Error
 
 The `RESULT_ERROR_LIMIT_EXCEEDED` error occurs when you have reached the sending limit imposed by your mobile carrier or the Android operating system. This safeguard is designed to prevent spamming and typically triggers if you attempt to send an excessive number of messages in a short span of time. To resolve this, you can adjust the SMS sending limit on some devices by following the instructions in this guide: [How to change the SMS sending limit on Android](https://www.xda-developers.com/change-sms-limit-android/). Additionally, consider spacing out your message sending or contact your carrier to inquire about their message sending limits. For more strategies on managing sending limits, please refer to [How can I avoid mobile operator restrictions?](./general.md#how-can-i-avoid-mobile-operator-restrictions).
