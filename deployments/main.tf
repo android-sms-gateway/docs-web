@@ -53,6 +53,19 @@ resource "docker_service" "app" {
   }
 
   labels {
+    label = "traefik.http.routers.${var.app-name}-new.rule"
+    value = "Host(`sms-gate.app`)"
+  }
+  labels {
+    label = "traefik.http.routers.${var.app-name}-new.entrypoints"
+    value = "https"
+  }
+  labels {
+    label = "traefik.http.routers.${var.app-name}-new.tls.certresolver"
+    value = "le"
+  }
+
+  labels {
     label = "traefik.http.services.${var.app-name}.loadbalancer.server.port"
     value = 80
   }
