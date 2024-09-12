@@ -2,7 +2,7 @@
 
 ## Usages
 
-In this section, you will find links to projects that utilize the SMS Gateway for Android. All of these projects were discovered on the internet through publicly available information. If you would like to add your project or have a project listed that you would like to remove, please [contact us](mailto:sms@capcom.me).
+In this section, you will find links to projects that utilize the SMS Gateway for Android. All of these projects were discovered on the internet through publicly available information. If you would like to add your project or have a project listed that you would like to remove, please [contact us](mailto:support@sms-gate.app).
 
 ### Open Source
 

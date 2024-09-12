@@ -1,5 +1,5 @@
 site_name: SMS Gateway for Android™
-site_url: https://sms.capcom.me
+site_url: https://sms-gate.app
 repo_url: https://github.com/capcom6/android-sms-gateway
 theme:
   name: material
