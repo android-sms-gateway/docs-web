@@ -6,7 +6,7 @@
     <img src="/assets/private-server-arch.png" alt="Architecture of the Private Server mode">
 </div>
 
-To enhance privacy, you can host a private server within your own infrastructure, ensuring that all messages remain solely on devices you control. The only required external network connection is for sending push notifications via the public server at `sms.capcom.me`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
+To enhance privacy, you can host a private server within your own infrastructure, ensuring that all messages remain solely on devices you control. The only required external network connection is for sending push notifications via the public server at `sms-gate.app`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
 
 ### Prerequisites
 

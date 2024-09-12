@@ -57,12 +57,12 @@ This project is licensed under the [Apache License 2.0](license.md).
 If you have any questions or suggestions, feel free to reach out through the following channels:
 
 - **Issue Tracker:** [https://github.com/capcom6/android-sms-gateway/issues](https://github.com/capcom6/android-sms-gateway/issues)
-- **Email:** [sms@capcom.me](mailto:sms@capcom.me)
+- **Email:** [support@sms-gate.app](mailto:support@sms-gate.app)
 - **Discord:** [Join our Discord server](https://discord.gg/vv9raFK4gX)
 
 ### Links
 
-- **Website:** [https://sms.capcom.me](https://sms.capcom.me)
+- **Website:** [https://sms-gate.app](https://sms-gate.app)
 - **Project:** [https://github.com/android-sms-gateway](https://github.com/android-sms-gateway)
 - **Main Repository:** [https://github.com/capcom6/android-sms-gateway](https://github.com/capcom6/android-sms-gateway)
 - **Author GitHub:** [capcom6](https://github.com/capcom6)

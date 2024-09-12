@@ -43,7 +43,7 @@ To start receiving webhook notifications, you must register your webhook endpoin
 curl -X POST -u <username>:<password> \
   -H "Content-Type: application/json" \
   -d '{ "id": "<unique-id>", "url": "https://webhook.site/<your-uuid>", "event": "sms:received" }' \
-  https://sms.capcom.me/api/3rdparty/v1/webhooks
+  https://api.sms-gate.app/3rdparty/v1/webhooks
 ```
 
 Replace `<username>`, `<password>`, `<unique-id>`, and `<your-uuid>` with your actual credentials and information.
@@ -56,7 +56,7 @@ You can verify that it has been successfully registered by executing the followi
 
 ```sh
 curl -X GET -u <username>:<password> \
-  https://sms.capcom.me/api/3rdparty/v1/webhooks
+  https://api.sms-gate.app/3rdparty/v1/webhooks
 ```
 
 Please note that webhooks registered in Local mode are separate from those registered in Cloud/Private mode. Therefore, when you make this request to the device's local server, you will only see the webhooks registered in Local mode, and similarly, a request to the Cloud/Private server will only show the webhooks registered there.
@@ -93,7 +93,7 @@ If you no longer wish to receive webhook notifications, deregister your webhook 
 
 ```sh
 curl -X DELETE -u <username>:<password> \
-  'https://sms.capcom.me/api/3rdparty/v1/webhooks/%3Cunique-id%3E'
+  'https://api.sms-gate.app/3rdparty/v1/webhooks/%3Cunique-id%3E'
 ```
 
 ## Security Considerations

@@ -8,7 +8,7 @@ To send an SMS using a non-default SIM card, you can specify the SIM card slot n
 curl -X POST \
     -u <username>:<password> \
     -H 'content-type: application/json' \
-    https://sms.capcom.me/api/3rdparty/v1/message \
+    https://api.sms-gate.app/3rdparty/v1/message \
     -d '{
         "message": "Hello from SIM2",
         "phoneNumbers": ["79990001234"],
