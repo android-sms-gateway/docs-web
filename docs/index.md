@@ -1,10 +1,10 @@
-# Android SMS Gateway
+# SMS Gateway for Android™
 
 <div align="center">
     <img src="/assets/logo.png" alt="Logo">
 </div>
 
-Android SMS Gateway turns your Android smartphone into an SMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API and receive webhooks on incoming SMS. This makes it ideal for integrating SMS functionality into your own applications or services.
+SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API and receive webhooks on incoming SMS. This makes it ideal for integrating SMS functionality into your own applications or services.
 
 <p align="center"><img src="/assets/screenshot.png" width="360"></p>
 
@@ -40,9 +40,9 @@ The project is currently in the active development stage. We are actively workin
 
 ## Get Started
 
-Getting started with Android SMS Gateway is easy and straightforward. No registration, email, or phone number is required to create an account and start using the app.
+Getting started with SMS Gateway for Android is easy and straightforward. No registration, email, or phone number is required to create an account and start using the app.
 
-Check out our [Getting Started Guide](getting-started/index.md) to learn how to install and use Android SMS Gateway.
+Check out our [Getting Started Guide](getting-started/index.md) to learn how to install and use SMS Gateway for Android.
 
 ## Contributing
 

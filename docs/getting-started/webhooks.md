@@ -42,4 +42,4 @@ Follow these steps to set up webhooks:
 
 *Note*: Webhooks are transmitted directly from the device; therefore, the device must have an outgoing internet connection. As the requests originate from the device, incoming messages remain inaccessible to us.
 
-For more information, see [Integration: Webhooks](../integration/webhooks.md)
+For more information, see [Features: Webhooks](../features/webhooks.md)

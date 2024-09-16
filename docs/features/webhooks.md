@@ -107,6 +107,7 @@ curl -X DELETE -u <username>:<password> \
 - Ensure the device can reach your server and that there are no firewalls blocking outgoing requests.
 - Validate that the webhook URL is correct and the server is running.
 - Check the server logs for any errors during the webhook POST request handling.
+- Try to use default messaging app, not third-party app, because third-party app can block some SMS related events.
 
 ## Conclusion
 
