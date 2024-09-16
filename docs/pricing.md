@@ -1,6 +1,6 @@
 # Pricing
 
-The Android SMS Gateway is open-source software and is free to use. We offer three server options for sending messages:
+The SMS Gateway for Android™ is open-source software and is free to use. We offer three server options for sending messages:
 
 - **Local Server**: This option allows you to send messages for free, without any restrictions or limitations.
 

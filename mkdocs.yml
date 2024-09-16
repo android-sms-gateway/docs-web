@@ -38,9 +38,10 @@ nav:
       - Webhooks: getting-started/webhooks.md
   - Integration:
       - API: integration/api.md
-      - Webhooks: integration/webhooks.md
+      - Webhooks: features/webhooks.md
   - Features:
       - Logging: features/logging.md
+      - Webhooks: features/webhooks.md
   - Pricing: pricing.md
   - Privacy:
       - Policy: privacy/policy.md
@@ -48,6 +49,7 @@ nav:
   - FAQ:
       - General: faq/general.md
       - Errors: faq/errors.md
+      - Webhooks: faq/webhooks.md
   - Resources:
       - Examples: resources/examples.md
       - Third-Party: resources/3rdparty.md
