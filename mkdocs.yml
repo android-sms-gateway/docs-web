@@ -1,6 +1,8 @@
 site_name: SMS Gateway for Android™
 site_url: https://sms-gate.app
 repo_url: https://github.com/capcom6/android-sms-gateway
+site_description: Official documentation for SMS Gateway for Android
+site_author: Aleksandr Soloshenko
 theme:
   name: material
   features:
@@ -58,6 +60,7 @@ validation:
   omitted_files: warn
   absolute_links: warn
   unrecognized_links: warn
+  anchors: warn
 plugins:
   - search
   - render_swagger
