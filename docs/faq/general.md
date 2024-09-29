@@ -80,3 +80,11 @@ The app operates asynchronously, relying on PUSH notifications rather than maint
 Irrespective of the mode, you can register a `system:ping` webhook to monitor the device's online status. This webhook will notify your server about the status of the app at user-defined intervals, set within the app's Settings on the device. This feature offers a proactive approach to track connectivity and ensure the device is functioning as expected across any operational mode.
 
 **Note**: Using the ping feature will increase battery usage. It's important to balance the need for frequent status updates with the impact on device battery life, especially if the device is expected to operate for extended periods without charging.
+
+## Can I send SMS messages with a custom sender name instead of my phone number?
+
+The app uses your SIM card to send messages, so by default, it uses the same sender information as your phone's default messaging app (usually your phone number). Any changes to the sender name would need to be set up through your carrier, not within the app itself.
+
+To attach a sender name, you would need to contact your mobile carrier to inquire about their "Sender ID" or "Alphanumeric Sender ID" services. These services allow you to replace your phone number with a custom name or brand when sending SMS messages.
+
+Keep in mind that the availability and regulations surrounding this feature vary by country and carrier. Some carriers may offer this service for business accounts only, while others might not provide it at all due to local laws or technical limitations.
