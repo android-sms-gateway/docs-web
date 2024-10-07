@@ -32,8 +32,8 @@ Please note that as the application evolves, additional events may be supported 
 Before you begin, ensure the following:
 
 - You have [SMS Gateway for Android™](https://github.com/capcom6/android-sms-gateway/releases/latest) installed on your device in any mode: Local, Cloud or Private.
-- You have a server with a valid SSL certificate to securely receive HTTPS requests, which should be accessible from the internet.
-- Your device has access to your server.
+- You have a server with a valid SSL certificate to securely receive HTTPS requests, which should be accessible from the internet. Self-signed certificates can be used as described in the [FAQ](../faq/webhooks.md#how-to-use-webhooks-with-self-signed-certificate). Alternatively, you can use services like [ngrok](https://ngrok.com) to bypass the need for a valid SSL certificate.
+- Your device has access to your server. If you operate entirely within your local network without Internet access, please see [FAQ](../faq/webhooks.md#how-to-use-webhooks-without-internet-access)
 
 ## Step-by-Step Integration
 
@@ -126,6 +126,7 @@ Remember to adhere to best practices for security and perform thorough testing t
 
 ## References
 
+- [FAQ](../faq/webhooks.md)
 - [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
 
 ## Examples
