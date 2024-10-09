@@ -94,7 +94,7 @@ Upon receiving an SMS, your device will make a POST request to the registered we
 
 Your server should process this request and respond with an HTTP status code in the `2xx` range to indicate successful receipt in 30 seconds. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
 
-The app implements an exponential backoff retry strategy: it will wait 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. If after roughly 2 days the webhook has still not been successfully delivered, the app will cease retry attempts.
+The app implements an exponential backoff retry strategy: it waits 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. By default, the app will retry 14 times (approximately 2 days) before giving up. You can specify a custom retry count in the "Webhooks" section of the "Settings" tab.
 
 ### Step 6: Deregistering a Webhook
 
