@@ -55,7 +55,9 @@ The application provides two features to help you avoid mobile operator restrict
 
 ### Random delay between messages
 
-You can introduce a random delay between messages by specifying a maximum delay time. The application will then randomly select a delay within this range for each message sent. This helps to reduce the likelihood of messages being flagged as spam by simulating a more human-like sending pattern. This option is available in the "Messages" section of the device's settings and is named "Delay between messages".
+You can introduce a random delay between messages by specifying a minimum and maximum delay time. The application will then randomly select a delay within this range for each message sent. This helps to reduce the likelihood of messages being flagged as spam by simulating a more human-like sending pattern. This option is available in the "Messages" section of the device's settings and is named "Delay between messages".
+
+It's important to note that this delay is applied only to individual messages, not for recipients in a single message. When you send a message to multiple recipients, the delay is not applied between each recipient of that message.
 
 ### Limiting the number of messages sent per period
 
