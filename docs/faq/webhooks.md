@@ -1,5 +1,23 @@
 # FAQ - Webhooks
 
+## The `sms:received` webhook is not triggering
+
+If you're experiencing issues with the `sms:received` webhook not triggering, consider the following potential reasons and solutions:
+
+1. **Messages are received as RCS instead of SMS:**
+   RCS (Rich Communication Services) messages may not trigger the SMS webhook. To resolve this:
+   1. Install Google's Messages app
+   2. Set it as the default SMS app
+   3. Go to Messages settings > RCS chats and turn it off
+
+2. **Third-party messaging app is blocking SMS events:**
+   Some third-party messaging apps may interfere with SMS event broadcasting. To fix this:
+   - Use the device's default messaging app, or
+   - Set Google's Messages app as the default SMS application
+
+3. **App permissions:**
+   - Verify that the app has the necessary permissions to read and process SMS messages
+
 ## How to use webhooks with self-signed certificate?
 
 To use webhooks with a self-signed certificate, follow these steps:
