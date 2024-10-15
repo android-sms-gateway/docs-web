@@ -74,6 +74,7 @@ plugins:
         remove_comments: true
       cache_safe: true
   - social
+  - git-revision-date-localized
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
