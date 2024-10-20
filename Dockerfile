@@ -4,11 +4,19 @@ FROM squidfunk/mkdocs-material:9.5.15 as builder
 # Set the working directory
 WORKDIR /docs
 
-# Install MkDocs plugins
-RUN pip install --no-cache-dir mkdocs-render-swagger-plugin
+# Install the Pipenv package manager
+RUN pip install pipenv
+
+# Copy cached fonts
+COPY ./fonts ./.cache/plugin/social/fonts/Roboto
+
+# Copy the Pipfile and Pipfile.lock into the container
+COPY Pipfile Pipfile.lock ./
+
+# Install project dependencies
+RUN pipenv install --dev --deploy --system
 
 # Copy the MkDocs project files into the container
-COPY ./fonts ./.cache/plugin/social/fonts/Roboto
 COPY . .
 
 # Build the MkDocs documentation
