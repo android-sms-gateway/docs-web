@@ -17,6 +17,7 @@ COPY Pipfile Pipfile.lock ./
 RUN pipenv install --dev --deploy --system
 
 # Copy the MkDocs project files into the container
+COPY .git .git
 COPY . .
 
 # Build the MkDocs documentation
