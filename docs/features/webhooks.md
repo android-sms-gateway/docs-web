@@ -9,6 +9,7 @@ Currently, the following event is supported:
 - `sms:received` - Triggered when an SMS is received by the device. The payload for this event includes:
     * `message`: The content of the SMS message.
     * `phoneNumber`: The phone number that sent the SMS.
+    * `simNumber`: The SIM card number that received the SMS. May be `null` on some Android devices.
     * `receivedAt`: The timestamp when the message was received.
 - `sms:sent` - Triggered when an SMS is sent by the device. The payload for this event includes:
     * `messageId`: The ID of the SMS message.
