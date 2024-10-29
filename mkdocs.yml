@@ -39,6 +39,7 @@ nav:
       - Custom Gateway Setup: getting-started/custom-gateway.md
       - Webhooks: getting-started/webhooks.md
   - Integration:
+      - CLI: integration/cli.md
       - API: integration/api.md
       - Webhooks: features/webhooks.md
   - Features:
