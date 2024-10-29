@@ -5,7 +5,7 @@ IMAGE_NAME ?= capcom6/android-sms-gateway-docs
 CONTAINER_NAME ?= android-sms-gateway-docs
 
 # Set the port to expose on the host
-HOST_PORT ?= 8000
+HOST_PORT ?= 8080
 
 # Makefile targets
 .PHONY: build run stop clean
@@ -19,8 +19,8 @@ build:
 	docker build -t $(IMAGE_NAME) .
 
 # Run the Docker container
-run:
-	docker run --name $(CONTAINER_NAME) -d -p $(HOST_PORT):80 $(IMAGE_NAME)
+run: build
+	docker run --rm --name $(CONTAINER_NAME) -p $(HOST_PORT):80 $(IMAGE_NAME)
 
 # Stop and remove the Docker container
 stop:
@@ -28,7 +28,7 @@ stop:
 	docker rm $(CONTAINER_NAME)
 
 # Remove the Docker image
-clean:
+clean: stop
 	docker rmi $(IMAGE_NAME)
 
 # Rebuild the Docker image
