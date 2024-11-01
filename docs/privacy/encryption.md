@@ -23,6 +23,8 @@ Or use one of the following realization:
 ### [PHP](https://github.com/capcom6/android-sms-gateway-php/blob/master/src/Encryptor.php)
 
 ```php
+<?php 
+
 class Encryptor {
     protected string $passphrase;
     protected int $iterationCount;
