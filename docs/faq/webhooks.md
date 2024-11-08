@@ -22,7 +22,7 @@ If you're experiencing issues with the `sms:received` webhook not triggering, co
 
 To use webhooks with a self-signed certificate, follow these steps:
 
-1. Create a `client.cnf` file with the following content:
+1. Create a `server.cnf` file with the following content:
 
     ```ini
     [req]
