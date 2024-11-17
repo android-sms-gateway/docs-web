@@ -39,6 +39,7 @@ resource "docker_service" "app" {
     label = "traefik.docker.network"
     value = data.docker_network.proxy.name
   }
+
   labels {
     label = "traefik.http.routers.${var.app-name}.rule"
     value = "Host(`${var.app-host}`)"
@@ -62,6 +63,19 @@ resource "docker_service" "app" {
   }
   labels {
     label = "traefik.http.routers.${var.app-name}-new.tls.certresolver"
+    value = "le"
+  }
+
+  labels {
+    label = "traefik.http.routers.${var.app-name}-docs.rule"
+    value = "Host(`docs.sms-gate.app`)"
+  }
+  labels {
+    label = "traefik.http.routers.${var.app-name}-docs.entrypoints"
+    value = "https"
+  }
+  labels {
+    label = "traefik.http.routers.${var.app-name}-docs.tls.certresolver"
     value = "le"
   }
 
