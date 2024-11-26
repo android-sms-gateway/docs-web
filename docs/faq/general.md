@@ -19,19 +19,27 @@ curl -X POST \
 ## Does the app require power saving mode to be turned off to function without interruptions?
 
 ### Local Mode
-- **Power saving settings:** No changes needed. The app uses a foreground service with a wake lock to operate, which allows it to run without power saving mode.
-- **Battery impact:** Using wake lock may lead to quicker battery drain.
+- **Power saving settings:**  
+  The app provides an option to disable battery optimizations directly from the *Settings* tab under the "System" section. This helps ensure uninterrupted operation.  
+  The app also uses a foreground service with a wake lock, which allows it to function reliably even with power-saving mode enabled.  
+- **Battery impact:**  
+  Using a wake lock and disabling battery optimizations may lead to increased battery consumption.
 
 ### Cloud Mode
-- **Power saving settings:** No changes needed. The app uses Firebase Cloud Messaging (FCM) for push notifications, which works without disabling power saving mode.
-- **Potential delays:** High message rates could lead to occasional delays when the device is in power-saving modes because of limits on high-priority FCM notifications.
+- **Power saving settings:**  
+  Similar to Local Mode, disabling battery optimizations can enhance reliability. However, the app primarily relies on Firebase Cloud Messaging (FCM) push notifications, which functions without requiring power-saving mode to be turned off.  
+- **Potential delays:**  
+  High message rates could cause occasional delays when the device is in power-saving mode due to FCM's limitations on high-priority notifications.
 
 ### Recommendations
-- **Testing:** It's advisable to test the app with and without power saving mode activated to see how it performs on your specific device and Android version.
-- **Device manufacturers:** Behavior might vary by device manufacturer.
-- **Local + Cloud:** For better responsiveness, consider running a local server alongside the cloud server connection.
-  
-See also issue [#17](https://github.com/capcom6/android-sms-gateway/issues/17).
+- **Testing:**  
+  Test the app with and without battery optimizations disabled to evaluate its performance on your device and Android version.  
+- **Device manufacturers:**  
+  Behavior may vary depending on the device manufacturer and specific Android customizations.  
+- **Local + Cloud:**  
+  For maximum responsiveness, consider using a local server alongside the cloud connection.  
+
+See also issue [#17](https://github.com/capcom6/android-sms-gateway/issues/17).  
 
 ## How do I enable or disable delivery reports for messages?
 
