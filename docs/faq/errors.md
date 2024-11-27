@@ -13,3 +13,12 @@ The `RESULT_ERROR_LIMIT_EXCEEDED` error occurs when you have reached the sending
 The `RESULT_RIL_MODEM_ERR` error usually indicates a problem with the device's modem or the communication between the application and the modem. This error can stem from a variety of causes, such as issues with the SIM card, network connectivity problems, or firmware-related errors.
 
 To troubleshoot this error, first try sending a message using the device's default messaging app and check the signal strength. Also, ensure that the SIM card is not blocked by your carrier.
+
+## `RESULT_NO_DEFAULT_SMS_APP` Error
+
+The `RESULT_NO_DEFAULT_SMS_APP` error occurs when no default SMS app is set on the device or when the default SIM for sending SMS messages hasn't been configured. This error prevents the app from sending SMS messages.
+
+To resolve this issue, there are two options:
+
+1. Set the default SMS app and SIM number in your device's settings
+2. Provide the SIM number explicitly in the `simNumber` field of the request
