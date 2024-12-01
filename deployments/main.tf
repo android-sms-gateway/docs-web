@@ -54,29 +54,50 @@ resource "docker_service" "app" {
   }
 
   labels {
-    label = "traefik.http.routers.${var.app-name}-new.rule"
+    label = "traefik.http.routers.${var.app-name}-root.rule"
     value = "Host(`sms-gate.app`)"
   }
   labels {
-    label = "traefik.http.routers.${var.app-name}-new.entrypoints"
+    label = "traefik.http.routers.${var.app-name}-root.entrypoints"
     value = "https"
   }
   labels {
-    label = "traefik.http.routers.${var.app-name}-new.tls.certresolver"
+    label = "traefik.http.routers.${var.app-name}-root.tls.certresolver"
     value = "le"
+  }
+  labels {
+    label = "traefik.http.routers.${var.app-name}-root.middlewares"
+    value = "redirect-to-main-docs"
   }
 
   labels {
-    label = "traefik.http.routers.${var.app-name}-docs.rule"
-    value = "Host(`docs.sms-gate.app`)"
+    label = "traefik.http.routers.${var.app-name}-capcom.rule"
+    value = "Host(`sms.capcom.me`)"
   }
   labels {
-    label = "traefik.http.routers.${var.app-name}-docs.entrypoints"
+    label = "traefik.http.routers.${var.app-name}-capcom.entrypoints"
     value = "https"
   }
   labels {
-    label = "traefik.http.routers.${var.app-name}-docs.tls.certresolver"
+    label = "traefik.http.routers.${var.app-name}-capcom.tls.certresolver"
     value = "le"
+  }
+  labels {
+    label = "traefik.http.routers.${var.app-name}-capcom.middlewares"
+    value = "redirect-to-main-docs"
+  }
+
+  labels {
+    label = "traefik.http.middlewares.redirect-to-main-docs.redirectregex.regex"
+    value = "^https://(sms\\.capcom\\.me|sms-gate\\.app)(.*)"
+  }
+  labels {
+    label = "traefik.http.middlewares.redirect-to-main-docs.redirectregex.replacement"
+    value = "https://docs.sms-gate.app$${2}"
+  }
+  labels {
+    label = "traefik.http.middlewares.redirect-to-main-docs.redirectregex.permanent"
+    value = true
   }
 
   labels {
