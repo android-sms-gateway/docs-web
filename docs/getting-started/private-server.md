@@ -16,7 +16,7 @@ To enhance privacy, you can host a private server within your own infrastructure
 
 ### Run the Server
 
-1. Create a `config.yml` file based on the template provided in [config.example.yml](https://github.com/capcom6/sms-gateway/blob/master/configs/config.example.yml). Pay special attention to the `database`, `http`, and `gateway` sections. Environment variables can be used to override values in the config file.
+1. Create a `config.yml` file based on the template provided in [config.example.yml](https://github.com/android-sms-gateway/server/blob/master/configs/config.example.yml). Pay special attention to the `database`, `http`, and `gateway` sections. Environment variables can be used to override values in the config file.
    - Set `gateway.mode` to `private`.
    - Define `gateway.private_token` as the access token for device registration in private mode. Ensure this token matches the one on the devices set to private mode.
 2. Start the server in Docker with the following command: 
@@ -26,12 +26,12 @@ To enhance privacy, you can host a private server within your own infrastructure
    ```
 3. Configure your reverse proxy, enable SSL, and modify your firewall settings to permit Internet access to the server.
 
-Refer to the server's [README.md](https://github.com/capcom6/sms-gateway/blob/master/README.md) for more information.
+Refer to the server's [README.md](https://github.com/android-sms-gateway/server/blob/master/README.md) for more information.
 
 See also:
 
 - [Installation Example with Ubuntu, Docker, and Nginx Proxy Manager](https://github.com/capcom6/android-sms-gateway/discussions/50)
-- [Docker Compose Quickstart for Single File Deployment](https://github.com/capcom6/sms-gateway/tree/master/deployments/docker-compose-proxy)
+- [Docker Compose Quickstart for Single File Deployment](https://github.com/android-sms-gateway/server/tree/master/deployments/docker-compose-proxy)
 
 ### Configure the Android App
 
