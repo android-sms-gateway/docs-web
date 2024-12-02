@@ -23,3 +23,16 @@ Use the cloud server mode when dealing with dynamic or shared device IP addresse
       -d '{ "message": "Hello, world!", "phoneNumbers": ["+79990001234", "+79995556677"] }' \
       https://api.sms-gate.app/3rdparty/v1/message
     ```
+
+### Password Management
+
+To change your account password, follow these steps:
+
+1. Open the app and navigate to the "Settings" tab
+2. Locate the "Cloud Server" section
+3. In "Credentials" section, tap the "Password" item and enter new password
+4. Changes will be applied immediately
+
+#### Requirements
+
+* Password must be at least 14 characters long

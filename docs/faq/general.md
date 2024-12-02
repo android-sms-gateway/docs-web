@@ -98,3 +98,11 @@ The app uses your SIM card to send messages, so by default, it uses the same sen
 To attach a sender name, you would need to contact your mobile carrier to inquire about their "Sender ID" or "Alphanumeric Sender ID" services. These services allow you to replace your phone number with a custom name or brand when sending SMS messages.
 
 Keep in mind that the availability and regulations surrounding this feature vary by country and carrier. Some carriers may offer this service for business accounts only, while others might not provide it at all due to local laws or technical limitations.
+
+## How do I change my password?
+
+The password change process depends on your server mode:
+
+* **Local Server**: You can change the port, username, and password in the [Local Server configuration](../getting-started/local-server.md#server-configuration)
+* **Cloud Server**: Follow the [Cloud Server password management](../getting-started/public-cloud-server.md#password-management) guide
+* **Private Server**: The process is identical to the [Cloud Server mode](../getting-started/public-cloud-server.md#password-management)

@@ -48,3 +48,7 @@ See also:
 5. Apply the new configuration by stopping and starting the app using the button at the bottom of the screen.
 
 If everything is configured correctly, the new credentials for the private server will be displayed in the Cloud Server section on the Home tab.
+
+### Password Management
+
+The password management process is identical to the [Cloud Server mode](public-cloud-server.md#password-management).
