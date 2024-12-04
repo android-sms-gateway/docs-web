@@ -105,7 +105,14 @@ resource "docker_service" "app" {
     value = 80
   }
 
+  rollback_config {
+    order   = "start-first"
+    monitor = "5s"
+  }
+
   update_config {
+    order          = "start-first"
     failure_action = "rollback"
+    monitor        = "5s"
   }
 }
