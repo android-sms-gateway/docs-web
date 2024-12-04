@@ -35,7 +35,7 @@ To use the private server mode, you must rebuild the backend after modifying the
 To build a custom version of the Android application that will communicate with your server, follow these steps:
 
 1. Clone the repository at [https://github.com/capcom6/android-sms-gateway](https://github.com/capcom6/android-sms-gateway) and open it in Android Studio.
-2. Navigate to `app/src/main/java/me/capcom/smsgateway/modules/gateway/GatewayApi.kt` and update the `BASE_URL` constant to your server's URL.
+2. Navigate to `app/src/main/java/me/capcom/smsgateway/modules/gateway/GatewaySettings.kt` and update the `PUBLIC_URL` constant to your server's URL.
 3. Modify the `applicationId` in `app/build.gradle` to a unique value.
 4. Refer to the instructions at [https://firebase.google.com/docs/android/setup](https://firebase.google.com/docs/android/setup) to register your application and generate the `google-services.json` file.
 5. Build and run the application.
