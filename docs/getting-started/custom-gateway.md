@@ -28,6 +28,8 @@ If you do not plan to use the private server mode, there is no need to rebuild t
 
 ### Private Server Mode
 
+> **Note:** To run servers in Private mode, you must have at least one server running in Public mode. This is because only Public servers can communicate directly with Firebase Cloud Messaging (FCM), while Private servers communicate with FCM through the Public server. The Public server must use the same Firebase account and configuration as your Android app.
+
 To use the private server mode, you must rebuild the backend after modifying the file at `internal/sms-gateway/modules/push/upstream/client.go` to set your main server address. You can then build the binary by executing `make build` or the Docker image by running `make docker-build`.
 
 ## Android App
