@@ -23,6 +23,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's 
 - **Private server support:** The application allows for the use of a backend server in the user's infrastructure for enhanced security.
 - **App status reporting:** Ability to report current app status by sending requests to specified URL at any user-defined intervals.
 - **Webhooks:** The application allows setting up webhooks to be sent on specified events.
+- **SIM Rotation:** The application supports [SIM card rotation](./features/multi-sim.md#sim-card-rotation) to distribute the load across different SIM cards.
 
 ## Ideal For
 
