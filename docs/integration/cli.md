@@ -54,7 +54,7 @@ smsgate send [options] 'Message content'
 | --------------------------- | ------------------------------------------------------------------------------------------ | ------------- | ----------------------- |
 | `--id`                      | Message ID, will be generated if not provided                                              | empty         | `zXDYfTmTVf3iMd16zzdBj` |
 | `--phone`, `--phones`, `-p` | Phone number, can be used multiple times or with comma-separated values                    | **required**  | `+19162255887`          |
-| `--sim`                     | SIM card slot number, if empty, the default SIM card will be used                          | empty         | `2`                     |
+| `--sim`                     | SIM card slot number, if empty, the device's SIM rotation option will be used              | empty         | `2`                     |
 | `--ttl`                     | Time-to-live (TTL), if empty, the message will not expire<br>Conflicts with `--validUntil` | empty         | `1h30m`                 |
 | `--validUntil`              | Valid until, if empty, the message will not expire<br>Conflicts with `--ttl`               | empty         | `2024-12-31T23:59:59Z`  |
 
