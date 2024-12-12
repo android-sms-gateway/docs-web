@@ -2,19 +2,7 @@
 
 ## How can I send an SMS using the second SIM card?
 
-To send an SMS using a non-default SIM card, you can specify the SIM card slot number in the `simNumber` field of request. For instance, the following request will send an SMS using the second SIM card:
-
-```sh
-curl -X POST \
-    -u <username>:<password> \
-    -H 'content-type: application/json' \
-    https://api.sms-gate.app/3rdparty/v1/message \
-    -d '{
-        "message": "Hello from SIM2",
-        "phoneNumbers": ["79990001234"],
-        "simNumber": 2
-    }'
-```
+Please refer to the [Multi-SIM Support](../features/multi-sim.md#webhooks) feature documentation.
 
 ## Does the app require power saving mode to be turned off to function without interruptions?
 
@@ -59,17 +47,23 @@ Yes, starting from [1.6.1](https://github.com/capcom6/android-sms-gateway/releas
 
 ## How can I avoid mobile operator restrictions?
 
-The application provides two features to help you avoid mobile operator restrictions:
+The application provides several features to help you avoid mobile operator restrictions:
 
 ### Random delay between messages
 
-You can introduce a random delay between messages by specifying a minimum and maximum delay time. The application will then randomly select a delay within this range for each message sent. This helps to reduce the likelihood of messages being flagged as spam by simulating a more human-like sending pattern. This option is available in the "Messages" section of the device's settings and is named "Delay between messages".
+You can introduce a random delay between messages by specifying a minimum and maximum delay time. The application will then randomly select a delay within this range for each message sent. This helps to reduce the likelihood of messages being flagged as spam by simulating a more human-like sending pattern. This option is available in the "Messages" section of the app's settings and is named "Delay between messages".
 
 It's important to note that this delay is applied only to individual messages, not for recipients in a single message. When you send a message to multiple recipients, the delay is not applied between each recipient of that message.
 
 ### Limiting the number of messages sent per period
 
-The app offers a feature to restrict the number of messages sent within a specified period—be it a minute, hour, or day. You can find this option under the "Limits" section in the device settings. When the limit is reached, the app will pause sending messages until the limit period resets. It's important to note that this feature should not be used for time-sensitive messages, such as sending authorization codes, where delays could cause issues.
+The app offers a feature to restrict the number of messages sent within a specified period—be it a minute, hour, or day. You can find this option under the "Limits" section in the "Messages" section of the app's settings. When the limit is reached, the app will pause sending messages until the limit period resets. It's important to note that this feature should not be used for time-sensitive messages, such as sending authorization codes, where delays could cause issues.
+
+### SIM rotation
+
+For devices with multiple SIM cards, the application supports SIM rotation to distribute the load across different mobile operators. This feature helps avoid reaching sending limits on a single SIM card and reduces the risk of being flagged for high-volume sending. Please refer to [Multi-SIM Support](../features/multi-sim.md#sim-card-rotation) for more information.
+
+By combining these features—random delays, message limits, and SIM rotation—you can significantly reduce the risk of triggering mobile operator restrictions while maintaining efficient message delivery.
 
 ## How to hide messages on device?
 

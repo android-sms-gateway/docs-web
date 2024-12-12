@@ -12,6 +12,7 @@ Grant the following permissions for full functionality:
 
 - **SEND_SMS**: Essential for sending SMS messages.
 - **READ_PHONE_STATE**: Allows SIM card selection, if utilized.
+- **RECEIVE_SMS**: Required for receiving SMS messages and sending `sms:received` webhook.
 
 ## Installing from APK
 

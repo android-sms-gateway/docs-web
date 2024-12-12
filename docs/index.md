@@ -15,7 +15,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's 
 - **Support for Android 5.0 and above:** The application is compatible with Android 5.0 and later versions.
 - **Message status tracking:** Monitor the status of sent messages in real-time.
 - **Automatic startup:** The application starts running as soon as your device boots up.
-- **Support for multiple SIM cards:** The application supports devices with multiple SIM cards.
+- **Support for multiple SIM cards:** The application supports devices with [multiple SIM cards](./features/multi-sim.md).
 - **Multipart messages:** The application supports sending long messages with auto-partitioning.
 - **End-to-end encryption:** The application provides end-to-end encryption by encrypting message content and recipients' phone numbers before sending them to the API and decrypting them on the device.
 - **Message expiration:** The application allows setting an expiration time for messages. Messages will not be sent if they have expired.

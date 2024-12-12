@@ -43,8 +43,9 @@ nav:
       - API: integration/api.md
       - Webhooks: features/webhooks.md
   - Features:
-      - Logging: features/logging.md
+      - Multi-SIM Support: features/multi-sim.md
       - Webhooks: features/webhooks.md
+      - Logging: features/logging.md
   - Pricing: pricing.md
   - Privacy:
       - Policy: privacy/policy.md
