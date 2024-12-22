@@ -14,14 +14,17 @@ Currently, the following event is supported:
 - `sms:sent` - Triggered when an SMS is sent by the device. The payload for this event includes:
     * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
+    * `simNumber`: The SIM card number that sent the SMS. May be `null` if default SIM is used.
     * `sentAt`: The timestamp when the message was sent.
 - `sms:delivered` - Triggered when an SMS is delivered to the recipient. The payload for this event includes:
     * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
+    * `simNumber`: The SIM card number that sent the SMS. May be `null` if default SIM is used.
     * `deliveredAt`: The timestamp when the message was delivered.
 - `sms:failed` - Triggered when an SMS fails to be sent to the recipient. The payload for this event includes:
     * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
+    * `simNumber`: The SIM card number that sent the SMS. May be `null` if default SIM is used.
     * `failedAt`: The timestamp when the message failed.
     * `reason`: The reason for the failure.
 - `system:ping` - Triggered when the device pings the server. Has no payload.

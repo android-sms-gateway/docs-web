@@ -24,7 +24,7 @@ curl -X POST \
 
 ## Webhooks
 
-To receive SMS messages, use the [Webhooks](./webhooks.md) feature. The `sms:received` event payload includes a `simNumber` field to identify which SIM card received the message.
+When using the [Webhooks](./webhooks.md) feature all events include a `simNumber` field to identify which SIM card was used.
 
 ## SIM Card Rotation
 
@@ -32,13 +32,15 @@ To receive SMS messages, use the [Webhooks](./webhooks.md) feature. The `sms:rec
     <img src="/assets/features-sim-rotation.png" alt="SIM rotation option">
 </div>
 
-When the `simNumber` is not specified in the request, you can configure which SIM card will be used to send messages on the device. This option is located in the "Settings" tab under the "Messages" section.
+When the `simNumber` is not specified in the request, you can configure which SIM card will be used to send the message on the device. This option is located in the "Settings" tab under the "Messages" section.
 
 Available options:
 
 * **OS Default**: The app will not select any SIM card, delegating this to the default messaging app.
 * **Round Robin**: The app will rotate between SIM cards in a round-robin fashion.
 * **Random**: The app will select a SIM card at random for each message.
+
+When a non-default option is used, you can receive the selected SIM number through the webhooks' `simNumber` field.
 
 ## Troubleshooting
 
@@ -47,5 +49,7 @@ If you encounter issues with multi-SIM functionality:
 1. Ensure that your device supports multiple SIM cards and that they are properly installed.
 2. Verify that the app has the necessary permissions to access and use all SIM cards.
 3. Check the app's logs for any error messages related to SIM card access or usage.
+4. Make sure your device's SIM cards are active and have sufficient credit or data allowance.
+5. Restart the app and/or device if persistent issues occur.
 
 For further assistance, please contact our [support team](mailto:support@sms-gate.app).
