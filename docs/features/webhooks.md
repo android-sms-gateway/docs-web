@@ -7,6 +7,7 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 Currently, the following event is supported:
 
 - `sms:received` - Triggered when an SMS is received by the device. The payload for this event includes:
+    * `messageId`: The ID of the SMS message. The ID is generated based on the content of the message and is not guaranteed to be unique.
     * `message`: The content of the SMS message.
     * `phoneNumber`: The phone number that sent the SMS.
     * `simNumber`: The SIM card number that received the SMS. May be `null` on some Android devices.
