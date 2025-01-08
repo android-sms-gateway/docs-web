@@ -53,8 +53,9 @@ nav:
       - Encryption: privacy/encryption.md
   - FAQ:
       - General: faq/general.md
-      - Errors: faq/errors.md
       - Webhooks: faq/webhooks.md
+      - Reading Messages: faq/reading-messages.md
+      - Errors: faq/errors.md
   - Resources:
       - Examples: resources/examples.md
       - Third-Party: resources/3rdparty.md
