@@ -45,6 +45,7 @@ nav:
   - Features:
       - Multi-SIM Support: features/multi-sim.md
       - Webhooks: features/webhooks.md
+      - Health Checks: features/health.md
       - Reading Messages: features/reading-messages.md
       - Logging: features/logging.md
   - Pricing: pricing.md
