@@ -22,3 +22,24 @@ To resolve this issue, there are two options:
 
 1. Set the default SMS app and SIM number in your device's settings
 2. Provide the SIM number explicitly in the `simNumber` field of the request
+
+## `Can't send message: No SIMs found` Error
+
+This error occurs when the app cannot detect any SIM cards on the device. There are several possible causes for this issue:
+
+1. **SIM card issues:**
+   - The SIM card is not properly inserted.
+   - The SIM card has poor contact with the slot.
+   - The SIM card is damaged or faulty.
+
+2. **Permission problems:**
+   - The app doesn't have the necessary permissions to access the SIM cards list.
+   - For Xiaomi users: You may need to disable MIUI optimization to prevent the app from requesting permissions repeatedly.
+
+To resolve this error:
+
+1. Check that your SIM card is properly inserted and undamaged.
+2. Ensure the app has all required permissions in your device settings.
+3. For Xiaomi users: Disable MIUI optimization in Developer Options.
+4. Restart your device to refresh system processes.
+5. If the problem persists, try using the SIM card in another device to rule out hardware issues.
