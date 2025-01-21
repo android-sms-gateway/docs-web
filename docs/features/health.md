@@ -1,6 +1,6 @@
 # Healthcheck
 
-The app provides a healthcheck endpoint at `/health` that you can use to check the status of the app. The response of the healthcheck differs for Local and Cloud/Private modes. Additionally, you can receive health information via the `system:ping` webhook.
+The app provides a healthcheck endpoint at `GET /health` that you can use to check the status of the app. The endpoint returns a JSON response. The response of the healthcheck differs for Local and Cloud/Private modes. Additionally, you can receive health information via the `system:ping` webhook.
 
 In all modes, a response code of `200` indicates normal app operation.
 
@@ -35,7 +35,7 @@ Example response:
     },
     "connection:status": {
       "description": "Internet connection status",
-      "observedUnit": "Yes/No",
+      "observedUnit": "boolean",
       "observedValue": 1,
       "status": "pass"
     },
@@ -80,7 +80,7 @@ Example response:
     * 2: Cellular
     * 4: WiFi
     * 8: Ethernet
-* **connection:cellular**: The cellular network type. Availible only it `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
+* **connection:cellular**: The cellular network type. Availible only if `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
     * 0: None
     * 1: Unknown
     * 2: Mobile2G
@@ -141,7 +141,7 @@ Example payload:
         },
         "connection:status": {
           "description": "Internet connection status",
-          "observedUnit": "Yes/No",
+          "observedUnit": "boolean",
           "observedValue": 1,
           "status": "pass"
         },
@@ -183,4 +183,4 @@ The webhook allows you to monitor the health of your devices in real-time, provi
 
 ## Links
 
-- [Webhooks Guide](./webhooks.md)
+* [Webhooks Guide](./webhooks.md)
