@@ -39,22 +39,28 @@ Example response:
       "observedValue": 1,
       "status": "pass"
     },
-    "connection:type": {
-      "description": "Network type",
-      "observedUnit": "type index",
-      "observedValue": 6,
+    "connection:transport": {
+      "description": "Network transport type",
+      "observedUnit": "flags",
+      "observedValue": 4,
+      "status": "pass"
+    },
+    "connection:cellular": {
+      "description": "Cellular network type",
+      "observedUnit": "index",
+      "observedValue": 0,
       "status": "pass"
     },
     "battery:level": {
       "description": "Battery level in percent",
       "observedUnit": "percent",
-      "observedValue": 95,
+      "observedValue": 94,
       "status": "pass"
     },
     "battery:charging": {
       "description": "Is the phone charging?",
       "observedUnit": "flags",
-      "observedValue": 0,
+      "observedValue": 4,
       "status": "pass"
     }
   },
@@ -68,22 +74,25 @@ Example response:
 
 * **messages:failed**: The number of failed messages for the last hour. `warn` when there is at least one failed message and `fail` when all messages during the last hour have failed.
 * **connection:status**: The status of the internet connection. `fail` when the Internet connection is not available.
-* **connection:type**: The type of the network connection. When the device is connected to multiple networks, only a single value is provided:
+* **connection:transport**: The transport type of the network connection. When the device is connected to multiple networks, only a single value is provided:
     * 0: None
     * 1: Unknown
-    * 2: WiFi
-    * 3: Ethernet
-    * 4: MobileUnknown
-    * 5: Mobile2G
-    * 6: Mobile3G
-    * 7: Mobile4G
-    * 8: Mobile5G
+    * 2: Cellular
+    * 4: WiFi
+    * 8: Ethernet
+* **connection:cellular**: The cellular network type. Availible only it `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
+    * 0: None
+    * 1: Unknown
+    * 2: Mobile2G
+    * 3: Mobile3G
+    * 4: Mobile4G
+    * 5: Mobile5G
 * **battery:level**: The battery level in percent. `warn` when less than 25% and `fail` when less than 10%.
-* **battery:charging**: The status of charging as bit flags. For example, if the device is charging via USB, the value will be `1 + 5 = 6`.
+* **battery:charging**: The status of charging as bit flags. For example, if the device is charging via USB, the value will be `1 + 4 = 5`.
     * 0: Not charging
     * 1: Charging
-    * 3: AC charger
-    * 5: USB charger
+    * 2: AC charger connected
+    * 4: USB charger connected
 
 ## Cloud Mode
 
@@ -132,20 +141,32 @@ Example payload:
         },
         "connection:status": {
           "description": "Internet connection status",
-          "observedUnit": "n/a",
+          "observedUnit": "Yes/No",
+          "observedValue": 1,
+          "status": "pass"
+        },
+        "connection:transport": {
+          "description": "Network transport type",
+          "observedUnit": "flags",
+          "observedValue": 4,
+          "status": "pass"
+        },
+        "connection:cellular": {
+          "description": "Cellular network type",
+          "observedUnit": "index",
           "observedValue": 0,
           "status": "pass"
         },
         "battery:level": {
           "description": "Battery level in percent",
           "observedUnit": "percent",
-          "observedValue": 95,
+          "observedValue": 94,
           "status": "pass"
         },
         "battery:charging": {
           "description": "Is the phone charging?",
           "observedUnit": "flags",
-          "observedValue": 0,
+          "observedValue": 4,
           "status": "pass"
         }
       },
