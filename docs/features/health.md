@@ -80,7 +80,7 @@ Example response:
     * 2: Cellular
     * 4: WiFi
     * 8: Ethernet
-* **connection:cellular**: The cellular network type. Availible only if `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
+* **connection:cellular**: The cellular network type. Available only if `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
     * 0: None
     * 1: Unknown
     * 2: Mobile2G
