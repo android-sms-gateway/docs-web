@@ -100,3 +100,13 @@ The password change process depends on your server mode:
 * **Local Server**: You can change the port, username, and password in the [Local Server configuration](../getting-started/local-server.md#server-configuration)
 * **Cloud Server**: Follow the [Cloud Server password management](../getting-started/public-cloud-server.md#password-management) guide
 * **Private Server**: The process is identical to the [Cloud Server mode](../getting-started/public-cloud-server.md#password-management)
+
+## Does the app support RCS messaging?
+
+Currently, our app does not support RCS (Rich Communication Services) messaging. This is because:
+
+1. Google has not released an open API for RCS to third-party developers.
+2. Different implementations exist (Google, Samsung, Apple), making it challenging to create a universal solution.
+3. There's no standardized way for third-party apps to send or receive RCS messages.
+
+We're monitoring the situation and will consider implementing RCS support if Google provides an official API in the future. For more information on this topic, you can refer to this [Google Support thread](https://support.google.com/messages/thread/247624435/when-will-rcs-api-be-released-to-third-party-developers).
