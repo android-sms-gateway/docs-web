@@ -28,13 +28,13 @@ To resolve this issue, there are two options:
 This error occurs when the app cannot detect any SIM cards on the device. There are several possible causes for this issue:
 
 1. **SIM card issues:**
-   - The SIM card is not properly inserted.
-   - The SIM card has poor contact with the slot.
-   - The SIM card is damaged or faulty.
+    - The SIM card is not properly inserted.
+    - The SIM card has poor contact with the slot.
+    - The SIM card is damaged or faulty.
 
 2. **Permission problems:**
-   - The app doesn't have the necessary permissions to access the SIM cards list.
-   - For Xiaomi users: You may need to disable MIUI optimization to prevent the app from requesting permissions repeatedly.
+    - The app doesn't have the necessary permissions to access the SIM cards list.
+    - For Xiaomi users: You may need to disable MIUI optimization to prevent the app from requesting permissions repeatedly.
 
 To resolve this error:
 
