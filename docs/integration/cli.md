@@ -38,31 +38,83 @@ Please note that when the exit code is not `0`, the error description is printed
 
 ## Commands
 
-The CLI supports the following commands:
+The CLI offers two main groups of commands:
 
-- `send` - send a message with single or multiple recipients
-- `status` - get the status of a sent message by message ID
+- **Messages**: Commands for sending messages and checking their status.
+- **Webhooks**: Commands for managing webhooks, including creating, updating, and deleting them.
 
-### Send a message
+### Messages Commands
 
-Syntax:
+#### Send a Message
+
+The `send` command allows you to send a message to one or more phone numbers.
+
+**Syntax:**
 ```bash
 smsgate send [options] 'Message content'
 ```
 
-| Option                      | Description                                                                                | Default value | Example                 |
-| --------------------------- | ------------------------------------------------------------------------------------------ | ------------- | ----------------------- |
-| `--id`                      | Message ID, will be generated if not provided                                              | empty         | `zXDYfTmTVf3iMd16zzdBj` |
-| `--phone`, `--phones`, `-p` | Phone number, can be used multiple times or with comma-separated values                    | **required**  | `+19162255887`          |
-| `--sim`                     | SIM card slot number, if empty, the device's SIM rotation option will be used              | empty         | `2`                     |
-| `--ttl`                     | Time-to-live (TTL), if empty, the message will not expire<br>Conflicts with `--validUntil` | empty         | `1h30m`                 |
-| `--validUntil`              | Valid until, if empty, the message will not expire<br>Conflicts with `--ttl`               | empty         | `2024-12-31T23:59:59Z`  |
+**Options:**
 
-### Get the status of a sent message
+| Option                      | Description                                                                                                                                           | Default Value | Example                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------- |
+| `--id`                      | A unique message ID. If not provided, one will be automatically generated.                                                                            | empty         | `zXDYfTmTVf3iMd16zzdBj` |
+| `--phone`, `--phones`, `-p` | Specifies the recipient's phone number(s). This option can be used multiple times or accepts comma-separated values. Numbers must be in E.164 format. | **required**  | `+19162255887`          |
+| `--sim`, `--simNumber`      | The one-based SIM card slot number. If not specified, the device's SIM rotation feature will be used.                                                 | empty         | `2`                     |
+| `--ttl`                     | Time-to-live (TTL) for the message. If not provided, the message will not expire.<br>**Conflicts with `--validUntil`.**                               | empty         | `1h30m`                 |
+| `--validUntil`              | The expiration date and time for the message. If not provided, the message will not expire.<br>**Conflicts with `--ttl`.**                            | empty         | `2024-12-31T23:59:59Z`  |
 
-Syntax:
+---
+
+#### Get the Status of a Message
+
+The `status` command retrieves the status of a message using its ID.
+
+**Syntax:**
 ```bash
 smsgate status 'Message ID'
+```
+
+---
+
+### Webhooks Commands
+
+#### Register a Webhook
+
+The `register` command allows you to register a new webhook.
+
+**Syntax:**
+```bash
+smsgate webhooks register [options] URL
+```
+
+**Options:**
+
+| Option          | Description                                                                | Default Value | Example                 |
+| --------------- | -------------------------------------------------------------------------- | ------------- | ----------------------- |
+| `--id`          | A unique webhook ID. If not provided, one will be automatically generated. | empty         | `zXDYfTmTVf3iMd16zzdBj` |
+| `--event`, `-e` | The event name for which the webhook will be triggered.                    | **required**  | `sms:received`          |
+
+---
+
+#### List Webhooks
+
+The `list` command displays all registered webhooks.
+
+**Syntax:**
+```bash
+smsgate webhooks list
+```
+
+---
+
+#### Delete a Webhook
+
+The `delete` command removes a webhook by its ID.
+
+**Syntax:**
+```bash
+smsgate webhooks delete 'Webhook ID'
 ```
 
 ## Usage examples
@@ -80,6 +132,15 @@ smsgate send --phones '+19162255887,+19162255888' 'Hello, doctors!'
 
 # Get the status of a sent message
 smsgate status zXDYfTmTVf3iMd16zzdBj
+
+# Register a webhook for received messages
+smsgate webhooks register --event 'sms:received' 'https://example.com/webhook'
+
+# List all registered webhooks
+smsgate webhooks list
+
+# Delete a webhook
+smsgate webhooks delete 'webhook-id'
 ```
 
 Credentials can also be passed via CLI options:
