@@ -48,6 +48,8 @@ nav:
       - Health Checks: features/health.md
       - Reading Messages: features/reading-messages.md
       - Logging: features/logging.md
+  - Services:
+      - Certificate Authority: services/ca.md
   - Pricing: pricing.md
   - Privacy:
       - Policy: privacy/policy.md
