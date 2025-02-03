@@ -132,8 +132,10 @@ Remember to adhere to best practices for security and perform thorough testing t
 ## References
 
 - [FAQ](../faq/webhooks.md)
+- [Private Webhook Certificate](../services/ca.md#private-webhook-certificate)
 - [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
 
 ## Examples
 
 - [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn) - A Cloud Function to seamlessly forward SMS messages to a Telegram chat using webhooks.
+- [Web Client](https://github.com/android-sms-gateway/web-client-ts) - Simple web client for sending and receiving SMS messages based on Node.js and Socket.io.
