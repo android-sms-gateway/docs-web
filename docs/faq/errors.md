@@ -1,5 +1,23 @@
 # FAQ - Errors
 
+## "Does not have `android.permission.SEND_SMS`" Error
+
+The app requires the `android.permission.SEND_SMS` permission to send SMS messages. While the app requests this permission on first launch, if for any reason it wasn't granted, please follow these steps to grant it manually:
+
+1. Open your device's Settings app.
+2. Tap on "Apps" or "Application Manager".
+3. Find and select "SMS Gateway" from the list of installed apps.
+4. Tap on "Permissions".
+5. Find "SMS" in the list of permissions.
+6. Toggle the switch to enable the SMS permission.
+
+If you can't find the SMS permission:
+
+1. Tap the three-dot menu (⋮) in the top-right corner.
+2. Select "All permissions" (Note: This option might be labeled differently on some devices).
+3. Locate "SMS" under the "Not allowed" section.
+4. Tap on "SMS" and select "Allow".
+
 ## `RESULT_ERROR_GENERIC_FAILURE` Error
 
 The `RESULT_ERROR_GENERIC_FAILURE` error can occur for various reasons. One of the most common causes is insufficient balance on the SIM card. Check your carrier's balance and add funds if needed.

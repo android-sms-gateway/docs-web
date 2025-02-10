@@ -1,5 +1,13 @@
 # FAQ
 
+## Does the app support Android 15?
+
+Yes, the app supports Android 15. However, you may need to manually grant SMS permissions. Please follow the steps outlined in the ["Does not have `android.permission.SEND_SMS`" Error](./errors.md#does-not-have-androidpermissionsend_sms) FAQ entry.
+
+After following these steps, the app should work correctly on Android 15. If you continue to experience issues, please contact our [support team](mailto:support@sms-gate.app) for further assistance.
+
+*Acknowledgments: We'd like to thank our community members, especially @mabushey, for their contributions in identifying and resolving this issue. For more information, see [GitHub Issue #184](https://github.com/capcom6/android-sms-gateway/issues/184).*
+
 ## How can I send an SMS using the second SIM card?
 
 Please refer to the [Multi-SIM Support](../features/multi-sim.md#webhooks) feature documentation.
