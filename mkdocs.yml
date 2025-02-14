@@ -44,9 +44,10 @@ nav:
       - Webhooks: features/webhooks.md
   - Features:
       - Multi-SIM Support: features/multi-sim.md
+      - Multi-Device Support: features/multi-device.md
       - Webhooks: features/webhooks.md
-      - Health Checks: features/health.md
       - Reading Messages: features/reading-messages.md
+      - Health Checks: features/health.md
       - Logging: features/logging.md
   - Services:
       - Certificate Authority: services/ca.md
