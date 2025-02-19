@@ -13,3 +13,4 @@ In this section, you will find links to projects that utilize the SMS Gateway fo
 
 - [Mutiny Observability Platform](https://www.mutiny.com) - The all-in-one solution to meet all your monitoring needs!
 - [1C - Bitrix: Отправка SMS с сайта через свой телефон](https://marketplace.1c-bitrix.ru/solutions/runetlab.sms/) - Send SMS from a website using your own phone number.
+- [TDec](https://www.tdec.ro)
