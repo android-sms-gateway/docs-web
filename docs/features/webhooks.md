@@ -1,87 +1,97 @@
-# Webhooks
+# Webhooks 🌐
 
 Webhooks offer a powerful mechanism to receive real-time notifications of events like incoming SMS messages. This integration guide will walk you through setting up webhooks to receive such notifications directly from your device.
 
-## Supported Events
+## Supported Events 📩
 
-Currently, the following event is supported:
+Currently, the following events are supported:
 
-- `sms:received` - Triggered when an SMS is received by the device. The payload for this event includes:
-    * `messageId`: The ID of the SMS message. The ID is generated based on the content of the message and is not guaranteed to be unique.
+- `sms:received` - 📨 Triggered when an SMS is received by the device. The payload for this event includes:
+    * `messageId`: The ID of the SMS message. **Note**: This ID is generated based on the message content and is not guaranteed to be unique. Do not rely on it as a unique identifier.
     * `message`: The content of the SMS message.
     * `phoneNumber`: The phone number that sent the SMS.
-    * `simNumber`: The SIM card number that received the SMS. May be `null` on some Android devices.
-    * `receivedAt`: The timestamp when the message was received.
-- `sms:sent` - Triggered when an SMS is sent by the device. The payload for this event includes:
+    * `simNumber`: The SIM card number that received the SMS. **May be `null`** on some Android devices.
+    * `receivedAt`: The timestamp (in the device’s local timezone) when the message was received.
+- `sms:sent` - ✉️ Triggered when an SMS is sent by the device. The payload includes:
     * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
-    * `simNumber`: The SIM card number that sent the SMS. May be `null` if default SIM is used.
-    * `sentAt`: The timestamp when the message was sent.
-- `sms:delivered` - Triggered when an SMS is delivered to the recipient. The payload for this event includes:
+    * `simNumber`: The SIM card number that sent the SMS. **May be `null`** if the default SIM is used.
+    * `sentAt`: The timestamp (device’s local timezone) when the message was sent.
+- `sms:delivered` - ✅ Triggered when an SMS is delivered to the recipient. The payload includes:
     * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
-    * `simNumber`: The SIM card number that sent the SMS. May be `null` if default SIM is used.
-    * `deliveredAt`: The timestamp when the message was delivered.
-- `sms:failed` - Triggered when an SMS fails to be sent to the recipient. The payload for this event includes:
+    * `simNumber`: The SIM card number that sent the SMS. **May be `null`** if the default SIM is used.
+    * `deliveredAt`: The timestamp (device’s local timezone) when the message was delivered.
+- `sms:failed` - ❌ Triggered when an SMS fails to send or is not delivered. The payload includes:
     * `messageId`: The ID of the SMS message.
     * `phoneNumber`: The recipient's phone number.
-    * `simNumber`: The SIM card number that sent the SMS. May be `null` if default SIM is used.
-    * `failedAt`: The timestamp when the message failed.
-    * `reason`: The reason for the failure.
-- `system:ping` - Triggered when the device pings the server. Has no payload.
+    * `simNumber`: The SIM card number that sent the SMS. **May be `null`** if the default SIM is used.
+    * `failedAt`: The timestamp (device’s local timezone) when the failure occurred.
+    * `reason`: The failure reason.
+- `system:ping` - 🏓 Triggered when the device pings the server. The payload includes:
+    * `health`: The healthcheck response, as described in the [Healthcheck](./health.md).
 
-Please note that as the application evolves, additional events may be supported in the future.
-
-## Prerequisites
+## Prerequisites ✅
 
 Before you begin, ensure the following:
 
-- You have [SMS Gateway for Android™](https://github.com/capcom6/android-sms-gateway/releases/latest) installed on your device in any mode: Local, Cloud or Private.
-- You have a server with a valid SSL certificate to securely receive HTTPS requests, which should be accessible from the internet. Self-signed certificates can be used as described in the [FAQ](../faq/webhooks.md#how-to-use-webhooks-with-self-signed-certificate). Alternatively, you can use services like [ngrok](https://ngrok.com) to bypass the need for a valid SSL certificate.
-- Your device has access to your server. If you operate entirely within your local network without Internet access, please see [FAQ](../faq/webhooks.md#how-to-use-webhooks-without-internet-access)
+- ⚠️ You have [SMS Gateway for Android™](https://github.com/capcom6/android-sms-gateway/releases/latest) installed on your device in **Local**, **Cloud**, or **Private** mode.
+- 🔒 You have a server with a valid SSL certificate to securely receive HTTPS requests. You can use [project's certificate authority (CA)](../services/ca.md) to generate a valid certificate for IP addresses. Alternatively, use services like [ngrok](https://ngrok.com) to generate a public HTTPS endpoint.
+- 🌐 Your device has access to your server. If you operate entirely within your local network without Internet access, please see [FAQ](../faq/webhooks.md#how-to-use-webhooks-without-internet-access)
 
-## Step-by-Step Integration
+## Step-by-Step Integration 📋
 
-### Step 1: Set Up Your Server
+### Step 1: Set Up Your Server 🖥️
 
 For your webhooks to work, you need an HTTP server capable of handling HTTPS POST requests. This server will be the endpoint for the incoming webhook data.
 
-- For Production: Ensure your server has a valid SSL certificate.
-- For Testing: Use services like [webhook.site](https://webhook.site) to create a temporary URL that can capture webhook data.
+- **Production**: Use a valid SSL certificate.
+- **Testing**: Tools like [webhook.site](https://webhook.site) provide temporary endpoints to capture payloads.
 
-### Step 2: Register Your Webhook Endpoint
+### Step 2: Register Your Webhook Endpoint 📝
 
 To start receiving webhook notifications, you must register your webhook endpoint with the device. Utilize the `curl` command to send a POST request to the appropriate address, depending on whether you're in Local, Cloud, or Private mode.
 
-```sh
+- **Local mode**: Use the device’s local IP and port (e.g., `https://192.168.1.10:8080/webhooks`).
+- **Private mode**: Use your server’s domain name or IP and port (e.g., `https://your-server.com/3rdparty/v1/webhooks`).
+- **Cloud mode**: Use `https://api.sms-gate.app/3rdparty/v1/webhooks`.
+
+```sh title="Cloud mode example"
 curl -X POST -u <username>:<password> \
   -H "Content-Type: application/json" \
-  -d '{ "id": "<unique-id>", "url": "https://webhook.site/<your-uuid>", "event": "sms:received" }' \
+  -d '{ "url": "https://your-server.com/webhook", "event": "sms:received" }' \
   https://api.sms-gate.app/3rdparty/v1/webhooks
 ```
 
-Replace `<username>`, `<password>`, `<unique-id>`, and `<your-uuid>` with your actual credentials and information.
+Replace:
+- `<username>:<password>`: Credentials from the Home tab of the app.
+- `https://your-server.com/webhook`: The URL of your webhook endpoint.
+- `https://api.sms-gate.app/3rdparty/v1/webhooks`: The appropriate URL for your mode.
 
-In Cloud or Private modes, please allow some time for the webhooks list to synchronize with your device.
+In Cloud and Private modes, please allow some time for the webhooks list to synchronize with your device.
 
-### Step 3: Verify Your Webhook
+**Note**: Each webhook is registered for a single event. To listen for multiple events, register separate webhooks.
+
+### Step 3: Verify Your Webhook ✔️
 
 You can verify that it has been successfully registered by executing the following `curl` command:
 
-```sh
+```sh title="Cloud mode example"
 curl -X GET -u <username>:<password> \
   https://api.sms-gate.app/3rdparty/v1/webhooks
 ```
 
-Please note that webhooks registered in Local mode are separate from those registered in Cloud/Private mode. Therefore, when you make this request to the device's local server, you will only see the webhooks registered in Local mode, and similarly, a request to the Cloud/Private server will only show the webhooks registered there.
+**Local mode** and **Cloud/Private mode** maintain separate webhook lists. Use the corresponding API URL to view registrations.
 
-### Step 4: Testing the Webhook
+### Step 4: Test the Webhook 🧪
 
-Send an SMS to the phone number associated with the device to test the webhook.
+- **For `sms:received`**: Send an SMS to the device.
+- **For `sms:sent`/`delivered`/`failed`**: Send an SMS *from* the app to trigger these events.
+- **For `system:ping`**: Enable the ping feature in the app’s **Settings > Ping**.
 
-### Step 5: Receiving the Webhook Payload
+### Step 5: Receive the Payload 📤
 
-Upon receiving an SMS, your device will make a POST request to the registered webhook URL with a payload structured as follows:
+Your server will receive a POST request with a payload like:
 
 ```json
 {
@@ -89,53 +99,55 @@ Upon receiving an SMS, your device will make a POST request to the registered we
   "event": "sms:received",
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
+    "messageId": "abc123",
     "message": "Android is always a sweet treat!",
     "phoneNumber": "6505551212",
+    "simNumber": 1,
     "receivedAt": "2024-06-22T15:46:11.000+07:00"
   },
   "webhookId": "<unique-id>"
 }
 ```
 
-Your server should process this request and respond with an HTTP status code in the `2xx` range to indicate successful receipt in 30 seconds. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
+**Respond with a 2xx status within 30 seconds**. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
 
-The app implements an exponential backoff retry strategy: it waits 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. By default, the app will retry 14 times (approximately 2 days) before giving up. You can specify a custom retry count in the "Webhooks" section of the "Settings" tab.
+The app implements an exponential backoff retry strategy: it waits 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. By default, the app will retry 14 times (approximately 2 days) before giving up. You can specify a custom retry count in the app's **Settings > Webhooks**.
 
-### Step 6: Deregistering a Webhook
+### Step 6: Deregister a Webhook 🗑️
 
 If you no longer wish to receive webhook notifications, deregister your webhook with the following curl command:
 
-```sh
+```sh title="Cloud mode example"
 curl -X DELETE -u <username>:<password> \
   'https://api.sms-gate.app/3rdparty/v1/webhooks/%3Cunique-id%3E'
 ```
 
-## Security Considerations
+## Security Considerations 🔐
 
-- Use HTTPS for your webhook endpoint to ensure secure data transmission.
-- Protect your webhook endpoint against unauthorized access. For example, you can specify authorization key as query-parameter when registering the webhook.
-- Regularly rotate your authentication credentials.
-  
-## Troubleshooting
+- **Use HTTPS**: Encrypts data in transit.
+- **Secure Your Endpoint**: Protect your webhook endpoint against unauthorized access. For example, you can specify authorization key as query-parameter when registering the webhook.
+- **Rotate Credentials**: Regularly update passwords.
 
-- Ensure the device can reach your server and that there are no firewalls blocking outgoing requests.
-- Validate that the webhook URL is correct and the server is running.
-- Check the server logs for any errors during the webhook POST request handling.
-- Try to use default messaging app, not third-party app, because third-party app can block some SMS related events.
+## Troubleshooting 🛠️
 
-## Conclusion
+- **Firewalls/Network**: Ensure the device can reach your server.
+- **URL Accuracy**: Verify the webhook URL is correct.
+- **Third-Party Apps**: Some SMS apps may block events. Use the default messaging app for testing.
+- **Logs**: Check server logs for errors during POST handling.
+
+## Conclusion 🎉
 
 By following these steps, you've successfully integrated webhooks into your system to receive real-time notifications for incoming SMS messages. This setup enables you to respond to messages promptly and automate workflows based on SMS content.
 
 Remember to adhere to best practices for security and perform thorough testing to ensure reliable webhook delivery.
 
-## References
+## References 📚
 
 - [FAQ](../faq/webhooks.md)
-- [Private Webhook Certificate](../services/ca.md#private-webhook-certificate)
+- [Private Webhook Certificate Setup](../services/ca.md#private-webhook-certificate)
 - [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
 
-## Examples
+## Examples 💡
 
-- [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn) - A Cloud Function to seamlessly forward SMS messages to a Telegram chat using webhooks.
-- [Web Client](https://github.com/android-sms-gateway/web-client-ts) - Simple web client for sending and receiving SMS messages based on Node.js and Socket.io.
+- [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn): Forwards SMS to Telegram using a cloud function.
+- [Web Client](https://github.com/android-sms-gateway/web-client-ts): Node.js client for sending/receiving SMS via Socket.io.
