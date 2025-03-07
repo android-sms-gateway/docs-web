@@ -29,7 +29,7 @@ Currently, the following events are supported:
     * `failedAt`: The timestamp (device’s local timezone) when the failure occurred.
     * `reason`: The failure reason.
 - `system:ping` - 🏓 Triggered when the device pings the server. The payload includes:
-    * `health`: The healthcheck response, as described in the [Healthcheck](./health.md).
+    * `health`: The healthcheck response, as described in the [Healthcheck documentation](./health.md).
 
 ## Prerequisites ✅
 
@@ -70,7 +70,8 @@ Replace:
 
 In Cloud and Private modes, please allow some time for the webhooks list to synchronize with your device.
 
-**Note**: Each webhook is registered for a single event. To listen for multiple events, register separate webhooks.
+!!! note "Multiple Events"
+    Each webhook is registered for a single event. To listen for multiple events, register separate webhooks.
 
 ### Step 3: Verify Your Webhook ✔️
 
@@ -109,7 +110,8 @@ Your server will receive a POST request with a payload like:
 }
 ```
 
-**Respond with a 2xx status within 30 seconds**. If your server responds with any other status code, or if the device encounters network issues, the SMS Gateway app will attempt to resend the webhook.
+!!! important "Timely Response"
+    Your server **must** respond with a 2xx status within 30 seconds to prevent retries
 
 The app implements an exponential backoff retry strategy: it waits 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. By default, the app will retry 14 times (approximately 2 days) before giving up. You can specify a custom retry count in the app's **Settings > Webhooks**.
 
@@ -128,12 +130,107 @@ curl -X DELETE -u <username>:<password> \
 - **Secure Your Endpoint**: Protect your webhook endpoint against unauthorized access. For example, you can specify authorization key as query-parameter when registering the webhook.
 - **Rotate Credentials**: Regularly update passwords.
 
+### Payload Signing 🔏
+
+Webhook requests are signed with HMAC-SHA256 for verification. The device includes these headers:
+
+- `X-Signature` - Hexadecimal HMAC signature
+- `X-Timestamp` - Unix timestamp (seconds) used in signature generation
+
+The signing key is randomly generated at first request and can be changed in **Settings → Webhooks → Signing Key**
+
+<figure markdown>
+  ![Signing Key Configuration](../assets/webhooks-signing-key.png){ width="360" align=center }
+  <figcaption>Webhook signing key configuration</figcaption>
+</figure>
+
+**Verification process:**
+
+1. Get raw request body **as received** (before JSON parsing)
+2. Concatenate with `X-Timestamp` value
+3. Compute HMAC-SHA256 using the signing key
+4. Compare result with `X-Signature` header
+
+=== "Go"
+
+    ``` go
+    package webhooks
+
+    import (
+      "crypto/hmac"
+      "crypto/sha256"
+      "encoding/hex"
+    )
+
+    func VerifySignature(secretKey, payload, timestamp, signature string) bool {
+      message := payload + timestamp
+      mac := hmac.New(sha256.New, []byte(secretKey))
+      mac.Write([]byte(message))
+      expectedMAC := mac.Sum(nil)
+      expectedSignature := hex.EncodeToString(expectedMAC)
+
+      return hmac.Equal([]byte(expectedSignature), []byte(signature))
+    }
+    ```
+
+=== "Python"
+
+    ``` python
+    import hmac
+    import hashlib
+
+
+    def verify_signature(secret_key: str, payload: str, timestamp: str, signature: str) -> bool:
+        message = (payload + timestamp).encode()
+        expected_signature = hmac.new(secret_key.encode(), message, hashlib.sha256).hexdigest()
+        return hmac.compare_digest(expected_signature, signature)
+    ```
+
+=== "JavaScript"
+
+    ``` js
+    const crypto = require('crypto');
+
+    function verifySignature(secretKey, payload, timestamp, signature) {
+        const message = payload + timestamp;
+        const expectedSignature = crypto
+            .createHmac('sha256', secretKey)
+            .update(message)
+            .digest('hex');
+
+        return expectedSignature === signature;
+    }
+    ```
+
+=== "PHP"
+
+    ``` php
+    <?php 
+    function verify_signature($secret_key, $payload, $timestamp, $signature) {
+        $message = $payload . $timestamp;
+        $expected_signature = hash_hmac('sha256', $message, $secret_key);
+
+        return hash_equals($expected_signature, $signature);
+    }
+    ```
+
+!!! tip "Best Practices"
+    - Use constant-time comparison to prevent timing attacks.
+    - Validate timestamps (e.g., accept only timestamps within ±5 minutes) to prevent replay attacks.
+    - Store secret keys securely (e.g., environment variables, secure vaults).
+
 ## Troubleshooting 🛠️
 
-- **Firewalls/Network**: Ensure the device can reach your server.
-- **URL Accuracy**: Verify the webhook URL is correct.
-- **Third-Party Apps**: Some SMS apps may block events. Use the default messaging app for testing.
-- **Logs**: Check server logs for errors during POST handling.
+!!! failure "No Webhooks Received?"
+    1. Verify the webhook URL is correct
+    2. Ensure the device can reach your server
+    3. Verify SSL certificate validity
+    4. Check device and server logs
+    5. Test with [webhook.site](https://webhook.site) temporary endpoint
+
+!!! bug "Signature Validation Issues"
+    - Ensure timestamp is UTC Unix time in seconds
+    - Use raw body before JSON decoding
 
 ## Conclusion 🎉
 
