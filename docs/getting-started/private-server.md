@@ -1,54 +1,116 @@
-# Getting Started
+# Getting Started 🚀
 
-## Private Server
+## Private Server 🔒
 
-<div align="center">
-    <img src="/assets/private-server-arch.png" alt="Architecture of the Private Server mode">
-</div>
+<figure markdown>
+   ![Private Server Architecture](../assets/private-server-arch.png){ width="600" align=center }
+   <figcaption>Architecture diagram of Private Server mode</figcaption>
+</figure>
 
-To enhance privacy, you can host a private server within your own infrastructure, ensuring that all messages remain solely on devices you control. The only required external network connection is for sending push notifications via the public server at `api.sms-gate.app`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
+To enhance privacy and control, you can host your own private server. This keeps all message data within your infrastructure while maintaining push notification capabilities through our public server at `api.sms-gate.app`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
 
-### Prerequisites
+!!! tip "When to Choose Private Mode"
+    - 🏢 Enterprise deployments requiring full data control
+    - 🔐 Enhanced security compliance needs
+    - 🌐 Custom integration requirements
 
-- A MySQL or MariaDB database server with an empty database, and a user granted full access to that database.
-- A Virtual Private Server (VPS) running Linux with Docker installed.
-- A reverse proxy with a valid SSL certificate and HTTPS enabled.
+### Prerequisites ✅
 
-### Run the Server
+!!! warning "Before You Begin"
+    - 🗄️ MySQL/MariaDB server with empty database and privileged user
+    - 🐧 Linux VPS with Docker installed
+    - 🔄 Reverse proxy with valid SSL certificate ([project CA](../services/ca.md) supported)
 
-1. Create a `config.yml` file based on the template provided in [config.example.yml](https://github.com/android-sms-gateway/server/blob/master/configs/config.example.yml). Pay special attention to the `database`, `http`, and `gateway` sections. Environment variables can be used to override values in the config file.
-   - Set `gateway.mode` to `private`.
-   - Define `gateway.private_token` as the access token for device registration in private mode. Ensure this token matches the one on the devices set to private mode.
-2. Start the server in Docker with the following command: 
-   ```sh
-   docker run -p 3000:3000 -v $(pwd)/config.yml:/app/config.yml \
-    capcom6/sms-gateway:latest
-   ```
-3. Configure your reverse proxy, enable SSL, and modify your firewall settings to permit Internet access to the server.
+### Run the Server 🖥️
 
-Refer to the server's [README.md](https://github.com/android-sms-gateway/server/blob/master/README.md) for more information.
+1. **Create configuration**  
+    Copy the example config and customize:
+    ```sh title="Get config.yml template"
+    wget https://raw.githubusercontent.com/android-sms-gateway/server/master/configs/config.example.yml -O config.yml
+    ```
+    Key sections to edit:
+    ```yaml hl_lines="3"
+    gateway:
+        private_token: your-secure-token-here # (1)!
+    http: # http server config
+        listen: 127.0.0.1:3000 # listen address [HTTP__LISTEN]
+    database: # database
+        host: localhost # database host [DATABASE__HOST]
+        port: 3306 # database port [DATABASE__PORT]
+        user: root # database user [DATABASE__USER]
+        password: root # database password [DATABASE__PASSWORD]
+        database: sms # database name [DATABASE__DATABASE]
+        timezone: UTC # database timezone (important for message TTL calculation) [DATABASE__TIMEZONE]
+    ```
+    1. Must match device configuration
 
-See also:
+2. **Launch container**  
+    ```sh title="Docker Command"
+    docker run -d --name sms-gateway \
+        -p 3000:3000 \
+        -v $(pwd)/config.yml:/app/config.yml \
+        ghcr.io/android-sms-gateway/server:latest
+    ```
 
-- [Installation Example with Ubuntu, Docker, and Nginx Proxy Manager](https://github.com/capcom6/android-sms-gateway/discussions/50)
-- [Docker Compose Quickstart for Single File Deployment](https://github.com/android-sms-gateway/server/tree/master/deployments/docker-compose-proxy)
+3. **Configure reverse proxy**  
+    ```nginx title="Example Nginx Config"
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+    ```
 
-### Configure the Android App
+!!! success "Verification"
+    Test server accessibility:
+    ```sh
+    curl https://api.your-domain.com/health
+    # Should return JSON health status
+    ```
 
-<div align="center">
-    <img src="/assets/private-server.png" alt="Example settings for Private Server mode">
-</div>
+### Configure Android App 📱
 
-*Note*: Changing the server will invalidate current credentials, and the device will be re-registered with new ones.
+<figure markdown>
+   ![Private Server Settings](../assets/private-server.png){ width="400" align=center }
+   <figcaption>Android app configuration for private mode</figcaption>
+</figure>
 
-1. Navigate to the Settings tab.
-2. In the Cloud Server section, enter the API URL and Private token, ensuring they match those in the server configuration. Note that you should include the full URL with the path, such as `https://private.example.com/api/mobile/v1`.
-3. Switch to the Home tab.
-4. Activate the Cloud server option.
-5. Apply the new configuration by stopping and starting the app using the button at the bottom of the screen.
+!!! danger "Important"
+    Changing servers will **reset credentials** and require device re-registration!
 
-If everything is configured correctly, the new credentials for the private server will be displayed in the Cloud Server section on the Home tab.
+1. **Access Settings**  
+    Navigate to :gear: **Settings** tab → **Cloud Server**
 
-### Password Management
+2. **Enter server details**  
+    ```text
+    API URL: https://private.example.com/api/mobile/v1
+    Private Token: your-secure-token-here
+    ```
 
-The password management process is identical to the [Cloud Server mode](public-cloud-server.md#password-management).
+3. **Activate connection**  
+    1. Switch to :house: **Home** tab
+    2. Toggle **Cloud server** :material-cloud-check:
+    3. Restart app using bottom button 🔄
+
+!!! check "Successful Connection"
+    New credentials will appear in **Cloud Server** section when configured properly:
+    ```
+    Device ID: d95f4903-...-a91e87b5
+    API Key:  g7JwtP...M4nZQ
+    ```
+
+### Password Management 🔑
+
+Identical to [Cloud Server mode](public-cloud-server.md#password-management). Use either:
+
+- :material-console-line: `curl` commands
+- :material-api: Direct API calls
+- :material-account-key: Web interface (if enabled)
+
+---
+
+## Additional Resources 📚
+
+- [Ubuntu/Docker/Nginx Setup Guide](https://github.com/capcom6/android-sms-gateway/discussions/50) :fontawesome-buntu:
+- [Docker Compose Quickstart](https://github.com/android-sms-gateway/server/tree/master/deployments/docker-compose-proxy) :whale:
+- [Troubleshooting Private Mode](../troubleshooting.md#private-server-issues) :mag_right:
