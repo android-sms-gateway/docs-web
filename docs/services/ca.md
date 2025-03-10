@@ -1,42 +1,85 @@
-# Certificate Authority
+# Certificate Authority 🔐
 
-The project has its own [Certificate Authority (CA)](https://en.wikipedia.org/wiki/Certificate_authority) to simplify some operations while providing an additional level of security.
+The project operates its own [Certificate Authority (CA)](https://en.wikipedia.org/wiki/Certificate_authority) :material-shield-lock-outline: to simplify secure communications while maintaining high security standards.
 
-Currently, the only certificate type available is a private webhook certificate.
+!!! info "Security Considerations"
+    - 🔒 HTTPS encryption is mandatory for all communications
+    - 🌍 Public CA certificates can't validate private IPs
+    - ⚠️ User-provided certificate installation creates security risks
 
-## Private Webhook Certificate
+## Supported Certificate Types 📜
 
-Due to Android OS restrictions and the application's privacy policy, webhook events can only be received through an encrypted HTTPS connection. Since it's not possible to issue certificates for private IP addresses from trusted CAs, it was previously necessary to use self-signed certificates. However, issuing and installing valid self-signed certificates was not easy, and adding them to the global Android storage created a security risk. Therefore, we've created a private CA that issues certificates for private IP addresses.
+1. 🌐 **Private Webhook Certificate** - Secure local network webhook endpoints
+2. 🖥️ **Private Server Certificate** - Encrypt private server communications
 
-### How to Use
+## How to Use 🛠️
 
-There are two main ways to use it:
+### Method Comparison
 
-1. (Recommended) Issue certificate with the `smsgate-ca` command:
-    1. Download the CLI tools package for your platform from [Releases](https://github.com/android-sms-gateway/cli/releases/latest).
-    2. Extract the package.
-    3. Run the `./smsgate-ca webhooks <your-ip>` command, where `<your-ip>` is the private IP address of your webhook server.
-    4. Install the `server.crt` and `server.key` files to the webhook server.
+| Feature         | CLI Method 🖥️               | API Method 🌐                      |
+| --------------- | -------------------------- | --------------------------------- |
+| Difficulty      | :material-star: Easy       | :material-star-circle: Medium     |
+| Customization   | :material-wrench-clock: No | :material-wrench-check: Available |
+| Automation      | :material-robot: Full      | :material-hand-back-right: Manual |
+| Recommended For | Most users ✅               | CI/CD pipelines 🤖                 |
 
-2. Direct use of the CA's API. Please refer to the [API Documentation](https://ca.sms-gate.app/docs):
-    1. Create a Private Key: `openssl genrsa -out server.key 2048`
-    2. Create a config file `server.cnf` with the following content, replacing `[SERVER_IP]` with your private IP address:
-        ```ini
+=== "CLI Method :material-console-line:"
+
+    1. 📥 **Download Tool**  
+        Get [`smsgate-ca`](https://github.com/android-sms-gateway/cli/releases/latest) for your OS
+
+    2. 🔧 **Generate Certificate**  
+        ```bash title="Generate webhook certificate"
+        ./smsgate-ca webhooks --out=server.crt --keyout=server.key 192.168.1.10
+        ```
+        ```bash title="Generate server certificate"
+        ./smsgate-ca private 10.0.0.5 # (1)!
+        ```
+ 
+        1. `--out` and `--keyout` are optional with default `server.crt` and `server.key`
+
+    3. 🔐 **Install Certificates**  
+        ```bash
+        # Nginx example
+        ssl_certificate /path/to/server.crt;
+        ssl_certificate_key /path/to/server.key;
+        ```
+
+=== "API Method :material-api:"
+
+    1. 🔑 **Generate Key Pair**
+        ```bash
+        openssl genrsa -out server.key 2048
+        ```
+
+    2. 📝 **Create Config**
+        ```ini title="server.cnf" hl_lines="7 15"
         [req]
         distinguished_name = req_distinguished_name
         x509_extensions = v3_req
         prompt = no
+        
         [req_distinguished_name]
-        CN = [SERVER_IP]
+        CN = 192.168.1.10  # (1)!
+        
         [v3_req]
         keyUsage = nonRepudiation, digitalSignature, keyEncipherment
         extendedKeyUsage = serverAuth
         subjectAltName = @alt_names
+        
         [alt_names]
-        IP.0 = [SERVER_IP]
+        IP.0 = 192.168.1.10
         ```
-    3. Generate a certificate request: `openssl req -new -key server.key -out server.csr -extensions v3_req -config ./server.cnf`
-    4. Make a request to the CA:
+
+        1. Replace `192.168.1.10` with your private IP
+
+    3. 📋 **Generate CSR**
+        ```bash
+        openssl req -new -key server.key -out server.csr -extensions v3_req \
+          -config ./server.cnf
+        ```
+
+    4. 📨 **Submit CSR**
         ```sh
         jq -n --arg content "$(cat server.csr)" '{content: $content}' | \
         curl -X POST \
@@ -44,23 +87,51 @@ There are two main ways to use it:
           -d @- \
           https://ca.sms-gate.app/api/v1/csr
         ```
+
         You will receive a Request ID in the response.
-    5. Check the status of the request:
-        ```sh
-        curl -X GET \
-          -H "Content-Type: application/json" \
-          https://ca.sms-gate.app/api/v1/csr/[REQUEST_ID]
+
+    5. 🕒 **Check Status**
+        ```bash
+        curl https://ca.sms-gate.app/api/v1/csr/REQ_12345 # (1)!
         ```
-    6. When the request is approved, the certificate content will be provided in the `certificate` field of the response.
-    7. Save the certificate content to the file `server.crt`.
-    8. Install the `server.crt` and `server.key` (from step 1) files to the webhook server.
 
-**Note** You don't have to install any certificates on the device. The project's Root CA certificate is already included in the app since version `1.31`.
+        1. Replace `REQ_12345` with your Request ID
 
-### Limitations
+    6. 📥 **Save Certificate**  
+        When the request is approved, the certificate content will be provided in the `certificate` field of the response. Save the certificate content to the file `server.crt`.
 
-The CA only issues certificates for private IP addresses within the following ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16.
+    7. 🔐 **Install Certificate**  
+        Install the `server.crt` and `server.key` (from step 1) files to the server.
 
-### Notes
+    Full API documentation is available [here](https://ca.sms-gate.app/docs/index.html).
 
-Support for user-provided self-signed certificates will be removed in version 2.x of the app. It is strongly recommended to use the project's CA for generating certificates.
+## Limitations ⚠️
+
+The Certificate Authority service has the following limitations:
+
+- 🔐 Only issues certificates for private IP ranges:
+    ```text
+    10.0.0.0/8
+    172.16.0.0/12 
+    192.168.0.0/16
+    ```
+- ⏳ Certificate validity: 1 year
+- 📛 Maximum 1 `POST` request per minute
+
+## Migration Notice 🚨
+
+Self-signed certificates will be deprecated after v2.0 release. It is recommended to use the project's CA :material-shield-lock-outline: instead.
+
+Migration checklist:
+
+- [ ] Replace self-signed certs before v2.0 release
+- [ ] Update automation scripts to use CLI tool or API
+- [ ] Rotate certificates every 1 year
+
+## FAQ ❓
+
+:material-help-circle: **Why don't I need to install CA on devices?**  
+The root CA certificate is already embedded in the app (:material-android: 1.31+) 
+
+:material-alert: **Certificate issuance failed?**  
+Ensure your IP matches private ranges and hasn't exceeded quota

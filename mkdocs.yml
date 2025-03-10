@@ -7,6 +7,7 @@ theme:
   name: material
   features:
     - content.code.copy
+    - content.code.annotate
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
