@@ -44,10 +44,11 @@ nav:
       - API: integration/api.md
       - Webhooks: features/webhooks.md
   - Features:
+      - Status Tracking: features/status-tracking.md
+      - Reading Messages: features/reading-messages.md
+      - Webhooks: features/webhooks.md
       - Multi-SIM Support: features/multi-sim.md
       - Multi-Device Support: features/multi-device.md
-      - Webhooks: features/webhooks.md
-      - Reading Messages: features/reading-messages.md
       - Health Checks: features/health.md
       - Logging: features/logging.md
   - Services:
@@ -97,6 +98,11 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - admonition
   - attr_list
   - md_in_html
@@ -104,4 +110,3 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
