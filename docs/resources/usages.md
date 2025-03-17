@@ -1,16 +1,48 @@
-# Resources
+# Resources - Usages 📚
 
-## Usages
+Projects using SMS Gateway for Android (discovered from public sources).  
+To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.app)
 
-In this section, you will find links to projects that utilize the SMS Gateway for Android. All of these projects were discovered on the internet through publicly available information. If you would like to add your project or have a project listed that you would like to remove, please [contact us](mailto:support@sms-gate.app).
+## Open Source :material-source-branch:
 
-### Open Source
+<div class="grid cards" markdown>
 
-- [Watcher CRM](https://github.com/Mapiiik/Watcher-CRM) - Customer relationship management for ISPs.
-- [Private medical clinic](https://github.com/Tam-Vu/Private-medical-clinic)
+- :hospital: **Private Medical Clinic**  
+  Patient management system with SMS integration  
+  [:material-github: GitHub Repo](https://github.com/Tam-Vu/Private-medical-clinic)
 
-### Closed Source
+- :office: **Watcher CRM**  
+  ISP-focused customer relationship management  
+  [:material-github: GitHub Repo](https://github.com/Mapiiik/Watcher-CRM)
 
-- [Mutiny Observability Platform](https://www.mutiny.com) - The all-in-one solution to meet all your monitoring needs!
-- [1C - Bitrix: Отправка SMS с сайта через свой телефон](https://marketplace.1c-bitrix.ru/solutions/runetlab.sms/) - Send SMS from a website using your own phone number.
-- [TDec](https://www.tdec.ro)
+- :robot: **Text an LLM**  
+  Chat with AI via SMS (+61493035885)  
+  [:material-book-open: Blog Post](https://benkaiser.dev/text-an-llm/)
+
+</div>
+
+## Closed Source :material-lock:
+
+<div class="grid cards" markdown>
+
+- :material-chart-line: **Mutiny Observability Platform**  
+  All-in-one monitoring solution  
+  [:material-web: Website](https://www.mutiny.com)
+
+- :material-web: **1C-Bitrix SMS Integration**  
+  Send website SMS via your phone  
+  [:material-shopping: Marketplace](https://marketplace.1c-bitrix.ru/solutions/runetlab.sms/)
+
+- :material-cellphone-key: **TDec**  
+  Romanian ANAF submissions solution
+  [:material-web: Website](https://www.tdec.ro)
+
+</div>
+
+---
+
+!!! tip "Showcase Your Project"
+    Submit your integration via email:
+    [support@sms-gate.app](mailto:support@sms-gate.app?subject=Add%20Project%20to%20Resources)
+
+    Include: Project name, description, link, and logo (optional)
