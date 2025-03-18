@@ -16,7 +16,7 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   [:material-github: GitHub Repo](https://github.com/Mapiiik/Watcher-CRM)
 
 - :robot: **Text an LLM**  
-  Chat with AI via SMS (+61493035885)  
+  Chat with AI via SMS  
   [:material-book-open: Blog Post](https://benkaiser.dev/text-an-llm/)
 
 </div>
@@ -34,7 +34,7 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   [:material-shopping: Marketplace](https://marketplace.1c-bitrix.ru/solutions/runetlab.sms/)
 
 - :material-cellphone-key: **TDec**  
-  Romanian ANAF submissions solution
+  Romanian ANAF submissions solution  
   [:material-web: Website](https://www.tdec.ro)
 
 </div>
