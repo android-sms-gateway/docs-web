@@ -1,27 +1,68 @@
-# Multi-Device Support
+# Multi-Device Support 📱📱
 
-The app supports multiple devices connected to the same account with Cloud or Private server mode. This feature allows the distribution of messages sent via the server across all connected devices.
+The app supports multiple devices for a single account in **Cloud** or **Private Server** modes, distributing messages across all connected devices.
 
-## Adding a Device to the Account
+## Adding a Device ➕
 
-To add a new device to your account, follow these steps:
+=== ":material-account-key: Username & Password"
+    !!! tip
+        Use this method for trusted device, which will have full access to the account.
 
-1. Open the app on the new device.
-2. Activate the "Cloud server" switch.
-3. Tap the "Offline" button; the First Start dialog will appear.
-4. Change the tab to "Sign In".
-5. Enter the username and password from your existing account.
-6. Tap "Continue".
-7. Wait for your username to appear in the "Cloud Server" section of the Home tab.
+    **Steps 📋**
 
-## Messages API
+    1. Open app on new device
+    2. Activate :material-cloud: **Cloud Server**
+    3. Tap "Offline" → "Sign In" tab
+    4. Enter username and password
+    5. Wait for Cloud Server information in the Home tab
 
-When an account has multiple devices, the device to send the message will be selected randomly.
+=== ":material-lock-reset: One-Time Code"
+    !!! tip
+        Use this method for untrusted devices, which will only have limited access to the account.
 
-## Device Management API
+    **Generate Code 🔑**
 
-The server API allows to list devices connected to the account and delete any of them.
+    1. On active device:  
+       :gear: Settings → Cloud Server → Login code
+    2. Wait for code to appear
+    3. Long press to copy
 
-To list all devices on the account, use the [`GET /devices`](https://api.sms-gate.app/#/User/get_3rdparty_v1_devices) endpoint.
+    **Apply Code 📲**
 
-To remove a device from the account, use the [`DELETE /devices/{deviceId}`](https://api.sms-gate.app/#/User/delete_3rdparty_v1_devices__id_) endpoint. Please note that all messages, including pending ones, will be deleted when removing a device.
+    1. Activate Cloud Server
+    2. Choose "By Code" tab
+    3. Enter the code
+    4. Confirm with "Continue"
+
+## Message Distribution 📨
+
+For now, the only distribution method is **Random** among the registered devices.
+
+More distribution methods will be added in the future.
+
+## Device Management ⚙️
+
+### API Endpoints 🌐
+
+<div class="grid cards" markdown>
+
+- :material-api: **List Devices**
+    ```bash
+    curl -X GET \
+      https://api.sms-gate.app/3rdparty/v1/devices \
+      -u "username:password"
+    ```
+    [API Documentation](https://api.sms-gate.app/#/User/get_3rdparty_v1_devices)
+
+- :material-delete: **Remove Device**
+    ```bash
+    curl -X DELETE \
+      https://api.sms-gate.app/3rdparty/v1/devices/DEVICE_ID \
+      -u "username:password"
+    ```
+    [API Documentation](https://api.sms-gate.app/#/User/delete_3rdparty_v1_devices__id_)
+
+</div>
+
+!!! danger "Device Removal Warning"
+    Deleting a device will remove all associated messages, including pending ones.
