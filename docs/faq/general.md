@@ -1,5 +1,16 @@
 # FAQ - General ❓
 
+## How to hide messages on the device? 🙈
+
+Due to technical limitations (since Android 4.4 KitKat), SMS Gateway cannot delete messages, and messages are always displayed in the default SMS app.
+
+Making SMS Gateway the default SMS app can solve this problem, but we intentionally avoid implementing message hiding to prevent spyware behavior and maintain transparency.
+
+!!! tip "Recommendation"
+    - Restrict physical access to the phone
+    - Set a strong PIN code
+    - Use a dedicated Android device
+
 ## Can I send MMS messages? 📸
 
 No, the app does not support MMS messages. The app follows the principle of "do one thing, do it well".
@@ -96,14 +107,6 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
     :gear: Settings → Messages → "If SIM number is not specified"
 
     The app provides a feature to rotate between [multiple SIM cards](../features/multi-sim.md#sim-card-rotation) automatically, avoiding reaching SIM limits.
-
-
-## How to hide messages on the device? 🙈
-
-It's not possible to completely hide messages on the device without major changes in the app due to Android's limitations. Messages sent will appear in the default messaging app.
-
-!!! tip "Recommendation"
-    Restrict physical access to the phone
 
 ## How can I check the online status of the device? 📶
 
