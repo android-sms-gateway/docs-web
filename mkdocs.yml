@@ -44,6 +44,7 @@ nav:
       - API: integration/api.md
       - Webhooks: features/webhooks.md
   - Features:
+      - Sending Messages: features/sending-messages.md
       - Status Tracking: features/status-tracking.md
       - Reading Messages: features/reading-messages.md
       - Webhooks: features/webhooks.md
