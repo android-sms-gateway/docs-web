@@ -248,6 +248,7 @@ Remember to adhere to best practices for security and perform thorough testing t
 
 ## Examples 💡
 
-- [FastAPI webhook processor](https://github.com/android-sms-gateway/example-webhooks-fastapi): Demonstrates registration, HMAC validation, and payload handling.
+- [Flask webhook processor](https://github.com/android-sms-gateway/example-webhooks-flask): Demonstrates registration, HMAC validation, and payload handling with Flask.
+- [FastAPI webhook processor](https://github.com/android-sms-gateway/example-webhooks-fastapi): Demonstrates registration, HMAC validation, and payload handling with FastAPI.
 - [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn): Forwards SMS to Telegram using a cloud function.
 - [Web Client](https://github.com/android-sms-gateway/web-client-ts): Node.js client for sending/receiving SMS via Socket.io.
