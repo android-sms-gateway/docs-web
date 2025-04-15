@@ -113,6 +113,8 @@ Your server will receive a POST request with a payload like:
 !!! important "Timely Response"
     Your server **must** respond with a 2xx status within 30 seconds to prevent retries
 
+#### Retry Policy
+
 The app implements an exponential backoff retry strategy: it waits 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. By default, the app will retry 14 times (approximately 2 days) before giving up. You can specify a custom retry count in the app's **Settings > Webhooks**.
 
 ### Step 6: Deregister a Webhook 🗑️
@@ -246,5 +248,6 @@ Remember to adhere to best practices for security and perform thorough testing t
 
 ## Examples 💡
 
+- [FastAPI webhook processor](https://github.com/android-sms-gateway/example-webhooks-fastapi): Demonstrates registration, HMAC validation, and payload handling.
 - [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn): Forwards SMS to Telegram using a cloud function.
 - [Web Client](https://github.com/android-sms-gateway/web-client-ts): Node.js client for sending/receiving SMS via Socket.io.
