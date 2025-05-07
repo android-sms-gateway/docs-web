@@ -1,47 +1,121 @@
-# Custom Gateway Setup
+# Custom Gateway Setup 🛠️
 
-By setting up a custom gateway, you gain full control over communications and data. However, this process requires technical skills and infrastructure. Before starting, please consider the [Private Server](./private-server.md) mode, as it offers additional privacy features and is not significantly different from a self-built solution, with much fewer setup operations required.
+Please consider the [Private Server](./private-server.md) mode first. It offers additional privacy features and is not significantly different from a self-built solution—with far fewer setup operations required.
 
-## Before You Begin
+!!! note "Please note"
+    - Custom builds are not officially supported
+    - No troubleshooting assistance provided
 
-As of the time of writing this document, the backend in its default configuration exposes public endpoints. Therefore, anyone who knows the server address can connect a mobile app to it and use the API.
 
-Please be aware that these instructions are simplified and do not cover detailed security configurations, such as firewall settings and HTTPS setup. Implementing these security measures is the user's responsibility.
+## Before You Begin ⚠️
 
-**Use at your own risk.**
+!!! danger "Secure Your Deployment"
+    Default configuration exposes public endpoints. You must implement:
 
-## Prerequisites
+    - Firewall rules
+    - HTTPS encryption
+    - Additional authentication mechanisms if necessary
+  
+    **Use at your own risk**
 
-1. Android Studio with the Android SDK installed.
-2. A Google Firebase account and a project with Cloud Messaging activated.
-3. A MySQL or MariaDB database.
-4. A VPS (Virtual Private Server) with a public IP address.
-5. A reverse proxy such as Nginx or Traefik with HTTPS support.
-6. Go programming language with the latest version installed (only necessary for using private server mode).
+## Prerequisites 📋
 
-## Backend
+1. 📱 **Android Development**
+    - Android Studio 2023.2+
+    - SDK API Level 33
 
-If you do not plan to use the private server mode, there is no need to rebuild the backend. You can follow the instructions for the [Private Server](./private-server.md) mode with the following changes:
+2. 🔥 **Firebase Setup**
+    - Google Cloud account
+    - FCM-enabled project
+    - Service account credentials
 
-1. Set the `gateway.mode` value to `public`.
-2. Update the `fcm.credentials_json` with the content of your Firebase project's credentials JSON file.
+3. 🗄️ **Database**
+    - MySQL 8.0+ / MariaDB 10.6+
+    - 2GB+ storage allocated
 
-### Private Server Mode
+4. ☁️ **Server Infrastructure**
+    - VPS with public IP
+    - Reverse proxy (Nginx/Traefik)
+    - Valid SSL certificate
 
-> **Note:** To run servers in Private mode, you must have at least one server running in Public mode. This is because only Public servers can communicate directly with Firebase Cloud Messaging (FCM), while Private servers communicate with FCM through the Public server. The Public server must use the same Firebase account and configuration as your Android app.
+5. ⚙️ **Build Tools**
+    - Go 1.23+
+    - Docker 24.0+
 
-To use the private server mode, you must rebuild the backend after modifying the file at `internal/sms-gateway/modules/push/upstream/client.go` to set your main server address. You can then build the binary by executing `make build` or the Docker image by running `make docker-build`.
+## Backend Configuration ⚙️
 
-## Android App
+=== ":material-cloud: Public Mode"
+    ```yaml title="config.yml"
+    gateway:
+      mode: public
+    fcm:
+      credentials_json: |
+        {
+          "type": "service_account",
+          "project_id": "your-project"
+        }
+    ```
+    **Implementation Steps**:
 
-To build a custom version of the Android application that will communicate with your server, follow these steps:
+    1. Follow [Private Server Guide](./private-server.md)
+    2. Set `gateway.mode: public`
+    3. Update FCM credentials
 
-1. Clone the repository at [https://github.com/capcom6/android-sms-gateway](https://github.com/capcom6/android-sms-gateway) and open it in Android Studio.
-2. Navigate to `app/src/main/java/me/capcom/smsgateway/modules/gateway/GatewaySettings.kt` and update the `PUBLIC_URL` constant to your server's URL.
-3. Modify the `applicationId` in `app/build.gradle` to a unique value.
-4. Refer to the instructions at [https://firebase.google.com/docs/android/setup](https://firebase.google.com/docs/android/setup) to register your application and generate the `google-services.json` file.
-5. Build and run the application.
+=== ":material-lock: Private Mode"
+    ```diff title="internal/sms-gateway/modules/push/upstream/client.go"
+    - const BASE_URL = "https://api.sms-gate.app/upstream/v1"
+    + const BASE_URL = "https://your-main-server.com/upstream/v1"
+    ```
+    **Build Commands**:
+    ```bash
+    make build  # Binary
+    make docker-build  # Container
+    ```
+    
+    !!! info "Architecture Requirement"
+        Private servers require at least one public server
 
-## See Also
+        Communication flow: Device ↔ Private Server ↔ Public Server ↔ FCM
+---
 
-* [GitHub Discussion](https://github.com/capcom6/android-sms-gateway/discussions/71)
+## Android App Customization 📱
+
+1. **Clone Repository**
+    ```bash
+    git clone https://github.com/capcom6/android-sms-gateway
+    cd android-sms-gateway
+    ```
+
+2. **Configure Endpoints**  
+    Edit `app/src/main/java/me/capcom/smsgateway/modules/gateway/GatewaySettings.kt` by replacing `PUBLIC_URL` with your main server URL (including path):
+    ```diff
+    - const val PUBLIC_URL = "https://api.sms-gate.app/mobile/v1"
+    + const val PUBLIC_URL = "https://your-main-server.com/mobile/v1"
+    ```
+
+3. **Set Unique Application ID**  
+    Modify `app/build.gradle` by replacing `applicationId` value with your unique application ID:
+    ```diff
+    - applicationId "me.capcom.smsgateway"
+    + applicationId "com.yourcompany.smsgateway"
+    ```
+
+4. **Firebase Integration**  
+    Follow the [Firebase Android Setup Guide](https://firebase.google.com/docs/android/setup) to get the `google-services.json` file and add it to `app/google-services.json`.
+
+5. **Build & Deploy**  
+    ```bash
+    ./gradlew assembleRelease
+    ```
+
+## Security Checklist 🔐
+
+- [ ] Implement IP whitelisting
+- [ ] Configure HTTPS with HSTS
+- [ ] Set up rate limiting
+- [ ] Enable audit logging
+- [ ] Rotate API keys quarterly
+
+## See Also 📚
+
+- [:material-github: GitHub Discussion #71](https://github.com/capcom6/android-sms-gateway/discussions/71)
