@@ -42,13 +42,16 @@ Authorization: Basic <credentials>
 
 ## Message Processing Stages 🏗️
 
+The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Private](../getting-started/private-server.md) modes. For [Local](../getting-started/local-server.md) mode, server-side step 2 is skipped.
+
 1. **API Submission**  
     The external app makes a `POST` request to the `/messages` endpoint.
 
 2. **Server Processing**  
     1. Validate payload.
     2. Add message to the queue.
-    3. Provide messages to the device sorted by priority and enqueue time.
+    3. Send a push notification to the device.
+    4. Provide messages to the device, sorted by priority and enqueue time.
 
 3. **Device Handling**  
     1. Receive messages from the server.
