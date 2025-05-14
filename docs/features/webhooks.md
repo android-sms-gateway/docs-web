@@ -4,32 +4,38 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 
 ## Supported Events 📩
 
-Currently, the following events are supported:
+<div class="grid cards" markdown>
 
-- `sms:received` - 📨 Triggered when an SMS is received by the device. The payload for this event includes:
-    * `messageId`: The ID of the SMS message. **Note**: This ID is generated based on the message content and is not guaranteed to be unique. Do not rely on it as a unique identifier.
-    * `message`: The content of the SMS message.
-    * `phoneNumber`: The phone number that sent the SMS.
-    * `simNumber`: The SIM card number that received the SMS. **May be `null`** on some Android devices.
-    * `receivedAt`: The timestamp (in the device’s local timezone) when the message was received.
-- `sms:sent` - ✉️ Triggered when an SMS is sent by the device. The payload includes:
-    * `messageId`: The ID of the SMS message.
-    * `phoneNumber`: The recipient's phone number.
-    * `simNumber`: The SIM card number that sent the SMS. **May be `null`** if the default SIM is used.
-    * `sentAt`: The timestamp (device’s local timezone) when the message was sent.
-- `sms:delivered` - ✅ Triggered when an SMS is delivered to the recipient. The payload includes:
-    * `messageId`: The ID of the SMS message.
-    * `phoneNumber`: The recipient's phone number.
-    * `simNumber`: The SIM card number that sent the SMS. **May be `null`** if the default SIM is used.
-    * `deliveredAt`: The timestamp (device’s local timezone) when the message was delivered.
-- `sms:failed` - ❌ Triggered when an SMS fails to send or is not delivered. The payload includes:
-    * `messageId`: The ID of the SMS message.
-    * `phoneNumber`: The recipient's phone number.
-    * `simNumber`: The SIM card number that sent the SMS. **May be `null`** if the default SIM is used.
-    * `failedAt`: The timestamp (device’s local timezone) when the failure occurred.
-    * `reason`: The failure reason.
-- `system:ping` - 🏓 Triggered when the device pings the server. The payload includes:
-    * `health`: The healthcheck response, as described in the [Healthcheck documentation](./health.md).
+- :incoming_envelope: **sms:received**
+    - `messageId`: Content-based ID  
+    - `message`: SMS content  
+    - `phoneNumber`: Sender's number  
+    - `simNumber`: SIM index (nullable)  
+    - `receivedAt`: Local timestamp
+
+- :outbox_tray: **sms:sent**
+    - `messageId`: Unique ID  
+    - `phoneNumber`: Recipient  
+    - `simNumber`: SIM index (nullable)  
+    - `sentAt`: Local timestamp
+
+- :white_check_mark: **sms:delivered**
+    - `messageId`: Unique ID  
+    - `phoneNumber`: Recipient  
+    - `simNumber`: SIM index (nullable)  
+    - `deliveredAt`: Local timestamp
+
+- :x: **sms:failed**
+    - `messageId`: Unique ID  
+    - `phoneNumber`: Recipient
+    - `simNumber`: SIM index (nullable) 
+    - `reason`: Error details  
+    - `failedAt`: Local timestamp
+
+- :ping_pong: **system:ping**
+    - `health`: [Healthcheck status](./health.md)
+
+</div>
 
 ## Prerequisites ✅
 
@@ -64,6 +70,7 @@ curl -X POST -u <username>:<password> \
 ```
 
 Replace:
+
 - `<username>:<password>`: Credentials from the Home tab of the app.
 - `https://your-server.com/webhook`: The URL of your webhook endpoint.
 - `https://api.sms-gate.app/3rdparty/v1/webhooks`: The appropriate URL for your mode.
@@ -75,14 +82,31 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 
 ### Step 3: Verify Your Webhook ✔️
 
-You can verify that it has been successfully registered by executing the following `curl` command:
+=== "Via API Method :material-api:"
 
-```sh title="Cloud mode example"
-curl -X GET -u <username>:<password> \
-  https://api.sms-gate.app/3rdparty/v1/webhooks
-```
+    You can verify that it has been successfully registered by executing the following `curl` command:
 
-**Local mode** and **Cloud/Private mode** maintain separate webhook lists. Use the corresponding API URL to view registrations.
+    ```sh title="Cloud mode example"
+    curl -X GET -u <username>:<password> \
+      https://api.sms-gate.app/3rdparty/v1/webhooks
+    ```
+
+    !!! note "Separate Lists"
+        **Local mode** and **Cloud/Private mode** maintain separate webhook lists. Use the corresponding API URL to view registrations.
+
+=== "Via App Interface :material-cellphone:"
+
+    1. Open the SMS Gateway app 📱
+    2. Navigate to **Settings** > **Webhooks** > **Registered webhooks** 
+    3. The list shows all configured webhooks with:
+          - Endpoint URL
+          - Webhook ID
+          - Event type
+          - Source (Local/Cloud)  
+    <center>
+    ![Webhooks List](../assets/webhooks-list.png)
+    </center>  
+    You can copy the webhook ID by clicking on the row.
 
 ### Step 4: Test the Webhook 🧪
 
@@ -128,6 +152,7 @@ curl -X DELETE -u <username>:<password> \
 
 ## Security Considerations 🔐
 
+- **Review Registered Webhooks Periodically**: Regularly audit your webhooks to verify URLs are valid and guard against unauthorized or stale endpoints.
 - **Use HTTPS**: Encrypts data in transit.
 - **Secure Your Endpoint**: Protect your webhook endpoint against unauthorized access. For example, you can specify authorization key as query-parameter when registering the webhook.
 - **Rotate Credentials**: Regularly update passwords.
@@ -233,12 +258,6 @@ The signing key is randomly generated at first request and can be changed in **S
 !!! bug "Signature Validation Issues"
     - Ensure timestamp is UTC Unix time in seconds
     - Use raw body before JSON decoding
-
-## Conclusion 🎉
-
-By following these steps, you've successfully integrated webhooks into your system to receive real-time notifications for incoming SMS messages. This setup enables you to respond to messages promptly and automate workflows based on SMS content.
-
-Remember to adhere to best practices for security and perform thorough testing to ensure reliable webhook delivery.
 
 ## References 📚
 
