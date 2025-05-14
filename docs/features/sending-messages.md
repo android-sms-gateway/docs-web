@@ -63,14 +63,21 @@ The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Priva
 4. **Status Tracking**  
     Refer to the [Status Tracking](./status-tracking.md#message-lifecycle) guide to monitor the message status.
 
+!!! tip "Best Practices"
+    - **Batch Sending**:
+        - Split large batches into small groups
+        - Add delays between batches
+        - Use priority ≥100 to bypass rate limits
+    - **Message Handling**:
+        - Use unique IDs for idempotency
+        - Always set TTL values
+        - Implement exponential backoff for retries
+    - **Monitoring**:
+        - Use webhooks for real-time status updates
+        - Monitor for [`RESULT_ERROR_LIMIT_EXCEEDED` errors](../faq/errors.md#result_error_limit_exceeded-error-)
+
 ## Related Guides 📚
 
 - :material-lock: [Message Encryption](../privacy/encryption.md)
 - :material-chart-line: [Status Tracking](./status-tracking.md)
 - :material-api: [Full API Documentation](https://capcom6.github.io/android-sms-gateway)
-
-!!! tip "Best Practices"
-    - Use unique IDs for idempotency
-    - Set reasonable TTL values (1-24 hours)
-    - Use priority value ≥100 for time-sensitive messages
-    - Use webhooks for real-time updates
