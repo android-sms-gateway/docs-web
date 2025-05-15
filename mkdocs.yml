@@ -40,8 +40,11 @@ nav:
       - Custom Gateway Setup: getting-started/custom-gateway.md
       - Webhooks: getting-started/webhooks.md
   - Integration:
-      - CLI: integration/cli.md
+      - Overview: integration/index.md
       - API: integration/api.md
+      - Libraries: integration/client-libraries.md
+      - CLI: integration/cli.md
+      - GET to POST: integration/get-to-post.md
       - Webhooks: features/webhooks.md
   - Features:
       - Sending Messages: features/sending-messages.md
