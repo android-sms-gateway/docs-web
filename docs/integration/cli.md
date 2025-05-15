@@ -1,30 +1,58 @@
-# CLI Tool
+# Integration - CLI Tool 💻
 
-The SMS Gateway for Android™ offers its own Command Line Interface (CLI), allowing you to integrate it into your processes without writing any code - simply execute CLI commands!
+The SMS Gateway for Android™ offers its own Command Line Interface (CLI), allowing you to integrate it into your processes without writing any code - simply execute CLI commands! 🚀
 
-## Installation
+## Installation 📥
 
-The recommended way to install the CLI is by downloading the latest version from [GitHub](https://github.com/android-sms-gateway/cli/releases/latest) for your platform. After downloading, place the executable in a directory within your system's `PATH`.
+=== "Native Installation :package:"
+    ```bash title="Linux/macOS"
+    curl -LO https://github.com/android-sms-gateway/cli/releases/latest/download/smsgate-linux-amd64
+    chmod +x smsgate-linux-amd64
+    sudo mv smsgate-linux-amd64 /usr/local/bin/smsgate
+    ```
 
-For example, on Linux or macOS:
+=== "Go Install :material-language-go:"
+    ```bash
+    go install github.com/android-sms-gateway/cli@latest
+    ```
+    **Requirements**:
 
-```bash
-mv /path/to/downloaded/smsgate /usr/local/bin/smsgate
-chmod +x /usr/local/bin/smsgate
-```
+    - Go 1.23+ installed
+    - `$GOPATH/bin` in your system PATH
+    
+    !!! tip "For Developers"
+        This method installs the latest development version.  
+        Add `export PATH=$PATH:$(go env GOPATH)/bin` to your shell config.
 
-## Configuration
+=== "Windows :window:"
+    ```powershell
+    Invoke-WebRequest https://github.com/android-sms-gateway/cli/releases/latest/download/smsgate-windows-amd64.exe -OutFile smsgate.exe
+    Move-Item smsgate.exe "$env:ProgramFiles\SMSGATE\"
+    ```
+
+=== "Docker 🐳"
+    ```bash
+    docker pull ghcr.io/android-sms-gateway/cli:latest
+    ```
+
+## Configuration ⚙️
 
 The CLI can be configured using environment variables or command-line flags. You can also use a `.env` file in the working directory to set these variables.
 
-### Available options
+```bash title=".env Example"
+ASG_ENDPOINT="https://api.sms-gate.app/3rdparty/v1"
+ASG_USERNAME="your_username"
+ASG_PASSWORD="your_password"
+```
 
-| Option             | Env Var        | Description      | Default value                          |
-| ------------------ | -------------- | ---------------- | -------------------------------------- |
-| `--endpoint`, `-e` | `ASG_ENDPOINT` | The endpoint URL | `https://api.sms-gate.app/3rdparty/v1` |
-| `--username`, `-u` | `ASG_USERNAME` | Your username    | **required**                           |
-| `--password`, `-p` | `ASG_PASSWORD` | Your password    | **required**                           |
-| `--format`, `-f`   | n/a            | Output format    | `text`                                 |
+### Options Overview
+
+| Option             | Env Var        | Description                         | Default                                |
+| ------------------ | -------------- | ----------------------------------- | -------------------------------------- |
+| `-e`, `--endpoint` | `ASG_ENDPOINT` | :globe_with_meridians: API endpoint | `https://api.sms-gate.app/3rdparty/v1` |
+| `-u`, `--username` | `ASG_USERNAME` | :bust_in_silhouette: Auth username  | **Required**                           |
+| `-p`, `--password` | `ASG_PASSWORD` | :key: Auth password                 | **Required**                           |
+| `-f`, `--format`   | -              | :page_facing_up: Output format      | `text`                                 |
 
 ### Output formats
 
@@ -34,9 +62,10 @@ The CLI supports three output formats:
 - `json` - formatted JSON output
 - `raw` - same as `json` but without formatting
 
-Please note that when the exit code is not `0`, the error description is printed to stderr without any formatting.
+!!! note
+    When the exit code is not `0`, the error description is printed to stderr without any formatting.
 
-## Commands
+## Commands 🛠️
 
 The CLI offers two main groups of commands:
 
@@ -45,12 +74,12 @@ The CLI offers two main groups of commands:
 
 ### Messages Commands
 
-#### Send a Message
+#### Send a Message 📨
 
 The `send` command allows you to send a message to one or more phone numbers.
 
 **Syntax:**
-```bash
+```bash title="Basic Usage"
 smsgate send [options] 'Message content'
 ```
 
@@ -66,20 +95,20 @@ smsgate send [options] 'Message content'
 
 ---
 
-#### Get the Status of a Message
+#### Get the Status of a Message ⏱️
 
 The `status` command retrieves the status of a message using its ID.
 
 **Syntax:**
-```bash
+```bash title="Get Message Status"
 smsgate status 'Message ID'
 ```
 
 ---
 
-### Webhooks Commands
+### Webhooks Commands 🌐
 
-#### Register a Webhook
+#### Register a Webhook 📝
 
 The `register` command allows you to register a new webhook.
 
@@ -97,7 +126,7 @@ smsgate webhooks register [options] URL
 
 ---
 
-#### List Webhooks
+#### List Webhooks 📜
 
 The `list` command displays all registered webhooks.
 
@@ -108,7 +137,7 @@ smsgate webhooks list
 
 ---
 
-#### Delete a Webhook
+#### Delete a Webhook 🗑️
 
 The `delete` command removes a webhook by its ID.
 
@@ -117,7 +146,7 @@ The `delete` command removes a webhook by its ID.
 smsgate webhooks delete 'Webhook ID'
 ```
 
-## Usage examples
+## Usage examples 💡
 
 For security reasons, it is recommended to pass credentials using environment variables or a `.env` file.
 
@@ -158,15 +187,17 @@ docker run -it --rm --env-file .env ghcr.io/android-sms-gateway/cli \
     send --phone '+19162255887' 'Hello, Dr. Turk!'
 ```
 
-## Exit codes
+## Exit codes 🔚
 
 The CLI uses exit codes to indicate the outcome of operations:
 
-- `0`: success
-- `1`: invalid options or arguments
-- `2`: server request error
-- `3`: output formatting error
+| Code | Description           |
+| ---- | --------------------- |
+| 0    | ✅ Success             |
+| 1    | ❌ Invalid input       |
+| 2    | 🌐 Network error       |
+| 3    | 📄 Output format error |
 
-## Links
+---
 
-- [CLI Tool Repository](https://github.com/android-sms-gateway/cli)
+[:material-github: CLI Repository](https://github.com/android-sms-gateway/cli)
