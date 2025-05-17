@@ -80,6 +80,16 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 !!! note "Multiple Events"
     Each webhook is registered for a single event. To listen for multiple events, register separate webhooks.
 
+!!! tip "Device-Specific Webhooks"
+    To register a webhook for a specific device, include the `device_id` parameter in the API request. If the `device_id` is not provided, the webhook will be applied to all devices associated with the account.
+
+    ```sh title="Cloud mode example"
+    curl -X POST -u <username>:<password> \
+    -H "Content-Type: application/json" \
+    -d '{ "url": "https://your-server.com/webhook", "event": "sms:received", "device_id": "DEVICE_ID" }' \
+    https://api.sms-gate.app/3rdparty/v1/webhooks
+    ```
+
 ### Step 3: Verify Your Webhook ✔️
 
 === "Via API Method :material-api:"
