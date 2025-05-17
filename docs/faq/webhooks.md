@@ -63,6 +63,19 @@ By default, webhooks require internet access and will wait until it's available 
     Disabling internet access requirement may affect the reliability of webhook delivery for external endpoints
 
 
+### How to manage webhooks for specific devices? :material-cellphone-link:
+
+1. Get device ID from API response when listing devices
+2. Include `device_id` parameter when registering webhooks:
+   ```json
+   {
+     "url": "https://your-server.com/webhooks",
+     "event": "sms:received",
+     "device_id": "MxKw03Q2ZVoomrLeDLlMO"
+   }
+   ```
+3. Webhooks without `device_id` will apply to all devices
+
 ## Still Having Issues? :material-chat-question:
 
 Visit our [Support Forum](https://github.com/capcom6/android-sms-gateway/discussions) :material-forum: or contact us at [support@sms-gate.app](mailto:support@sms-gate.app) :material-email:
