@@ -92,7 +92,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 
 ### Step 3: Verify Your Webhook ✔️
 
-=== "Via API Method :material-api:"
+=== ":material-api: Via API Method"
 
     You can verify that it has been successfully registered by executing the following `curl` command:
 
@@ -104,7 +104,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
     !!! note "Separate Lists"
         **Local mode** and **Cloud/Private mode** maintain separate webhook lists. Use the corresponding API URL to view registrations.
 
-=== "Via App Interface :material-cellphone:"
+=== ":material-cellphone: Via App Interface"
 
     1. Open the SMS Gateway app 📱
     2. Navigate to **Settings** > **Webhooks** > **Registered webhooks** 

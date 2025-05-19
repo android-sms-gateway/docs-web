@@ -76,7 +76,7 @@ stateDiagram-v2
 
 ## Message Scenarios 📨
 
-=== "Multipart Messages 📨"
+=== "📨 Multipart Messages"
 
     | Condition          | Result Status          |
     | ------------------ | ---------------------- |
@@ -84,7 +84,7 @@ stateDiagram-v2
     | Any part delivered | :inbox_tray: Delivered |
     | Any part failed    | :x: Failed (terminal)  |
 
-=== "Multiple Recipients 👥"
+=== "👥 Multiple Recipients"
     
     | Condition     | Result Status          |
     | ------------- | ---------------------- |

@@ -4,14 +4,14 @@ We are committed to transparency and the protection of user privacy. This docume
 
 ## Data Handling :material-database:
 
-=== "Local Server :material-server:"
+=== ":material-server: Local Server"
     !!! info "Public IP Retrieval"
         - 🌐 Public IP obtained via Cloud/Private server
         - 📦 Request includes:
             - App version 
             - Server token (if applicable)
 
-=== "Cloud Server :material-cloud:"
+=== ":material-cloud: Cloud Server"
     !!! info "Encryption"
         1. All communication between the app and the cloud server is protected with secure encryption protocols, safeguarding your data during transit.
         2. [End-to-end encryption](./encryption.md) optional but recommended:
@@ -27,13 +27,13 @@ We are committed to transparency and the protection of user privacy. This docume
             - App version
             - Firebase Cloud Messaging (FCM) token
 
-=== "Private Server :material-home:"
+=== ":material-home: Private Server"
     !!! info "Push Notifications"
         - 📲 Routed through cloud server
         - 🔒 Contains only FCM token
         - 🚫 No message content/recipients
 
-=== "Certificate Authority :material-certificate:"
+=== ":material-certificate: Certificate Authority"
     !!! info "Data Handling"
         - 📝 Certificate requests are purged after 24h
         - 🔑 Private keys generated client-side
