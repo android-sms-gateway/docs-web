@@ -84,14 +84,14 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
 
 ## How can I avoid mobile operator restrictions? 🚫
 
-=== "Random Delay ⏱️"
+=== "⏱️ Random Delay"
 
     **Settings Path**:  
     :gear: Settings → Messages → "Delay between messages"
 
     The random delay can be introduced between messages by specifying a minimum and maximum time. This helps to reduce the likelihood of messages being flagged as spam by simulating a more human-like sending pattern.
 
-=== "Message Limits 📉"
+=== "📉 Message Limits"
 
     **Settings Path**:  
     :gear: Settings → Messages → Limits
@@ -101,7 +101,7 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
     !!! warning "Caution"
         This feature should not be used for time-sensitive messages, such as sending authorization codes, where delays could cause issues.
 
-=== "SIM Card Rotation 🔄"
+=== "🔄 SIM Card Rotation"
 
     **Settings Path**:  
     :gear: Settings → Messages → "If SIM number is not specified"

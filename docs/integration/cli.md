@@ -4,14 +4,14 @@ The SMS Gateway for Android™ offers its own Command Line Interface (CLI), allo
 
 ## Installation 📥
 
-=== "Native Installation :package:"
+=== ":package: Native Installation"
     ```bash title="Linux/macOS"
     curl -LO https://github.com/android-sms-gateway/cli/releases/latest/download/smsgate-linux-amd64
     chmod +x smsgate-linux-amd64
     sudo mv smsgate-linux-amd64 /usr/local/bin/smsgate
     ```
 
-=== "Go Install :material-language-go:"
+=== ":material-language-go: Go Install"
     ```bash
     go install github.com/android-sms-gateway/cli@latest
     ```
@@ -24,13 +24,13 @@ The SMS Gateway for Android™ offers its own Command Line Interface (CLI), allo
         This method installs the latest development version.  
         Add `export PATH=$PATH:$(go env GOPATH)/bin` to your shell config.
 
-=== "Windows :window:"
+=== ":window: Windows"
     ```powershell
     Invoke-WebRequest https://github.com/android-sms-gateway/cli/releases/latest/download/smsgate-windows-amd64.exe -OutFile smsgate.exe
     Move-Item smsgate.exe "$env:ProgramFiles\SMSGATE\"
     ```
 
-=== "Docker 🐳"
+=== "🐳 Docker"
     ```bash
     docker pull ghcr.io/android-sms-gateway/cli:latest
     ```

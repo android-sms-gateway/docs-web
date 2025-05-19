@@ -44,7 +44,7 @@ sequenceDiagram
     Server->>API: Webhook notification (optional)
 ```
 
-=== "Push Notification 🔔"
+=== "🔔 Push Notification"
     ```mermaid
     graph LR
         A[API Request] --> B[Server]
@@ -56,7 +56,7 @@ sequenceDiagram
     - Instant delivery via Firebase
     - Primary message channel
 
-=== "Scheduled Polling ⏰"
+=== "⏰ Scheduled Polling"
     ```mermaid
     graph LR
         A[Device] --> B{Every 15min}
@@ -67,7 +67,7 @@ sequenceDiagram
     - Fallback mechanism
     - Ensures message delivery
 
-=== "Custom Ping 📡"
+=== "📡 Custom Ping"
     <center>
     <img src="/assets/features-ping-settings.png" alt="Custom Ping settings interface">
     </center>

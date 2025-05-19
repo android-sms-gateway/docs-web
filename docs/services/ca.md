@@ -23,7 +23,7 @@ The project operates its own [Certificate Authority (CA)](https://en.wikipedia.o
 | Automation      | :material-robot: Full      | :material-hand-back-right: Manual |
 | Recommended For | Most users ✅               | CI/CD pipelines 🤖                 |
 
-=== "CLI Method :material-console-line:"
+=== ":material-console-line: CLI Method"
 
     1. 📥 **Download Tool**  
         Get [`smsgate-ca`](https://github.com/android-sms-gateway/cli/releases/latest) for your OS
@@ -45,7 +45,7 @@ The project operates its own [Certificate Authority (CA)](https://en.wikipedia.o
         ssl_certificate_key /path/to/server.key;
         ```
 
-=== "API Method :material-api:"
+=== ":material-api: API Method"
 
     1. 🔑 **Generate Key Pair**
         ```bash
