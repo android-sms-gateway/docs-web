@@ -20,8 +20,15 @@ To enhance privacy and control, you can host your own private server. This keeps
 To run the server, you'll need:
 
 - 🗄️ MySQL/MariaDB server with empty database and privileged user
-- 🐧 Linux VPS with Docker installed
+- 🐧 Linux VPS
 - 🔄 Reverse proxy with valid SSL certificate ([project CA](../services/ca.md) supported)
+
+!!! note "Additional Requirements by Method"
+    === "🐳 With Docker"
+        - Docker installed
+
+    === "🖥️ Without Docker (Source Build)"
+        - Git and Go 1.23+ toolchain
 
 ### Run the Server 🖥️
 
@@ -48,13 +55,35 @@ To run the server, you'll need:
     1. Must match device configuration
     2. Must match MySQL/MariaDB configuration
 
-2. **Launch container**  
-    ```sh title="Docker Command"
-    docker run -d --name sms-gateway \
-        -p 3000:3000 \
-        -v $(pwd)/config.yml:/app/config.yml \
-        ghcr.io/android-sms-gateway/server:latest
-    ```
+2. **Launch the server**  
+
+    === "🐳 With Docker"
+
+        ```sh title="Docker Command"
+        docker run -d --name sms-gateway \
+            -p 3000:3000 \
+            -v $(pwd)/config.yml:/app/config.yml \
+            ghcr.io/android-sms-gateway/server:latest
+        ```
+
+    === "🖥️ Without Docker"
+        1. **Build the binary**
+        ```sh
+        git clone https://github.com/android-sms-gateway/server.git
+        cd server
+        go build -o sms-gateway ./cmd/sms-gateway
+        chmod +x sms-gateway
+        ```
+
+        2. **Run database migrations**
+        ```sh
+        ./sms-gateway db:migrate up
+        ```
+
+        3. **Launch the server**
+        ```sh
+        ./sms-gateway
+        ```
 
 3. **Configure reverse proxy**  
     ```nginx title="Example Nginx Config"
@@ -109,8 +138,7 @@ Identical to [Cloud Server mode](public-cloud-server.md#password-management).
 
 ---
 
-## Additional Resources 📚
+## See Also 📚
 
 - [Ubuntu/Docker/Nginx Setup Guide](https://github.com/capcom6/android-sms-gateway/discussions/50)
 - [Docker Compose Quickstart](https://github.com/android-sms-gateway/server/tree/master/deployments/docker-compose-proxy)
-
