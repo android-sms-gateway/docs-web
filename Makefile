@@ -12,7 +12,7 @@ HOST_PORT ?= 8080
 
 # Serve the documentation
 dev:
-	mkdocs serve
+	mkdocs serve --dev-addr localhost:$(HOST_PORT)
 
 # Build the Docker image
 build:
