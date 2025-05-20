@@ -58,6 +58,7 @@ nav:
       - Multi-SIM Support: features/multi-sim.md
       - Multi-Device Support: features/multi-device.md
       - Health Checks: features/health.md
+      - Ping: features/ping.md
       - Logging: features/logging.md
   - Services:
       - Certificate Authority: services/ca.md
