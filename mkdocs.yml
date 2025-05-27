@@ -47,6 +47,7 @@ nav:
       - GET to POST: integration/get-to-post.md
       - Webhooks: features/webhooks.md
   - Features:
+      - Settings Management: features/settings-management.md
       - Sending Messages: features/sending-messages.md
       - Status Tracking: features/status-tracking.md
       - Reading Messages: features/reading-messages.md
