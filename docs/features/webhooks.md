@@ -107,16 +107,19 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 === ":material-cellphone: Via App Interface"
 
     1. Open the SMS Gateway app 📱
-    2. Navigate to **Settings** > **Webhooks** > **Registered webhooks** 
-    3. The list shows all configured webhooks with:
-          - Endpoint URL
-          - Webhook ID
-          - Event type
-          - Source (Local/Cloud)  
+    2. Navigate to **Settings** > **Webhooks** > **Registered webhooks**
+    3.  A list of registered webhooks is displayed, showing:
+        - Endpoint URL
+        - Webhook ID
+        - Event type
+        - Source (Local/Cloud)
     <center>
     ![Webhooks List](../assets/webhooks-list.png)
-    </center>  
+    </center>
     You can copy the webhook ID by clicking on the row.
+
+!!! note "Webhook Registration Notification"
+    When a new `sms:received` webhook is registered, the app displays a notification on the device, ensuring immediate awareness of active webhooks and facilitating quick security reviews.
 
 ### Step 4: Test the Webhook 🧪
 
@@ -162,7 +165,7 @@ curl -X DELETE -u <username>:<password> \
 
 ## Security Considerations 🔐
 
-- **Review Registered Webhooks Periodically**: Regularly audit your webhooks to verify URLs are valid and guard against unauthorized or stale endpoints.
+- **Review Registered Webhooks Periodically**: Regularly audit your webhook URLs to guard against unauthorized or stale endpoints; the app also shows periodic reminders for this review.
 - **Use HTTPS**: Encrypts data in transit.
 - **Secure Your Endpoint**: Protect your webhook endpoint against unauthorized access. For example, you can specify authorization key as query-parameter when registering the webhook.
 - **Rotate Credentials**: Regularly update passwords.
