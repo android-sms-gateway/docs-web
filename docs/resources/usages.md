@@ -18,6 +18,15 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
 - :robot: **Text an LLM**  
   Chat with AI via SMS  
   [:material-book-open: Blog Post](https://benkaiser.dev/text-an-llm/)
+  
+- :bell: **Notification Service**  
+  Multi-channel notification service (email/SMS/push)  
+  [:material-github: GitHub Repo](https://github.com/kpriyanshu2003/notfication-service)
+
+- :rocket: **SMS API Tester Component**  
+  A React component with server actions to send SMS messages.  
+  [:material-github: GitHub Repo](https://github.com/yas1nshah/sms-gate-api-tester)
+  [:material-web: Website](https://sms-gate-api.vercel.app/)
 
 </div>
 
