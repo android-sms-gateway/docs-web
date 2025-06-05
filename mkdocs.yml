@@ -58,6 +58,7 @@ nav:
       - Logging: features/logging.md
   - Services:
       - Certificate Authority: services/ca.md
+      - Twilio Fallback: services/twilio-fallback.md
   - Pricing: pricing.md
   - Privacy:
       - Policy: privacy/policy.md
