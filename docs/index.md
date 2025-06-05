@@ -37,6 +37,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's 
 🔌 Integration:
 
 - 🪝 **Webhooks:** Set up [webhooks](./features/webhooks.md) to be triggered on specified events.
+- 🚀 **Twilio Fallback Service:** Provides a fallback mechanism for Twilio SMS messages using SMSGate. See [Twilio Fallback Service](./services/twilio-fallback.md) for more information.
 
 ## Ideal For
 
