@@ -29,15 +29,37 @@ If your SMS-received webhook isn't firing, try these solutions:
 
 ## Can I use webhooks with an HTTP server without encryption? :material-lock-question:
 
-Due to Android OS restrictions and app policy, webhook events can only be received through an encrypted HTTPS connection.
+Due to Android OS security requirements and the app's privacy policy, webhook events can only be received through an encrypted HTTPS connection. This ensures sensitive SMS data (like OTP codes) is protected during transmission.
 
 !!! note "Exceptions"
 
     - Loopback IP address `127.0.0.1` in :material-server: Local mode can be used without encryption.
 
-!!! tip "Private IPs"
+!!! important "Private IP Addresses (RFC1918)"
+    Webhooks to private IP addresses (like `10.x.x.x`, `172.16.x.x` to `172.31.x.x`, and `192.168.x.x`) **must** use HTTPS.
 
-    Use [Project CA](../services/ca.md#private-webhook-certificate) :material-certificate: to issue a valid certificate for private IP addresses.
+    This is because Android enforces HTTPS by default for all addresses.
+
+!!! tip "Solutions for Local Networks"
+    Use these approaches for local webhook endpoints:
+    
+    1. **Project CA Certificates**
+        Generate a trusted certificate for your private IP using our [Certificate Authority](../services/ca.md#private-webhook-certificate) :material-certificate:
+    
+    2. **Localhost with Reverse Port Forwarding**
+        Use `127.0.0.1` with ADB reverse port forwarding to access local servers
+    
+    3. **Secure Tunnels**
+        Services like [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) or [ngrok](https://ngrok.com/) provide HTTPS endpoints for local servers
+
+??? note "Security Rationale"
+    This requirement balances:
+
+    - **Privacy protection** for SMS data
+    - **Android platform security** defaults (cleartext restrictions)
+    - **Practical flexibility** through the Project CA
+    
+    While SMS has inherent security limitations, HTTPS provides essential transport-layer protection for webhook payloads.
 
 ## How to use webhooks with self-signed certificate? :material-certificate-outline:
 
@@ -75,6 +97,28 @@ By default, webhooks require internet access and will wait until it's available 
    }
    ```
 3. Webhooks without `device_id` will apply to all devices
+
+## Alternative Testing Approaches :material-test-tube:
+
+For developers testing in isolated environments:
+
+1. **Rebuild with Cleartext Support**  
+    Advanced users can [rebuild the app](https://github.com/capcom6/android-sms-gateway/) with modified network policies:
+    ```diff title="app/src/main/java/me/capcom/smsgateway/modules/webhooks/WebHooksService.kt"
+    - if (!URLUtil.isHttpsUrl(webHook.url)
+    -     && !(URLUtil.isHttpUrl(webHook.url) && URL(webHook.url).host == "127.0.0.1")
+    - ) {
+    -     throw IllegalArgumentException("url must start with https:// or http://127.0.0.1")
+    - }
+    ```
+    ```diff title="app/src/main/res/xml/network_security_config.xml"
+    - <base-config cleartextTrafficPermitted="false">
+    + <base-config cleartextTrafficPermitted="true">
+    ```
+    :warning: Use at your own risk
+
+2. **Local-Only Build Variant** (Future)  
+    A specialized build permitting cleartext traffic is being considered - track progress in [#231](https://github.com/capcom6/android-sms-gateway/issues/231)
 
 ## Still Having Issues? :material-chat-question:
 

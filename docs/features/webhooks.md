@@ -49,8 +49,14 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 Before you begin, ensure the following:
 
 - ⚠️ You have [SMS Gateway for Android™](https://github.com/capcom6/android-sms-gateway/releases/latest) installed on your device in **Local**, **Cloud**, or **Private** mode.
-- 🔒 You have a server with a valid SSL certificate to securely receive HTTPS requests. You can use [project's certificate authority (CA)](../services/ca.md) to generate a valid certificate for IP addresses. Alternatively, use services like [ngrok](https://ngrok.com) to generate a public HTTPS endpoint.
-- 🌐 Your device has access to your server. If you operate entirely within your local network without Internet access, please see [FAQ](../faq/webhooks.md#how-to-use-webhooks-without-internet-access)
+- 🔒 You have a server to receive HTTPS requests:
+    - For public servers: Use a valid SSL certificate
+    - For private IPs (192.168.x.x, 10.x.x.x): Generate trusted certificates using our [Certificate Authority](../services/ca.md)
+    - Only `http://127.0.0.1` can use HTTP without encryption
+- 🌐 Network access:
+    - Device must have internet access to reach external endpoints
+    - For local networks: Ensure device and server are on same subnet
+    - Without internet: See [offline webhooks](../faq/webhooks.md#how-to-use-webhooks-without-internet-access)
 
 ## Step-by-Step Integration 📋
 
@@ -65,7 +71,10 @@ For your webhooks to work, you need an HTTP server capable of handling HTTPS POS
 
 To start receiving webhook notifications, you must register your webhook endpoint with the device. Utilize the `curl` command to send a POST request to the appropriate address, depending on whether you're in Local, Cloud, or Private mode.
 
-- **Local mode**: Use the device’s local IP and port (e.g., `https://192.168.1.10:8080/webhooks`).
+- **Local mode**:
+    - Use the device’s local IP and port (e.g., `https://192.168.1.10:8080/webhooks`)
+    - Only `http://127.0.0.1` can use HTTP without encryption
+    - For other private IPs: HTTPS with a valid SSL certificate is required
 - **Private mode**: Use your server’s domain name or IP and port (e.g., `https://your-server.com/3rdparty/v1/webhooks`).
 - **Cloud mode**: Use `https://api.sms-gate.app/3rdparty/v1/webhooks`.
 
@@ -115,7 +124,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 
     1. Open the SMS Gateway app 📱
     2. Navigate to **Settings** > **Webhooks** > **Registered webhooks**
-    3.  A list of registered webhooks is displayed, showing:
+    3. A list of registered webhooks is displayed, showing:
         - Endpoint URL
         - Webhook ID
         - Event type
@@ -188,6 +197,26 @@ If you no longer wish to receive webhook notifications, deregister your webhook 
 curl -X DELETE -u <username>:<password> \
   'https://api.sms-gate.app/3rdparty/v1/webhooks/%3Cunique-id%3E'
 ```
+
+## Local Network Solutions 🏠
+
+For webhooks within private networks:
+
+1. **Project CA Certificates**  
+   Generate trusted certificates for private IPs using our [Certificate Authority](../services/ca.md)
+
+2. **ADB Port Forwarding**  
+   Use `127.0.0.1` with reverse port forwarding:
+   ```bash
+   adb reverse tcp:9876 tcp:8080 
+   ```
+   Then register webhook to `http://127.0.0.1:9876/webhook`
+
+3. **Secure Tunnels**  
+   Services like [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) or [ngrok](https://ngrok.com/) provide HTTPS endpoints
+
+4. **Custom Build** (Advanced)  
+   [Rebuild the app](https://github.com/capcom6/android-sms-gateway/) with cleartext enabled - see [FAQ](../faq/webhooks.md#alternative-testing-approaches)
 
 ## Security Considerations 🔐
 
@@ -271,7 +300,8 @@ The signing key is randomly generated at first request and can be changed in **S
 === "PHP"
 
     ``` php
-    <?php 
+    <?php
+    
     function verify_signature($secret_key, $payload, $timestamp, $signature) {
         $message = $payload . $timestamp;
         $expected_signature = hash_hmac('sha256', $message, $secret_key);
