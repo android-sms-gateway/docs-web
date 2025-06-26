@@ -76,6 +76,22 @@ The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Priva
         - Use webhooks for real-time status updates
         - Monitor for [`RESULT_ERROR_LIMIT_EXCEEDED` errors](../faq/errors.md#result_error_limit_exceeded-error-)
 
+## Message Priority ⚡
+
+Control message processing order using the `priority` field. Higher priority messages are processed first.
+
+| Level  | Range      | Description                            |
+| ------ | ---------- | -------------------------------------- |
+| High   | 100 to 127 | Highest priority, bypasses rate limits |
+| Normal | 0 to 99    | Standard processing (default)          |
+| Low    | -128 to -1 | Low priority                           |
+
+
+!!! tip "Use Cases"
+    - :material-run-fast: **High** – time-sensitive messages (OTPs, alerts)
+    - :material-walk: **Normal** – routine communications (notifications, reminders)
+    - :material-timer-sand: **Low** – non-urgent bulk traffic (marketing, backups)
+
 ## Related Guides 📚
 
 - :material-lock: [Message Encryption](../privacy/encryption.md)
