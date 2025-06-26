@@ -90,6 +90,8 @@ smsgate send [options] 'Message content'
 | `--id`                      | A unique message ID. If not provided, one will be automatically generated.                                                                            | empty         | `zXDYfTmTVf3iMd16zzdBj` |
 | `--phone`, `--phones`, `-p` | Specifies the recipient's phone number(s). This option can be used multiple times or accepts comma-separated values. Numbers must be in E.164 format. | **required**  | `+19162255887`          |
 | `--sim`, `--simNumber`      | The one-based SIM card slot number. If not specified, the device's SIM rotation feature will be used.                                                 | empty         | `2`                     |
+| `--deliveryReport`          | Enables delivery report for the message.                                                                                                              | `true`        | `true`                  |
+| `--priority`                | Sets the priority of the message. Messages with priority >= 100 bypass all limits and delays.                                                         | `0`           | `100`                   |
 | `--ttl`                     | Time-to-live (TTL) for the message. If not provided, the message will not expire.<br>**Conflicts with `--validUntil`.**                               | empty         | `1h30m`                 |
 | `--validUntil`              | The expiration date and time for the message. If not provided, the message will not expire.<br>**Conflicts with `--ttl`.**                            | empty         | `2024-12-31T23:59:59Z`  |
 
