@@ -20,12 +20,17 @@
   - `!!! important` for critical notes
 
 ## 3. Visual Elements
-- **Emoji**: Use for visual categorization (e.g., ❓ for FAQs, 📩 for events)
-- **Images**: 
+- **Emoji**:
+  - Use in all 1st and 2nd level headers for visual categorization
+  - Choose emojis relevant to section content (e.g., 🔒 for security, ⚙️ for technical)
+- **Images**:
   - Center-align with `<center>` or `align=center`
-  - Specify width for screenshots (e.g., `width="360"`)
-- **Diagrams**: Use Mermaid for flowcharts when appropriate
+  - Specify width for screenshots (e.g., `width="480"`)
+- **Diagrams**:
+  - Use Mermaid for flowcharts and sequence diagrams
+  - Add descriptive titles to diagrams
 - **Grids**: Use Material grid cards (`<div class="grid cards">`) for feature listings
+- **Tabs**: Use tabbed content for multi-language code examples
 
 ## 4. Content Structure
 - **Lists**: Use bullet points for features/options, numbered for steps
@@ -36,11 +41,24 @@
   - End with references/links
 
 ## 5. Code Examples
-- Include complete, runnable examples in multiple languages when relevant
-- Use `title` attribute for code blocks to describe purpose
-- Add annotations with `// (1)!` and footnotes when needed
+- **Multi-language Support**:
+  - Use tabbed content for examples in multiple languages
+  - Include source links when available
+- **Formatting**:
+  - Use `title` attribute for code blocks to describe purpose
+  - Add annotations with `// (1)!` and footnotes when needed
+  - Specify language for syntax highlighting
+- **Completeness**: Include complete, runnable examples when relevant
 
-## 6. Navigation
-- Maintain consistent link formatting with `[]()`
-- Use relative paths for internal links (`../file.md`)
-- Include clear "See Also" sections with relevant links
+## 6. Documentation Structure
+- **Section Headers**:
+  - Start with emoji + title
+  - Follow hierarchy consistently
+- **Content Flow**:
+  - Start with overview paragraph
+  - Break into logical subsections
+  - End with "See Also" references
+- **Cross-linking**:
+  - Maintain consistent link formatting with `[]()`
+  - Use relative paths for internal links (`../file.md`)
+  - Include relevant links in "See Also" sections

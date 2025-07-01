@@ -1,10 +1,50 @@
 # Sending Messages 🚀
 
-Send SMS programmatically via API using the `POST /messages` endpoint.
+The Sending Messages feature provides a comprehensive API for delivering both traditional text messages and binary data messages via SMS. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
 
 ## API Request Structure 📤
 
-```http
+### Text Message
+```http title="Text Message Request Example"
+POST /3rdparty/v1/messages
+Content-Type: application/json
+Authorization: Basic <credentials>
+
+{
+  "textMessage": {
+    "text": "Your OTP is 1234"
+  },
+  "phoneNumbers": ["+1234567890"],
+  "simNumber": 1,
+  "ttl": 3600,
+  "withDeliveryReport": true,
+  "priority": 100,
+  "isEncrypted": false
+}
+```
+
+### Data Message (v1.40.0+)
+```http title="Data Message Request Example"
+POST /3rdparty/v1/messages
+Content-Type: application/json
+Authorization: Basic <credentials>
+
+{
+  "dataMessage": {
+    "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
+    "port": 53739
+  },
+  "phoneNumbers": ["+1234567890"],
+  "simNumber": 1,
+  "ttl": 3600,
+  "withDeliveryReport": true,
+  "priority": 100,
+  "isEncrypted": false
+}
+```
+
+### Legacy Text Message (Deprecated)
+```http title="Legacy Message Request Example"
 POST /3rdparty/v1/messages
 Content-Type: application/json
 Authorization: Basic <credentials>
@@ -21,24 +61,33 @@ Authorization: Basic <credentials>
 }
 ```
 
-### Request Fields 🔍
+### Request Fields
 
-| Parameter            | Type               | Description                                                      | Default                                      | Example                            |
-| -------------------- | ------------------ | ---------------------------------------------------------------- | -------------------------------------------- | ---------------------------------- |
-| `id`                 | string             | :material-identifier: Optional unique message ID                 | auto-generated                               | "order-1234"                       |
-| `message`            | string             | :material-message-text: SMS content (auto-split if >160 chars)   | **required**                                 | "Hello World"                      |
-| `phoneNumbers`       | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                  |
-| `simNumber`          | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                |
-| `ttl`/`validUntil`   | number/ISO8601     | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2024-12-31T23:59:59Z"` |
-| `withDeliveryReport` | boolean            | :material-checkbox-marked: Delivery confirmation                 | `true`                                       | `true`                             |
-| `priority`           | integer (-128-127) | :material-priority-high: Send priority (-128 to 127)             | `0`                                          | `100`                              |
-| `isEncrypted`        | boolean            | :material-lock: [Message is encrypted](../privacy/encryption.md) | `false`                                      | `true`                             |
+| Parameter            | Type               | Description                                                      | Default                                      | Example                                 |
+| -------------------- | ------------------ | ---------------------------------------------------------------- | -------------------------------------------- | --------------------------------------- |
+| `id`                 | string             | :material-identifier: Optional unique message ID                 | auto-generated                               | "order-1234"                            |
+| `textMessage`        | object             | :material-message-text: Text message content                     | `null`                                       | `{ "text": "Hello" }`                   |
+| `textMessage.text`   | string             | Text content (auto-split if >160 chars)                          | **required**                                 | "Hello World"                           |
+| `dataMessage`        | object             | :material-database: Data message content                         | `null`                                       | `{ "data": "SGVsbG8=", "port": 53739 }` |
+| `dataMessage.data`   | string             | Base64-encoded data                                              | **required**                                 | "SGVsbG8="                              |
+| `dataMessage.port`   | integer            | Destination port (0-65535)                                       | **required**                                 | `53739`                                 |
+| `message`            | string             | ⚠️ Deprecated: Use `textMessage.text` instead                     | `null`                                       | "Hello World"                           |
+| `phoneNumbers`       | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                       |
+| `simNumber`          | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                     |
+| `ttl`/`validUntil`   | number/ISO8601     | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2024-12-31T23:59:59Z"`      |
+| `withDeliveryReport` | boolean            | :material-checkbox-marked: Delivery confirmation                 | `true`                                       | `true`                                  |
+| `priority`           | integer (-128-127) | :material-priority-high: Send priority (-128 to 127)             | `0`                                          | `100`                                   |
+| `isEncrypted`        | boolean            | :material-lock: [Message is encrypted](../privacy/encryption.md) | `false`                                      | `true`                                  |
+
+!!! warning "Mutual Exclusivity"
+    Only one of `textMessage`, `dataMessage`, or the deprecated `message` field may be specified per request
 
 !!! info "Additional Notes"
-    - Phone numbers should be in E.164 compatible format unless the `skipPhoneValidation` query parameter is set
+    - Phone numbers should be in E.164 compatible format unless `skipPhoneValidation=true`
     - `ttl` and `validUntil` are mutually exclusive
     - Priorities ≥100 bypass all limits/delays
     - Encrypted messages always skip phone validation
+    - Data messages require app v1.40.0+ and compatible server
 
 ## Message Processing Stages 🏗️
 
@@ -96,8 +145,10 @@ Control message processing order using the `priority` field. Higher priority mes
     - :material-walk: **Normal** – routine communications (notifications, reminders)
     - :material-timer-sand: **Low** – non-urgent bulk traffic (marketing, backups)
 
-## Related Guides 📚
+## See Also 📚
 
-- :material-lock: [Message Encryption](../privacy/encryption.md)
-- :material-chart-line: [Status Tracking](./status-tracking.md)
-- :material-api: [Full API Documentation](https://capcom6.github.io/android-sms-gateway)
+- [Status Tracking](./status-tracking.md) - Monitor message delivery status
+- [Data SMS Support](./data-sms.md) - Sending binary data via SMS
+- [Message Encryption](../privacy/encryption.md) - Securing message content
+- [Multi-SIM Support](./multi-sim.md) - Managing multiple SIM cards
+- [API Documentation](https://capcom6.github.io/android-sms-gateway) - Complete API reference
