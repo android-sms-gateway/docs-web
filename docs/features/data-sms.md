@@ -49,10 +49,10 @@ sequenceDiagram
 
 ### App/Server Matrix
 
-|                    | App <1.40.0 | App ≥1.40.0            |
-| ------------------ | ----------- | ---------------------- |
-| **Server <1.24.0** | Text only   | Text only (data fails) |
-| **Server ≥1.24.0** | Text only   | Full data support      |
+|                    | App <1.40.0 | App ≥1.40.0          |
+| ------------------ | ----------- | -------------------- |
+| **Server <1.24.0** | Text only   | Data SMS unsupported |
+| **Server ≥1.24.0** | Text only   | Full data support    |
 
 ### Device Requirements
 

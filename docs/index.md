@@ -6,7 +6,7 @@
 
 SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API and receive webhooks on incoming SMS. This makes it ideal for integrating SMS functionality into your own applications or services.
 
-<p align="center"><img src="/assets/screenshot.png" width="480"></p>
+<p align="center"><img src="/assets/screenshot.png" alt="App UI screenshot" width="480"></p>
 
 
 ## Features

@@ -160,7 +160,7 @@ Please note that using encryption will increase device battery usage.
             const salt = Buffer.from(parts[3], "base64");
             const encryptedText = Buffer.from(parts[4], "base64");
     
-            const secret极 = this.generateSecretKeyFromPassphrase(this.passphrase, salt, 32, iterations);
+            const secretKey = this.generateSecretKeyFromPassphrase(this.passphrase, salt, 32, iterations);
             const decryptedText = this.decryptString(encryptedText, secretKey, salt);
     
             return decryptedText.toString("utf8");
@@ -218,6 +218,10 @@ Please note that using encryption will increase device battery usage.
     from Crypto.Util.Padding import pad, unpad
     
     class AESEncryptor:
+        def __init__(self, passphrase: str, iterations: int = 75_000):
+            self.passphrase = passphrase
+            self.iterations = iterations
+
         def encrypt(self, cleartext: str) -> str:
             saltBytes = self._generate_salt()
             key = self._generate_key(saltBytes, self.iterations)
@@ -267,6 +271,6 @@ Please note that using encryption will increase device battery usage.
                 hmac_hash_module=SHA1,
             )
     
-        def _parse_params(self, params: str) -> t.Dict[str, str]:
+        def _parse_params(self, params: str) -> dict[str, str]:
             return {k: v for k, v in [p.split("=") for p in params.split(",")]}
     ```

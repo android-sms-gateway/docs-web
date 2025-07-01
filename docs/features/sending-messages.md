@@ -87,7 +87,7 @@ Authorization: Basic <credentials>
     - `ttl` and `validUntil` are mutually exclusive
     - Priorities ≥100 bypass all limits/delays
     - Encrypted messages always skip phone validation
-    - Data messages require app v1.40.0+ and compatible server
+    - Data messages require app v1.40.0+ and server v1.24.0+
 
 ## Message Processing Stages 🏗️
 
