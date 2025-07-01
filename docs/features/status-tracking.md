@@ -6,7 +6,7 @@ The app allows you to track the status of messages using multiple methods.
 
 === ":material-cellphone: App Interface"
     <figure markdown>
-      ![Message Status UI](../assets/status-tracking-ui.png){ width="360" align=center }
+      ![Message Status UI](../assets/status-tracking-ui.png){ width="480" align=center }
       <figcaption>Message status indicators in app</figcaption>
     </figure>
 

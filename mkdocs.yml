@@ -49,6 +49,7 @@ nav:
   - Features:
       - Settings Management: features/settings-management.md
       - Sending Messages: features/sending-messages.md
+      - Data SMS Support: features/data-sms.md
       - Status Tracking: features/status-tracking.md
       - Reading Messages: features/reading-messages.md
       - Webhooks: features/webhooks.md
