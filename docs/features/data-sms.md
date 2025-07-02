@@ -30,7 +30,7 @@ The Data SMS feature enables the transmission of binary data payloads via tradit
 | ---------- | --------- | ------------------------------ |
 | Max size   | 140 bytes | Carrier-dependent, may vary    |
 | Encoding   | Base64    | Required for API compatibility |
-| Port range | 0-65535   | Fixed receive port: 53739      |
+| Port range | 1-65535   | Fixed receive port: 53739      |
 
 ### API Usage
 
@@ -41,7 +41,7 @@ sequenceDiagram
     participant Device
     Client->>Server: POST /messages (dataMessage)
     Server->>Device: Push notification
-    Device->>Carrier: sendDataMessage()
+    Device->>Carrier: Send Data SMS
     Carrier->>Recipient: Deliver SMS
 ```
 
@@ -76,7 +76,7 @@ graph TD
     B --> C[Validation Error]
     B --> D[Carrier Block]
     B --> E[Device Incompatibility]
-    C --> F[Check port range 0-65535]
+    C --> F[Check port range 1-65535]
     C --> G[Verify Base64 encoding]
     D --> H[Contact carrier about data SMS support]
     E --> I[Update app to v1.40.0+]

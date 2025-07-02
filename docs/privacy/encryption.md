@@ -211,6 +211,8 @@ Please note that using encryption will increase device battery usage.
     Based on [pycryptodome](https://pypi.org/project/pycryptodome/)
     
     ```python
+    import base64
+    
     from Crypto.Cipher import AES
     from Crypto.Hash import SHA1
     from Crypto.Protocol.KDF import PBKDF2
