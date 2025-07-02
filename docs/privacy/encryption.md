@@ -107,7 +107,7 @@ Please note that using encryption will increase device battery usage.
             string $passphrase,
             string $salt,
             int $keyLength = 32,
-            int $iterationCount = 300000
+            int $iterationCount = 75000
         ): string {
             return hash_pbkdf2('sha1', $passphrase, $salt, $iterationCount, $keyLength, true);
         }
@@ -130,7 +130,7 @@ Please note that using encryption will increase device battery usage.
     [Source](https://github.com/capcom6/android-sms-gateway-php/blob/master/src/Encryptor.php)
 
 === "TypeScript"
-    Please note, that Bun's implementation of `crypto` package is not optimized, so it is much slower than Node's implementation.
+    Please note, that Bun's implementation of the `crypto` package is not optimized, so it is much slower than Node's implementation.
     
     ```typescript
     import crypto from "crypto";
