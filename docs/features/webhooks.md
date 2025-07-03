@@ -7,29 +7,36 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 <div class="grid cards" markdown>
 
 - :incoming_envelope: **sms:received**
-    - `messageId`: Content-based ID  
-    - `message`: SMS content  
-    - `phoneNumber`: Sender's number  
-    - `simNumber`: SIM index (nullable)  
+    - `messageId`: Content-based ID
+    - `message`: SMS content
+    - `phoneNumber`: Sender's number
+    - `simNumber`: SIM index (nullable)
+    - `receivedAt`: Local timestamp
+
+- :material-database: **sms:data-received** (v1.40.0+)
+    - `messageId`: Content-based ID
+    - `data`: Base64-encoded data message
+    - `phoneNumber`: Sender's number
+    - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
 - :outbox_tray: **sms:sent**
-    - `messageId`: Unique ID  
-    - `phoneNumber`: Recipient  
-    - `simNumber`: SIM index (nullable)  
+    - `messageId`: Unique ID
+    - `phoneNumber`: Recipient
+    - `simNumber`: SIM index (nullable)
     - `sentAt`: Local timestamp
 
 - :white_check_mark: **sms:delivered**
-    - `messageId`: Unique ID  
-    - `phoneNumber`: Recipient  
-    - `simNumber`: SIM index (nullable)  
+    - `messageId`: Unique ID
+    - `phoneNumber`: Recipient
+    - `simNumber`: SIM index (nullable)
     - `deliveredAt`: Local timestamp
 
 - :x: **sms:failed**
-    - `messageId`: Unique ID  
+    - `messageId`: Unique ID
     - `phoneNumber`: Recipient
-    - `simNumber`: SIM index (nullable) 
-    - `reason`: Error details  
+    - `simNumber`: SIM index (nullable)
+    - `reason`: Error details
     - `failedAt`: Local timestamp
 
 - :ping_pong: **system:ping**
@@ -114,7 +121,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
         - Event type
         - Source (Local/Cloud)
     <center>
-    ![Webhooks List](../assets/webhooks-list.png)
+    ![Webhooks List](../assets/webhooks-list.png){ width="480" }
     </center>
     You can copy the webhook ID by clicking on the row.
 
@@ -124,6 +131,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 ### Step 4: Test the Webhook 🧪
 
 - **For `sms:received`**: Send an SMS to the device.
+- **For `sms:data-received`**: Send a data SMS to port 53739
 - **For `sms:sent`/`delivered`/`failed`**: Send an SMS *from* the app to trigger these events.
 - **For `system:ping`**: Enable the ping feature in the app’s **Settings > Ping**.
 
@@ -131,21 +139,39 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 
 Your server will receive a POST request with a payload like:
 
-```json
-{
-  "deviceId": "ffffffffceb0b1db0000018e937c815b",
-  "event": "sms:received",
-  "id": "Ey6ECgOkVVFjz3CL48B8C",
-  "payload": {
-    "messageId": "abc123",
-    "message": "Android is always a sweet treat!",
-    "phoneNumber": "6505551212",
-    "simNumber": 1,
-    "receivedAt": "2024-06-22T15:46:11.000+07:00"
-  },
-  "webhookId": "<unique-id>"
-}
-```
+=== "sms:received"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "sms:received",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "abc123",
+        "message": "Android is always a sweet treat!",
+        "phoneNumber": "6505551212",
+        "simNumber": 1,
+        "receivedAt": "2024-06-22T15:46:11.000+07:00"
+      },
+      "webhookId": "<unique-id>"
+    }
+    ```
+
+=== "sms:data-received"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "sms:data-received",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "abc123",
+        "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
+        "phoneNumber": "6505551212",
+        "simNumber": 1,
+        "receivedAt": "2024-06-22T15:46:11.000+07:00"
+      },
+      "webhookId": "<unique-id>"
+    }
+    ```
 
 !!! important "Timely Response"
     Your server **must** respond with a 2xx status within 30 seconds to prevent retries
@@ -180,7 +206,7 @@ Webhook requests are signed with HMAC-SHA256 for verification. The device includ
 The signing key is randomly generated at first request and can be changed in **Settings → Webhooks → Signing Key**
 
 <figure markdown>
-  ![Signing Key Configuration](../assets/webhooks-signing-key.png){ width="360" align=center }
+  ![Signing Key Configuration](../assets/webhooks-signing-key.png){ width="480" align=center }
   <figcaption>Webhook signing key configuration</figcaption>
 </figure>
 
@@ -272,7 +298,7 @@ The signing key is randomly generated at first request and can be changed in **S
     - Ensure timestamp is UTC Unix time in seconds
     - Use raw body before JSON decoding
 
-## References 📚
+## See Also 📚
 
 - [FAQ](../faq/webhooks.md)
 - [Private Webhook Certificate Setup](../services/ca.md#private-webhook-certificate)
