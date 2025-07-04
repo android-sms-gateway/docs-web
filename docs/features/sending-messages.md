@@ -86,6 +86,10 @@ Control message processing order using the `priority` field. Higher priority mes
 | Normal | 0 to 99    | Standard processing (default)          |
 | Low    | -128 to -1 | Low priority                           |
 
+!!! note "Equal Priority Handling"
+    When messages share the same `priority` value, they are **processed in LIFO order** (Last-In-First-Out)—the newest messages are delivered first.  
+    This ensures immediate delivery for recent recipients and reduces the chance of message expiration during high-traffic periods.
+
 
 !!! tip "Use Cases"
     - :material-run-fast: **High** – time-sensitive messages (OTPs, alerts)
