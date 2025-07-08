@@ -96,8 +96,7 @@ sequenceDiagram
     === "cURL"
         ```bash
         curl -X POST -u "username:password" \
-         -H "Content-Type: application/json" \
-         -d '{"message":"Hello World","phoneNumbers":["+79990001234"]}' \
+         --json '{"textMessage":{"text":"Hello World"},"phoneNumbers":["+19162255887"]}' \
          https://api.sms-gate.app/3rdparty/v1/messages
         ```
 
@@ -109,8 +108,8 @@ sequenceDiagram
             "https://api.sms-gate.app/3rdparty/v1/messages",
             auth=("username", "password"),
             json={
-                "message": "Hello World",
-                "phoneNumbers": ["+79990001234"]
+                "textMessage": { "text": "Hello World"},
+                "phoneNumbers": ["+19162255887"]
             }
         )
         ```
@@ -124,7 +123,7 @@ sequenceDiagram
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: "Hello World",
+            textMessage: { text: "Hello World" },
             phoneNumbers: ["+79990001234"]
           })
         });

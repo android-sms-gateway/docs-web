@@ -25,7 +25,7 @@ Follow these steps to set up webhooks:
       "event": "sms:received",
       "id": "Ey6ECgOkVVFjz3CL48B8C",
       "payload": {
-        "message": "Android is always a sweet treat!",
+        "textMessage": { "text": "Android is always a sweet treat!"},
         "phoneNumber": "6505551212",
         "receivedAt": "2024-06-22T15:46:11.000+07:00"
       },

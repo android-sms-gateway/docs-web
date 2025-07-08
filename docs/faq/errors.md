@@ -69,7 +69,7 @@ The `RESULT_NO_DEFAULT_SMS_APP` error occurs when no default SMS app is set on t
 
     ```json title="Explicit SIM Specification" hl_lines="4"
     {
-        "message": "Test",
+        "textMessage": { "text": "Test"},
         "phoneNumbers": ["+1234567890"],
         "simNumber": 1
     }
