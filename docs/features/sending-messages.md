@@ -1,12 +1,12 @@
 # Sending Messages 🚀
 
-The Sending Messages feature provides a comprehensive API for delivering both traditional text messages and binary data messages via SMS. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
+The **Sending Messages** feature provides a comprehensive API for delivering both traditional text messages and binary data messages via SMS. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
 
 ## API Request Structure 📤
 
 ### Text Message
 ```http title="Text Message Request Example"
-POST /3rdparty/v1/messages
+POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
 Content-Type: application/json
 Authorization: Basic <credentials>
 
@@ -17,15 +17,13 @@ Authorization: Basic <credentials>
   "phoneNumbers": ["+1234567890"],
   "simNumber": 1,
   "ttl": 3600,
-  "withDeliveryReport": true,
-  "priority": 100,
-  "isEncrypted": false
+  "priority": 100
 }
 ```
 
 ### Data Message (v1.40.0+)
 ```http title="Data Message Request Example"
-POST /3rdparty/v1/messages
+POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
 Content-Type: application/json
 Authorization: Basic <credentials>
 
@@ -37,9 +35,7 @@ Authorization: Basic <credentials>
   "phoneNumbers": ["+1234567890"],
   "simNumber": 1,
   "ttl": 3600,
-  "withDeliveryReport": true,
-  "priority": 100,
-  "isEncrypted": false
+  "priority": 100
 }
 ```
 
@@ -61,6 +57,13 @@ Authorization: Basic <credentials>
 }
 ```
 
+### Query Parameters
+
+| Parameter             | Type    | Description                                                      | Default | Example |
+| --------------------- | ------- | ---------------------------------------------------------------- | ------- | ------- |
+| `skipPhoneValidation` | boolean | Disable E.164 phone-number validation                            | `false` | `true`  |
+| `deviceActiveWithin`  | integer | Only target devices active within the last *N* hours (`0` = off) | `0`     | `12`    |
+
 ### Request Fields
 
 | Parameter            | Type               | Description                                                      | Default                                      | Example                                 |
@@ -74,7 +77,7 @@ Authorization: Basic <credentials>
 | `message`            | string             | ⚠️ Deprecated: Use `textMessage.text` instead                     | `null`                                       | "Hello World"                           |
 | `phoneNumbers`       | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                       |
 | `simNumber`          | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                     |
-| `ttl`/`validUntil`   | number/ISO8601     | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2024-12-31T23:59:59Z"`      |
+| `ttl`/`validUntil`   | integer/RFC3339    | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2024-12-31T23:59:59Z"`      |
 | `withDeliveryReport` | boolean            | :material-checkbox-marked: Delivery confirmation                 | `true`                                       | `true`                                  |
 | `priority`           | integer (-128-127) | :material-priority-high: Send priority (-128 to 127)             | `0`                                          | `100`                                   |
 | `isEncrypted`        | boolean            | :material-lock: [Message is encrypted](../privacy/encryption.md) | `false`                                      | `true`                                  |
@@ -83,10 +86,9 @@ Authorization: Basic <credentials>
     Only one of `textMessage`, `dataMessage`, or the deprecated `message` field may be specified per request
 
 !!! info "Additional Notes"
-    - Phone numbers should be in E.164 compatible format unless `skipPhoneValidation=true`
+    - Phone numbers must be **E.164-compatible**—except when **the message is encrypted** or `skipPhoneValidation=true`
     - `ttl` and `validUntil` are mutually exclusive
     - Priorities ≥100 bypass all limits/delays
-    - Encrypted messages always skip phone validation
     - Data messages require app v1.40.0+ and server v1.24.0+
 
 ## Message Processing Stages 🏗️

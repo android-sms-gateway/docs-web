@@ -36,17 +36,32 @@ The app supports multiple devices for a single account in **Cloud** or **Private
 
 ## Message Distribution 📨
 
-For now, the only distribution method is **Random** among the registered devices.
+=== ":game_die: Random Selection (Default)"
+    ```bash
+    curl https://api.sms-gate.app/3rdparty/v1/messages \
+      -u "username:password" \
+      --json '{
+        "textMessage": {"text": "Test message"}, 
+        "phoneNumbers": ["+19162255887"]
+    }'
+    ```
 
-More distribution methods will be added in the future.
-
+=== ":material-target: Explicit Selection"
+    ```bash
+    curl https://api.sms-gate.app/3rdparty/v1/messages \
+      -u "username:password" \
+      --json '{
+        "textMessage": {"text": "Test message"}, 
+        "phoneNumbers": ["+19162255887"], 
+        "deviceId": "dev_abc123"
+    }'
+    ```
+  
 ## Device Management ⚙️
 
 ### API Endpoints 🌐
 
-<div class="grid cards" markdown>
-
-- :material-api: **List Devices**
+=== ":material-api: List Devices"
     ```bash
     curl -X GET \
       https://api.sms-gate.app/3rdparty/v1/devices \
@@ -54,15 +69,13 @@ More distribution methods will be added in the future.
     ```
     [API Documentation](https://api.sms-gate.app/#/User/get_3rdparty_v1_devices)
 
-- :material-delete: **Remove Device**
+=== ":material-delete: Remove Device"
     ```bash
     curl -X DELETE \
       https://api.sms-gate.app/3rdparty/v1/devices/DEVICE_ID \
       -u "username:password"
     ```
     [API Documentation](https://api.sms-gate.app/#/User/delete_3rdparty_v1_devices__id_)
-
-</div>
 
 !!! danger "Device Removal Warning"
     Deleting a device will remove all associated messages, including pending ones.
