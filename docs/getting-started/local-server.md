@@ -20,7 +20,7 @@ This mode is ideal for sending messages from a local network.
     ```sh
     curl -X POST -u <username>:<password> \
         -H "Content-Type: application/json" \
-        -d '{ "message": "Hello, world!", "phoneNumbers": ["+79990001234", "+79995556677"] }' \
+        -d '{ "textMessage": { "text": "Hello, world!"}, "phoneNumbers": ["+79990001234", "+79995556677"] }' \
         http://<device_local_ip>:8080/message
     ```
 

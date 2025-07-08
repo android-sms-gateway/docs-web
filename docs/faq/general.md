@@ -66,7 +66,7 @@ Please refer to the [Multi-SIM Support](../features/multi-sim.md) section.
 
 ```json title="Disable Delivery Reports"
 {
-  "message": "Your OTP: 1234",
+  "textMessage": { "text": "Your OTP: 1234"},
   "phoneNumbers": ["+1234567890"],
   "withDeliveryReport": false // (1)!
 }

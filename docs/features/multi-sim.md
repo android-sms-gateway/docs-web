@@ -16,7 +16,7 @@ curl -X POST \
     -H 'Content-Type: application/json' \
     https://api.sms-gate.app/3rdparty/v1/message \
     -d '{
-        "message": "Hello from SIM2, Dr. Turk!",
+        "textMessage": { "text": "Hello from SIM2, Dr. Turk!"},
         "phoneNumbers": ["+19162255887"],
         "simNumber": 2
     }'
