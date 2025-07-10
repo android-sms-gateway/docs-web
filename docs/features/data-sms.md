@@ -49,21 +49,16 @@ sequenceDiagram
 
 ### App/Server Matrix
 
-|                    | App <1.40.0 | App ≥1.40.0          |
-| ------------------ | ----------- | -------------------- |
-| **Server <1.24.0** | Text only   | Data SMS unsupported |
-| **Server ≥1.24.0** | Text only   | Full data support    |
-
-### Device Requirements
-
-- SMS-capable SIM card
-- Carrier data SMS support
+|                    | App <1.40.0 | App ≥1.40.0            |
+| ------------------ | ----------- | ---------------------- |
+| **Server <1.24.0** | Text only   | Local server mode only |
+| **Server ≥1.24.0** | Text only   | Full data support      |
 
 ## Pros and Cons ⚖️
 
 | Advantages                     | Limitations                              |
 | ------------------------------ | ---------------------------------------- |
-| ✅ No user interaction required | ❌ Smaller payload size than MMS          |
+| ✅ No user interaction required | ❌ Smaller payload size than text SMS     |
 | ✅ Works without mobile data    | ❌ Delivery reliability varies by carrier |
 
 ## Troubleshooting 🛠️
@@ -75,7 +70,7 @@ graph TD
     A[Data SMS Failure] --> B{Error Type}
     B --> C[Validation Error]
     B --> D[Carrier Block]
-    B --> E[Device Incompatibility]
+    B --> E[Incompatibile Version]
     C --> F[Check port range 1-65535]
     C --> G[Verify Base64 encoding]
     D --> H[Contact carrier about data SMS support]
@@ -88,11 +83,6 @@ graph TD
 2. Verify carrier supports data SMS
 3. Validate Base64 payloads externally
 4. Check for Android system updates
-
-## Version Notes 📝
-
-- **Enablement**: Automatic when requirements met
-- **Deprecations**: `message` field replaced by `textMessage`
 
 ## See Also 📚
 
