@@ -6,9 +6,9 @@ author: "SMSGate Team"
 categories: ["Features", "API", "IoT"]
 ---
 
-# Beyond Plain Text: Unlocking the Hidden Power of Data SMS
+# 🔓 Beyond Plain Text: Unlocking the Hidden Power of Data SMS
 
-## 1. The SMS Revolution: More Than Just Text Messages
+## 🔄 1. The SMS Revolution: More Than Just Text Messages
 
 **Imagine** sending a weather report from a remote sensor, controlling industrial equipment, or authenticating a user - all through a simple SMS. That's the power of Data SMS. 
 
@@ -20,7 +20,7 @@ categories: ["Features", "API", "IoT"]
 
 <!-- more -->
 
-## 2. Data SMS Demystified: Your Digital Courier Service
+## 📦 2. Data SMS Demystified: Your Digital Courier Service
 
 ### The Envelope Analogy
 
@@ -31,13 +31,13 @@ Think of Data SMS as sending a sealed envelope instead of a postcard:
 - **Postage Stamp**: Base64 encoding
 - **Post Office**: SMSGate App
 
-### Why This Matters
+### Storage & Handling
 
-```mermaid
-graph TD
-A[Traditional SMS] -->|Limited text| B(Human Interpretation)
-C[Data SMS] -->|Structured data| D(Machine Processing)
-```
+| Aspect        | Text SMS          | Data SMS             |
+| ------------- | ----------------- | -------------------- |
+| **Storage**   | Device memory/SIM | Temporary (RAM only) |
+| **Access**    | User-initiated    | Automatic processing |
+| **Retention** | Persistent        | Transient            |
 
 **Key Advantages**:
 
@@ -48,7 +48,7 @@ C[Data SMS] -->|Structured data| D(Machine Processing)
 
 ---
 
-## 3. Sending Your First Data SMS: A Practical Guide
+## 📤 3. Sending Your First Data SMS: A Practical Guide
 
 ### Setting the Stage
 
@@ -63,6 +63,7 @@ Imagine a weather station in the mountains needs to report conditions without in
 
 ```python title="Send Sensor Data via Cloud Server"
 import requests
+from requests.auth import HTTPBasicAuth
 import json
 import base64
 
@@ -97,7 +98,7 @@ print(f"Weather report sent! Status: {response.status_code}")
 
 ---
 
-## 4. Receiving Data SMS: Instant Machine Communication
+## 📥 4. Receiving Data SMS: Instant Machine Communication
 
 ### Setting Up Your Digital Mailroom
 
@@ -110,13 +111,13 @@ Configure webhooks in 2 simple steps:
 
 When a Data SMS arrives, you'll receive a neatly packaged JSON object:
 
-```javascript
+```javascript title="Process Incoming Data SMS"
 app.post('/sms-webhook', (req, res) => {
-  const { phone, data } = req.body.payload;
+  const { phoneNumber, data } = req.body.payload;
   const decodedData = Buffer.from(data, 'base64').toString('utf-8');
   const message = JSON.parse(decodedData);
   
-  console.log(`Data SMS from ${phone}:`, message);
+  console.log(`Data SMS from ${phoneNumber}:`, message);
   
   // Example: Control a smart irrigation system
   if (message.command === "START_IRRIGATION") {
@@ -130,7 +131,7 @@ app.post('/sms-webhook', (req, res) => {
 
 **Webhook Payload Structure**:
 
-```json
+```json title="Webhook Payload Structure"
 {
   "deviceId": "ffffffffceb0b1db0000018e937c815b",
   "event": "sms:data-received",
@@ -148,13 +149,13 @@ app.post('/sms-webhook', (req, res) => {
 
 ---
 
-## 5. Real-World Magic: Data SMS in Action
+## ✨ 5. Real-World Magic: Data SMS in Action
 
 ### 1. IoT Device Control
 
 **Scenario**: Remotely control industrial equipment in areas with no internet.
 
-```python
+```python title="Industrial Control Command"
 # Hex-encoded command to activate pump #3 for 5 minutes
 payload = {
     "dataMessage": {
@@ -171,7 +172,7 @@ payload = {
 
 **Scenario**: Wildlife researchers collecting field data in remote rainforests.
 
-```json
+```json title="Field Data Collection"
 {
   "dataMessage": {
     "data": "eyJzcGVjaWVzIjogIkpHV0lBTiBQQVIiLCJjb3VudCI6IDMsImxvY2F0aW9uIjogWy0zLjEyNTQzLCAxMzUuMDEyMl19",
@@ -194,35 +195,7 @@ payload = {
 
 ---
 
-## 6. Mastering Data SMS: Pro Tips & Pitfalls
-
-### Do These for Success
-
-- **Size Matters**: Keep payloads under 140 bytes (carrier-dependent)
-- **Target Precisely**: Always include `deviceId` for device-specific routing
-- **Test Extensively**: Verify carrier support in your region
-
-### Avoid These Common Mistakes
-
-- **Raw Binary**: Always encode! Unencoded binary can corrupt in transmission
-- **Port Confusion**: Stick to 1-65535 range (0 is reserved)
-- **Carrier Assumptions**: Not all carriers support concatenated SMS equally
-
-### Pro Tip: Double Your Efficiency
-
-```mermaid
-graph LR
-A[Original Data] -->|Compress| B[Smaller Payload]
-B -->|Base64 Encode| C[Transmission Ready]
-C -->|Transmit| D[Gateway]
-D -->|Base64 Decode| E[Decompress]
-E --> F[Original Data]
-```
-**Compress before encoding** to maximize payload capacity. A quick gzip pass can often reduce size by 50-70%!
-
----
-
-## 7. Your Data SMS Journey Starts Now
+## 🚀 6. Your Data SMS Journey Starts Now
 
 ### Key Takeaways
 
