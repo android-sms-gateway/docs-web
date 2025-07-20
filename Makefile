@@ -8,11 +8,11 @@ CONTAINER_NAME ?= android-sms-gateway-docs
 HOST_PORT ?= 8080
 
 # Makefile targets
-.PHONY: build run stop clean
+.PHONY: dev build run stop clean
 
 # Serve the documentation
 dev:
-	mkdocs serve --dev-addr localhost:$(HOST_PORT)
+	pipenv run mkdocs serve --dev-addr localhost:$(HOST_PORT)
 
 # Build the Docker image
 build:
