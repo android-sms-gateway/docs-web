@@ -33,6 +33,10 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   [:material-github: GitHub Repo](https://github.com/zaparthotels/zaparthotels.fr)
   [:material-web: Website](https://zaparthotels.fr/)
 
+- :fontawesome-brands-telegram: **Telegram SMS Bridge Bot**  
+  Bridges a Telegram group chat and SMS messages from a specific phone number  
+  [:material-github: GitHub Repo](https://github.com/TopPelemeshka/telegram-sms-bridge)
+
 </div>
 
 ## Closed Source :material-lock:
