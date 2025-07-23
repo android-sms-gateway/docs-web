@@ -37,6 +37,10 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   Bridges a Telegram group chat and SMS messages from a specific phone number  
   [:material-github: GitHub Repo](https://github.com/TopPelemeshka/telegram-sms-bridge)
 
+- :robot: **SMS-to-LLM Gateway**  
+  A Supabase Edge Function that processes SMS messages and forwards them to the Gemini API, designed for rural Rwanda  
+  [:material-github: GitHub Repo](https://github.com/J0/sms-to-llm)
+
 </div>
 
 ## Closed Source :material-lock:
