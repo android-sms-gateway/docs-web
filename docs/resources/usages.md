@@ -41,6 +41,10 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   A Supabase Edge Function that processes SMS messages and forwards them to the Gemini API, designed for rural Rwanda  
   [:material-github: GitHub Repo](https://github.com/J0/sms-to-llm)
 
+- :video_game: **Among Us Real**  
+  Play Among Us in real life with your friends using this open-source software  
+  [:material-github: GitHub Repo](https://github.com/Merlode11/Among-Us-Real)
+  [:material-web: Website](https://merlode11.github.io/Among-Us-Real/)
 </div>
 
 ## Closed Source :material-lock:
