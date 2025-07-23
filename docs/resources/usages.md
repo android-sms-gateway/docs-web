@@ -24,9 +24,14 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   [:material-github: GitHub Repo](https://github.com/kpriyanshu2003/notfication-service)
 
 - :rocket: **SMS API Tester Component**  
-  A React component with server actions to send SMS messages.  
+  A React component with server actions to send SMS messages  
   [:material-github: GitHub Repo](https://github.com/yas1nshah/sms-gate-api-tester)
   [:material-web: Website](https://sms-gate-api.vercel.app/)
+
+- :hotel: **Zaparthotels.fr**  
+  Website for zaparthotels.fr  
+  [:material-github: GitHub Repo](https://github.com/zaparthotels/zaparthotels.fr)
+  [:material-web: Website](https://zaparthotels.fr/)
 
 </div>
 
