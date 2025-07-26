@@ -21,11 +21,12 @@ The app requires the `android.permission.SEND_SMS` permission to send SMS messag
 The `RESULT_ERROR_GENERIC_FAILURE` error can occur for various reasons:
 
 - :money_with_wings: **Low Balance**: Check SIM balance
-- :material-signal-off: **Network Issues**: Verify signal bars, try airplane mode toggle  
+- :material-signal-off: **Network Issues**: Verify signal bars, try airplane mode toggle
 - :material-sim-off: **SIM Problems**:
     - Reinsert SIM card.
     - Test in different device.
     - Contact carrier for activation status.
+- 📋 **Delivery Reports**: Try to disable delivery reports by adding `"withDeliveryReport": false` to your request.
 
 ## `RESULT_ERROR_LIMIT_EXCEEDED` Error 🚫
 
