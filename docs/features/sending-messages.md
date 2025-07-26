@@ -14,6 +14,7 @@ Authorization: Basic <credentials>
   "textMessage": {
     "text": "Your OTP is 1234"
   },
+  "deviceId": "yVULogr4Y1ksRfnos1Dsw",
   "phoneNumbers": ["+1234567890"],
   "simNumber": 1,
   "ttl": 3600,
@@ -69,6 +70,7 @@ Authorization: Basic <credentials>
 | Parameter            | Type               | Description                                                      | Default                                      | Example                                 |
 | -------------------- | ------------------ | ---------------------------------------------------------------- | -------------------------------------------- | --------------------------------------- |
 | `id`                 | string             | :material-identifier: Optional unique message ID                 | auto-generated                               | "order-1234"                            |
+| `deviceId`           | string             | :material-target: Device ID                                      | `null`                                       | "dev_abc123"                            |
 | `textMessage`        | object             | :material-message-text: Text message content                     | `null`                                       | `{ "text": "Hello" }`                   |
 | `textMessage.text`   | string             | Text content (auto-split if >160 chars)                          | **required**                                 | "Hello World"                           |
 | `dataMessage`        | object             | :material-database: Data message content                         | `null`                                       | `{ "data": "SGVsbG8=", "port": 53739 }` |
