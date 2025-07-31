@@ -23,6 +23,7 @@
 - **Emoji**:
   - Use in all 1st and 2nd level headers for visual categorization
   - Choose emojis relevant to section content (e.g., 🔒 for security, ⚙️ for technical)
+  - Use Material Design icons (e.g., `:material-message-question:`, `:material-lock-question:`) for additional visual categorization
 - **Images**:
   - Center-align with `<center>` or `align=center`
   - Specify width for screenshots (e.g., `width="480"`)
