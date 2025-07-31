@@ -63,6 +63,10 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   Romanian ANAF submissions solution  
   [:material-web: Website](https://www.tdec.ro)
 
+- :material-skull-outline: **Textretary**  
+  A GUI tool for sending SMS/texts from your computer through your cell phone using SMSGate  
+  [:material-web: Website](https://www.loottomb.com/mobile/textretary.html)
+
 </div>
 
 ---
