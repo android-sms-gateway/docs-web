@@ -13,3 +13,8 @@ In this section, you will find links to third-party resources related to this pr
 ### Vietnamese
 
 - *(Contains Ads)* [Turn your phone into an SMS Gateway to utilize as an OTP Sending Service](https://gettips200ok.netlify.app/2024/05/01/bien-dien-thoai-thanh-sms-gateway-tan-dung-lam-service-send-otp/)
+
+### Korean
+
+- [SMS Gateway for Android™ 앱을 사용하여 무료로 문자 알림·인증번호를 발송](https://blog.lunaweb.dev/157)  
+  The article describes how to install and use the SMS Gateway for Android™ app to send free SMS notifications and authentication codes without requiring a paid SMS API. It also discusses limitations with Korean carriers regarding daily message limits.
