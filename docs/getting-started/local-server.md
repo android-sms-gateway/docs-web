@@ -24,6 +24,21 @@ This mode is ideal for sending messages from a local network.
         http://<device_local_ip>:8080/message
     ```
 
+### Accessing Swagger UI
+
+To access the **Swagger UI** for API documentation and testing, follow these steps:
+
+1. After starting the local server, open `http://<device_local_ip>:8080/docs` in your browser.
+2. Enter your **API credentials**—use the same username and password configured for API authentication.
+3. Once authenticated, you'll see the interactive **Swagger UI** for exploring and testing API endpoints.
+
+!!! tip "Benefits of Swagger UI"
+    - **Interactive documentation** – test endpoints directly in the browser
+    - **Automatic validation** – see formatted responses and error messages
+    - **Security** – same authentication as the API
+    - **Convenience** – no manual `curl` commands
+
+
 ### Server Configuration
 
 To modify the port, username, or password:
