@@ -12,7 +12,8 @@ Use Cloud Server mode when your device has dynamic or shared IP addresses. Start
 - 🔒 Basic authentication
 
 ### Requirements ⚠️
-- Requires Google Play Services for push notifications
+- Requires Google Play Services for Firebase Cloud Messaging (FCM) push notifications  
+- Provides a Server-Sent Events (SSE) fallback for devices without Play Services
 - Needs active internet connection
 
 ### Message Flow 📨
@@ -26,10 +27,13 @@ sequenceDiagram
     
     API->>Server: POST /messages
     Server->>Server: Store in DB
-    
-    par Push Notification Flow
-        Server->>FCM: Send push notification
-        FCM->>Device: Deliver FCM message
+    par Notification Flow
+        alt Firebase Cloud Messaging
+            Server->>FCM: Send push notification
+            FCM->>Device: Deliver FCM message
+        else Server-Sent Events
+            Server->>Device: Send event
+        end
         Device->>Server: Get messages
         Server->>Device: Return messages
     and Scheduled Polling
@@ -55,6 +59,19 @@ sequenceDiagram
 
     - Instant delivery via Firebase
     - Primary message channel
+
+=== "📡 SSE Fallback"
+    ```mermaid
+    graph LR
+        A[API Request] --> B[Server]
+        B -->|SSE connection| C[Device]
+        C --> D[Retrieve Messages]
+    ```
+
+    - Fallback when FCM is unavailable
+    - Persistent connection for real-time events
+    - Shows persistent notification on device during operation
+    - May increase battery consumption due to the long-lived connection
 
 === "⏰ Scheduled Polling"
     ```mermaid
@@ -145,4 +162,4 @@ sequenceDiagram
 
 ---
 
-[:material-book-open: Full API Documentation](https://capcom6.github.io/android-sms-gateway)
+[:material-book-open: Full API Documentation](https://api.sms-gate.app/)
