@@ -80,12 +80,10 @@ By default, webhooks require internet access and will wait until it's available 
 2. Navigate to **Webhooks** section
 3. Toggle off "Require Internet connection"
     
-!!! warning "Tradeoff"
-    
+!!! warning "Tradeoff"    
     Disabling internet access requirement may affect the reliability of webhook delivery for external endpoints
 
-
-### How to manage webhooks for specific devices? :material-cellphone-link:
+## How to manage webhooks for specific devices? :material-cellphone-link:
 
 1. Get device ID from API response when listing devices
 2. Include `device_id` parameter when registering webhooks:
@@ -98,27 +96,31 @@ By default, webhooks require internet access and will wait until it's available 
    ```
 3. Webhooks without `device_id` will apply to all devices
 
-## Alternative Testing Approaches :material-test-tube:
+## Using HTTP Webhooks in Local Development :material-test-tube:
 
-For developers testing in isolated environments:
+We provide an **insecure build variant** that allows HTTP webhook endpoints for local network deployments.
 
-1. **Rebuild with Cleartext Support**  
-    Advanced users can [rebuild the app](https://github.com/capcom6/android-sms-gateway/) with modified network policies:
-    ```diff title="app/src/main/java/me/capcom/smsgateway/modules/webhooks/WebHooksService.kt"
-    - if (!URLUtil.isHttpsUrl(webHook.url)
-    -     && !(URLUtil.isHttpUrl(webHook.url) && URL(webHook.url).host == "127.0.0.1")
-    - ) {
-    -     throw IllegalArgumentException("url must start with https:// or http://127.0.0.1")
-    - }
-    ```
-    ```diff title="app/src/main/res/xml/network_security_config.xml"
-    - <base-config cleartextTrafficPermitted="false">
-    + <base-config cleartextTrafficPermitted="true">
-    ```
-    :warning: Use at your own risk
+!!! warning "Production Use Prohibited"
+    This build **MUST NOT** be used in public environments as it disables critical security protections. It is strictly for local development and deployment on trusted networks.
 
-2. **Local-Only Build Variant** (Future)  
-    A specialized build permitting cleartext traffic is being considered - track progress in [#231](https://github.com/capcom6/android-sms-gateway/issues/231)
+### When to Use
+
+Use this build when:
+
+- Testing webhook integrations on local networks (e.g., `192.168.0.100:9876`)
+- Developing without a valid SSL certificate
+- Needing to test HTTP endpoints during development
+
+### How to Obtain
+
+1. Visit the [GitHub Releases](https://github.com/capcom6/android-sms-gateway/releases) page
+2. Download the `app-insecure.apk` file
+3. Install following the [standard installation process](../installation.md)
+
+!!! note "Security Considerations"
+    - Always revert to the standard (secure) build for production use
+    - Never expose insecure builds to public networks
+    - This build bypasses Android's cleartext traffic restrictions
 
 ## Still Having Issues? :material-chat-question:
 
