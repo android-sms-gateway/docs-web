@@ -84,7 +84,7 @@ sequenceDiagram
     - Fallback mechanism
     - Ensures message delivery
 
-=== "📡 Custom Ping"
+=== ":ping_pong: Custom Ping"
     <center>
     <img src="/assets/features-ping-settings.png" alt="Custom Ping settings interface">
     </center>
