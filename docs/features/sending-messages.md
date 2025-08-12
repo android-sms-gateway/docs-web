@@ -140,8 +140,7 @@ Control message processing order using the `priority` field. Higher priority mes
 | Low    | -128 to -1 | Low priority                           |
 
 !!! note "Equal Priority Handling"
-    When messages share the same `priority` value, they are **processed in LIFO order** (Last-In-First-Out)—the newest messages are delivered first.  
-    This ensures immediate delivery for recent recipients and reduces the chance of message expiration during high-traffic periods.
+    When messages share the same `priority` value, the processing order can be configured. By default, messages are processed in **LIFO order** (Last-In-First-Out), but **FIFO order** (First-In-First-Out) can be chosen in the application settings.
 
 
 !!! tip "Use Cases"
