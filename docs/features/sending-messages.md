@@ -2,61 +2,77 @@
 
 The **Sending Messages** feature provides a comprehensive API for delivering both traditional text messages and binary data messages via SMS. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
 
+## Message Types 📱
+
+<div class="grid cards" style="width:100%" markdown>
+
+- :material-message-text: **Text Messages**
+    - Standard SMS text content
+    - Auto-split for messages >160 chars
+    - Supports Unicode characters
+
+- :material-database: **Data Messages**
+    - Binary data transmission
+    - Base64 encoded content
+    - Port-based delivery
+
+</div>
+
 ## API Request Structure 📤
 
-### Text Message
-```http title="Text Message Request Example"
-POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
-Content-Type: application/json
-Authorization: Basic <credentials>
+=== "Text Message"
+    ```http title="Text Message Request Example"
+    POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
+    Content-Type: application/json
+    Authorization: Basic <credentials>
 
-{
-  "textMessage": {
-    "text": "Your OTP is 1234"
-  },
-  "deviceId": "yVULogr4Y1ksRfnos1Dsw",
-  "phoneNumbers": ["+1234567890"],
-  "simNumber": 1,
-  "ttl": 3600,
-  "priority": 100
-}
-```
+    {
+        "textMessage": {
+            "text": "Your OTP is 1234"
+        },
+        "deviceId": "yVULogr4Y1ksRfnos1Dsw",
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100
+    }
+    ```
 
-### Data Message (v1.40.0+)
-```http title="Data Message Request Example"
-POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
-Content-Type: application/json
-Authorization: Basic <credentials>
+=== "Data Message (v1.40.0+)"
+    ```http title="Data Message Request Example"
+    POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
+    Content-Type: application/json
+    Authorization: Basic <credentials>
 
-{
-  "dataMessage": {
-    "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
-    "port": 53739
-  },
-  "phoneNumbers": ["+1234567890"],
-  "simNumber": 1,
-  "ttl": 3600,
-  "priority": 100
-}
-```
+    {
+        "dataMessage": {
+            "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
+            "port": 53739
+        },
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100
+    }
+    ```
 
-### Legacy Text Message (Deprecated)
-```http title="Legacy Message Request Example"
-POST /3rdparty/v1/messages
-Content-Type: application/json
-Authorization: Basic <credentials>
+=== "Legacy Text Message (Deprecated)"
+    ```http title="Legacy Message Request Example"
+    POST /3rdparty/v1/messages
+    Content-Type: application/json
+    Authorization: Basic <credentials>
 
-{
-  "id": "custom-id-123",
-  "message": "Your OTP is 1234",
-  "phoneNumbers": ["+1234567890"],
-  "simNumber": 1,
-  "ttl": 3600,
-  "withDeliveryReport": true,
-  "priority": 100,
-  "isEncrypted": false
-}
-```
+    {
+        "id": "custom-id-123",
+        "message": "Your OTP is 1234",
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "withDeliveryReport": true,
+        "priority": 100,
+        "isEncrypted": false
+    }
+    ```
 
 ### Query Parameters
 
@@ -93,6 +109,179 @@ Authorization: Basic <credentials>
     - Priorities ≥100 bypass all limits/delays
     - Data messages require app v1.40.0+ and server v1.24.0+
 
+## Code Examples 💻
+
+### Text Message
+
+Send `Your OTP is 1234` to `+1234567890` without phone number validation via device with ID `yVULogr4Y1ksRfnos1Dsw` if it was active within the last 12 hours. Skip phone number validation and expire the message after 1 hour. Use SIM card slot #1 and set priority to 100 to bypass all limits/delays.
+
+=== "cURL"
+    ```bash title="Send Text Message using cURL"
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12" \
+      -u "username:password" \
+      --json '{
+        "textMessage": {
+          "text": "Your OTP is 1234"
+        },
+        "deviceId": "yVULogr4Y1ksRfnos1Dsw",
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100
+      }'
+    ```
+
+=== "Python"
+    ```python title="Send Text Message using Python"
+    import requests
+    from requests.auth import HTTPBasicAuth
+
+    url = "https://api.sms-gate.app/3rdparty/v1/messages"
+    params = {"skipPhoneValidation": True, "deviceActiveWithin": 12}
+
+    payload = {
+        "textMessage": {"text": "Your OTP is 1234"},
+        "deviceId": "yVULogr4Y1ksRfnos1Dsw",
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100,
+    }
+
+    headers = {
+        "Content-Type": "application/json",
+    }
+
+    response = requests.post(
+        url,
+        params=params,
+        json=payload,
+        headers=headers,
+        auth=HTTPBasicAuth("username", "password"),
+    )
+    print(response.json())
+    ```
+
+=== "JavaScript"
+    ```javascript title="Send Text Message using JavaScript"
+    const axios = require('axios');
+
+    const url = 'https://api.sms-gate.app/3rdparty/v1/messages';
+    const params = {
+        skipPhoneValidation: true,
+        deviceActiveWithin: 12
+    };
+
+    const payload = {
+        textMessage: {
+            text: 'Your OTP is 1234'
+        },
+        deviceId: 'yVULogr4Y1ksRfnos1Dsw',
+        phoneNumbers: ['+1234567890'],
+        simNumber: 1,
+        ttl: 3600,
+        priority: 100
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    axios.post(url, payload, {
+        params,
+        headers,
+        auth: { username: 'username', password: 'password' }
+    })
+    ```
+
+### Data Message
+
+Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+1234567890` without phone number validation and expire the message after 1 hour. Use SIM card slot #1 and set priority to 100 to bypass all limits/delays.
+
+=== "cURL"
+    ```bash title="Send Data Message using cURL"
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12" \
+      -u "username:password" \
+      --json '{
+        "dataMessage": {
+          "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
+          "port": 53739
+        },
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100
+      }'
+    ```
+
+=== "Python"
+    ```python title="Send Data Message using Python"
+    import requests
+    from requests.auth import HTTPBasicAuth
+
+    url = "https://api.sms-gate.app/3rdparty/v1/messages"
+    params = {"skipPhoneValidation": True, "deviceActiveWithin": 12}
+
+    # Sample data: "Hello Data World!" encoded as base64
+    message_data = "SGVsbG8gRGF0YSBXb3JsZCE="
+    
+    payload = {
+        "dataMessage": {"data": message_data, "port": 53739},
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100,
+    }
+
+    headers = {
+        "Content-Type": "application/json",
+    }
+
+    response = requests.post(
+        url,
+        params=params,
+        json=payload,
+        headers=headers,
+        auth=HTTPBasicAuth("username", "password"),
+    )
+    print(response.json())
+    ```
+
+=== "JavaScript"
+    ```javascript title="Send Data Message using JavaScript"
+    const axios = require('axios');
+
+    const url = 'https://api.sms-gate.app/3rdparty/v1/messages';
+    const params = {
+        skipPhoneValidation: true,
+        deviceActiveWithin: 12
+    };
+
+    // Sample data: "Hello Data World!" encoded as base64
+    const messageData = 'SGVsbG8gRGF0YSBXb3JsZCE=';
+    
+    const payload = {
+        dataMessage: {
+            data: messageData,
+            port: 53739
+        },
+        phoneNumbers: ['+1234567890'],
+        simNumber: 1,
+        ttl: 3600,
+        priority: 100
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    axios.post(url, payload, {
+        params,
+        headers,
+        auth: { username: 'username', password: 'password' }
+    })
+    ```
+
 ## Message Processing Stages 🏗️
 
 The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Private](../getting-started/private-server.md) modes. For [Local](../getting-started/local-server.md) mode, server-side step 2 is skipped.
@@ -104,12 +293,12 @@ The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Priva
     1. Validate payload.
     2. Add message to the queue.
     3. Send a push notification to the device.
-    4. Provide messages to the device, sorted by priority and enqueue time.
+    4. Provide messages to the device, sorted by priority, then by enqueue time (descending by default for LIFO; ascending if FIFO is configured).
 
 3. **Device Handling**  
     1. Receive messages from the server.
     2. Add messages to the local queue with `Pending` state.
-    3. Get messages one by one from the queue, sorted by priority and enqueue time.
+    3. Get messages one by one from the queue, sorted by priority, then by enqueue time (descending by default for LIFO; ascending if FIFO is configured).
     4. Apply limits/delays. Skip this step for messages with priority >= 100.
     5. Send SMS via Android SMS API and set the message status to `Processed`.
 
@@ -154,4 +343,4 @@ Control message processing order using the `priority` field. Higher priority mes
 - [Data SMS Support](./data-sms.md) - Sending binary data via SMS
 - [Message Encryption](../privacy/encryption.md) - Securing message content
 - [Multi-SIM Support](./multi-sim.md) - Managing multiple SIM cards
-- [API Documentation](https://capcom6.github.io/android-sms-gateway) - Complete API reference
+- [API Documentation](https://api.sms-gate.app) - Complete API reference
