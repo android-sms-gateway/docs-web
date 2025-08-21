@@ -52,6 +52,9 @@ Due to Android OS security requirements and the app's privacy policy, webhook ev
     3. **Secure Tunnels**
         Services like [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) or [ngrok](https://ngrok.com/) provide HTTPS endpoints for local servers
 
+    4. **Insecure Build Variant** (Not Recommended)  
+       For local development and testing, use the [insecure build variant](#using-http-webhooks-in-local-development) that allows communication over HTTP without SSL.
+
 ??? note "Security Rationale"
     This requirement balances:
 

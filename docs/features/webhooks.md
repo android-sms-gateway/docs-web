@@ -208,15 +208,15 @@ For webhooks within private networks:
 2. **ADB Port Forwarding**  
    Use `127.0.0.1` with reverse port forwarding:
    ```bash
-   adb reverse tcp:9876 tcp:8080 
+   adb reverse tcp:9876 tcp:8080
    ```
    Then register webhook to `http://127.0.0.1:9876/webhook`
 
 3. **Secure Tunnels**  
    Services like [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) or [ngrok](https://ngrok.com/) provide HTTPS endpoints
 
-4. **Custom Build** (Advanced)  
-   [Rebuild the app](https://github.com/capcom6/android-sms-gateway/) with cleartext enabled - see [FAQ](../faq/webhooks.md#alternative-testing-approaches)
+4. **Insecure Build Variant** (Not Recommended)  
+   For local development and testing, use the [insecure build variant](../faq/webhooks.md#using-http-webhooks-in-local-development) that allows communication over HTTP without SSL.
 
 ## Security Considerations 🔐
 
