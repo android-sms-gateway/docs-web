@@ -1,8 +1,8 @@
-# Webhooks 🌐
+# 🌐 Webhooks
 
 Webhooks offer a powerful mechanism to receive real-time notifications of events like incoming SMS messages. This integration guide will walk you through setting up webhooks to receive such notifications directly from your device.
 
-## Supported Events 📩
+## 📩 Supported Events
 
 <div class="grid cards" markdown>
 
@@ -13,9 +13,19 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
-- :material-database: **sms:data-received** (v1.40.0+)
+- :material-database: **sms:data-received**
     - `messageId`: Content-based ID
     - `data`: Base64-encoded data message
+    - `phoneNumber`: Sender's number
+    - `simNumber`: SIM index (nullable)
+    - `receivedAt`: Local timestamp
+
+- :material-multimedia: **mms:received**
+    - `messageId`: Carrier generated ID
+    - `transactionId`: Unique MMS transaction identifier
+    - `subject`: Message subject line (nullable)
+    - `size`: Attachment size in bytes
+    - `contentClass`: MMS content classification (nullable)
     - `phoneNumber`: Sender's number
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
@@ -141,6 +151,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 
 - **For `sms:received`**: Send an SMS to the device.
 - **For `sms:data-received`**: Send a data SMS to port 53739
+- **For `mms:received`**: Send an MMS message to the device (includes images, videos, or other multimedia attachments).
 - **For `sms:sent`/`delivered`/`failed`**: Send an SMS *from* the app to trigger these events.
 - **For `system:ping`**: Enable the ping feature in the app’s **Settings > Ping**.
 
@@ -177,6 +188,26 @@ Your server will receive a POST request with a payload like:
         "phoneNumber": "6505551212",
         "simNumber": 1,
         "receivedAt": "2024-06-22T15:46:11.000+07:00"
+      },
+      "webhookId": "<unique-id>"
+    }
+    ```
+
+=== "mms:received"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "mms:received",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "mms_12345abcde",
+        "phoneNumber": "+1234567890",
+        "simNumber": 1,
+        "transactionId": "T1234567890ABC",
+        "subject": "Photo attachment",
+        "size": 125684,
+        "contentClass": "IMAGE_BASIC",
+        "receivedAt": "2025-08-23T05:15:30.000+07:00"
       },
       "webhookId": "<unique-id>"
     }
