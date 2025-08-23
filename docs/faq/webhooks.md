@@ -1,6 +1,6 @@
-# FAQ - Webhooks ❓
+# ❓ FAQ - Webhooks
 
-## The `sms:received` webhook is not triggering :material-message-question:
+## :material-message-question: The `sms:received` webhook is not triggering
 
 If your SMS-received webhook isn't firing, try these solutions:
 
@@ -27,7 +27,7 @@ If your SMS-received webhook isn't firing, try these solutions:
     - [ ] Not battery optimized
     - [ ] Background activity allowed
 
-## Can I use webhooks with an HTTP server without encryption? :material-lock-question:
+## 🔒 Can I use webhooks with an HTTP server without encryption?
 
 Due to Android OS security requirements and the app's privacy policy, webhook events can only be received through an encrypted HTTPS connection. This ensures sensitive SMS data (like OTP codes) is protected during transmission.
 
@@ -43,17 +43,17 @@ Due to Android OS security requirements and the app's privacy policy, webhook ev
 !!! tip "Solutions for Local Networks"
     Use these approaches for local webhook endpoints:
     
-    1. **Project CA Certificates**
+    1. **Project CA Certificates**  
         Generate a trusted certificate for your private IP using our [Certificate Authority](../services/ca.md#private-webhook-certificate) :material-certificate:
     
-    2. **Localhost with Reverse Port Forwarding**
+    2. **Localhost with Reverse Port Forwarding**  
         Use `127.0.0.1` with ADB reverse port forwarding to access local servers
     
-    3. **Secure Tunnels**
+    3. **Secure Tunnels**  
         Services like [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) or [ngrok](https://ngrok.com/) provide HTTPS endpoints for local servers
 
     4. **Insecure Build Variant** (Not Recommended)  
-       For local development and testing, use the [insecure build variant](#using-http-webhooks-in-local-development) that allows communication over HTTP without SSL.
+        For local development and testing, use the [insecure build variant](#using-http-webhooks-in-local-development) that allows communication over HTTP without SSL.
 
 ??? note "Security Rationale"
     This requirement balances:
@@ -64,7 +64,7 @@ Due to Android OS security requirements and the app's privacy policy, webhook ev
     
     While SMS has inherent security limitations, HTTPS provides essential transport-layer protection for webhook payloads.
 
-## How to use webhooks with self-signed certificate? :material-certificate-outline:
+## :material-certificate-outline: How to use webhooks with a self-signed certificate?
 
 Support for user-provided self-signed certificates will be removed in version 2.x of the app. It is strongly recommended to use the [project's CA](../services/ca.md#private-webhook-certificate) for generating certificates instead.
     
@@ -75,7 +75,7 @@ Support for user-provided self-signed certificates will be removed in version 2.
     3. Update server config to use the new cert
     4. Remove self-signed certs from the device
 
-## How to use webhooks without internet access? :material-wifi-off:
+## :material-wifi-off: How to use webhooks without internet access?
 
 By default, webhooks require internet access and will wait until it's available to improve deliverability. However, if you're using the app in an isolated environment without internet access, you can disable this requirement. Here's how:
     
@@ -86,7 +86,7 @@ By default, webhooks require internet access and will wait until it's available 
 !!! warning "Tradeoff"    
     Disabling internet access requirement may affect the reliability of webhook delivery for external endpoints
 
-## How to manage webhooks for specific devices? :material-cellphone-link:
+## :material-cellphone-link: How to manage webhooks for specific devices?
 
 1. Get device ID from API response when listing devices
 2. Include `device_id` parameter when registering webhooks:
@@ -99,7 +99,7 @@ By default, webhooks require internet access and will wait until it's available 
    ```
 3. Webhooks without `device_id` will apply to all devices
 
-## Using HTTP Webhooks in Local Development :material-test-tube:
+## :material-test-tube: Using HTTP Webhooks in Local Development
 
 We provide an **insecure build variant** that allows HTTP webhook endpoints for local network deployments.
 
@@ -125,9 +125,9 @@ Use this build when:
     - Never expose insecure builds to public networks
     - This build bypasses Android's cleartext traffic restrictions
 
-## Why do I receive multiple delivery reports for a single message? 📨
+## 📨 Why do I receive multiple delivery reports for a single message?
 
-When sending SMS messages longer than the standard character limits (160 characters for GSM/7-bit encoding or 70 characters for Unicode), the message is automatically split into multiple parts by the carrier. 
+When sending SMS messages longer than the standard character limits (160 characters for GSM/7-bit encoding or 70 characters for Unicode), the message is automatically split into multiple parts. 
 
 Each message part is:
 
@@ -142,7 +142,40 @@ You'll receive separate `sms:delivered` events for each part, but they share the
 
 See also: [Multipart Message Behavior](../features/webhooks.md#multipart-message-behavior)
 
-## Still Having Issues? :material-chat-question:
+## :material-multimedia: Why isn't my MMS webhook triggering?
+
+If your MMS webhook isn't firing, check these potential issues:
+
+1. **Message Type Verification** :material-message-check:
+    ```diff
+    - Ensure the received message is actually an MMS
+    + MMS messages contain attachments (images, videos, audio)
+    ```
+    **Verification Steps**:
+    - [ ] Check if message has multimedia attachments
+    - [ ] Verify message size exceeds typical SMS limits
+    - [ ] Confirm sender is sending MMS, not SMS or RCS
+
+2. **App Permissions** :material-shield-key:
+    ```diff
+    - MMS requires additional permissions
+    + Ensure RECEIVE_MMS permission is granted
+    ```
+    **Required Permissions**:
+    - [ ] SMS permission
+    - [ ] MMS permission
+
+3. **Webhook Registration** :material-webhook:
+    ```diff
+    - Use correct event type for MMS
+    + Event must be "mms:received" (not "sms:received")
+    ```
+
+## :material-attachment: Can I receive MMS attachments in webhooks?
+
+The webhook system provides MMS metadata but does **not** include actual attachment content.
+
+## :material-chat-question: Still Having Issues?
 
 Visit our [Support Forum](https://github.com/capcom6/android-sms-gateway/discussions) :material-forum: or contact us at [support@sms-gate.app](mailto:support@sms-gate.app) :material-email:
 
