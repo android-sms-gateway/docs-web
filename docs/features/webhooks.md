@@ -218,6 +218,24 @@ For webhooks within private networks:
 4. **Insecure Build Variant** (Not Recommended)  
    For local development and testing, use the [insecure build variant](../faq/webhooks.md#using-http-webhooks-in-local-development) that allows communication over HTTP without SSL.
 
+## Multipart Message Behavior 📨
+
+When sending SMS messages longer than the standard limits (160 characters for GSM‑7 or 70 characters for UCS‑2/Unicode), the app automatically splits the message into multiple parts before transmission. This multipart behavior affects webhook delivery in specific ways:
+
+| Event           | Behavior                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------- |
+| `sms:received`  | Triggered once after all parts of an incoming multipart message are received and assembled        |
+| `sms:sent`      | Triggered once when all parts of the outgoing message are successfully sent                       |
+| `sms:delivered` | Triggered once **for each individual part** of the message                                        |
+| `sms:failed`    | Triggered once if any part of the message fails to send or deliver; other parts may still succeed |
+
+!!! tip "Handling Multipart Delivery Reports"
+    To avoid processing duplicate deliveries in your webhook handler:
+    
+    - Use `messageId` to group related delivery reports
+    - Deduplicate based on `id`
+    - Consider the message fully delivered when you receive delivery confirmations for all expected parts
+
 ## Security Considerations 🔐
 
 - **Review Registered Webhooks Periodically**: Regularly audit your webhook URLs to guard against unauthorized or stale endpoints; the app also shows periodic reminders for this review.
@@ -331,6 +349,7 @@ The signing key is randomly generated at first request and can be changed in **S
 ## See Also 📚
 
 - [FAQ](../faq/webhooks.md)
+- [Status Tracking](../features/status-tracking.md)
 - [Private Webhook Certificate Setup](../services/ca.md#private-webhook-certificate)
 - [API Documentation](https://capcom6.github.io/android-sms-gateway/#/Webhooks)
 
