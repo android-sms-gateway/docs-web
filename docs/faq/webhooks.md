@@ -140,7 +140,7 @@ You'll receive separate `sms:delivered` events for each part, but they share the
 - `messageId` (links all parts to the original message)
 - `phoneNumber` (recipient)
 
-See also: [Multipart Message Behavior](../features/webhooks.md#multipart-message-behavior-)
+See also: [Multipart Message Behavior](../features/webhooks.md#multipart-message-behavior)
 
 ## Still Having Issues? :material-chat-question:
 

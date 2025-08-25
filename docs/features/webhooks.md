@@ -226,11 +226,12 @@ When sending SMS messages longer than the standard limits (160 characters for GS
 | --------------- | ------------------------------------------------------------------------------------------------- |
 | `sms:received`  | Triggered once after all parts of an incoming multipart message are received and assembled        |
 | `sms:sent`      | Triggered once when all parts of the outgoing message are successfully sent                       |
-| `sms:delivered` | Triggered once **for each individual part** of the message :material-information-outline:         |
+| `sms:delivered` | Triggered once **for each individual part** of the message                                        |
 | `sms:failed`    | Triggered once if any part of the message fails to send or deliver; other parts may still succeed |
 
 !!! tip "Handling Multipart Delivery Reports"
     To avoid processing duplicate deliveries in your webhook handler:
+    
     - Use `messageId` to group related delivery reports
     - Deduplicate based on `eventId`
     - Consider the message fully delivered when you receive delivery confirmations for all expected parts
