@@ -1,12 +1,12 @@
-# Multi-Device Support 📱📱
+# 📱📱 Multi-Device Support
 
 The app supports multiple devices for a single account in **Cloud** or **Private Server** modes, distributing messages across all connected devices.
 
-## Adding a Device ➕
+## ➕ Adding a Device
 
 === ":material-account-key: Username & Password"
     !!! tip
-        Use this method for trusted device, which will have full access to the account.
+        Use this method for trusted devices, which will have full access to the account.
 
     **Steps 📋**
 
@@ -34,14 +34,14 @@ The app supports multiple devices for a single account in **Cloud** or **Private
     3. Enter the code
     4. Confirm with "Continue"
 
-## Message Distribution 📨
+## 📨 Message Distribution
 
-=== ":game_die: Random Selection (Default)"
+=== ":fontawesome-solid-dice: Random Selection (Default)"
     ```bash
     curl https://api.sms-gate.app/3rdparty/v1/messages \
       -u "username:password" \
       --json '{
-        "textMessage": {"text": "Test message"}, 
+        "textMessage": {"text": "Test message"},
         "phoneNumbers": ["+19162255887"]
     }'
     ```
@@ -51,15 +51,15 @@ The app supports multiple devices for a single account in **Cloud** or **Private
     curl https://api.sms-gate.app/3rdparty/v1/messages \
       -u "username:password" \
       --json '{
-        "textMessage": {"text": "Test message"}, 
-        "phoneNumbers": ["+19162255887"], 
+        "textMessage": {"text": "Test message"},
+        "phoneNumbers": ["+19162255887"],
         "deviceId": "dev_abc123"
     }'
     ```
-  
-## Device Management ⚙️
 
-### API Endpoints 🌐
+## ⚙️ Device Management
+
+### API Endpoints
 
 === ":material-api: List Devices"
     ```bash
@@ -78,4 +78,4 @@ The app supports multiple devices for a single account in **Cloud** or **Private
     [API Documentation](https://api.sms-gate.app/#/User/delete_3rdparty_v1_devices__id_)
 
 !!! danger "Device Removal Warning"
-    Deleting a device will remove all associated messages, including pending ones.
+    Deleting a device will remove all associated messages, including pending ones. This action cannot be undone.

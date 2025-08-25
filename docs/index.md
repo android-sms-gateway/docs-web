@@ -1,10 +1,10 @@
-# SMS Gateway for Android™
+# 🚀 SMS Gateway for Android™
 
 <div align="center">
     <img src="/assets/logo.png" alt="Logo">
 </div>
 
-SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API and receive webhooks on incoming SMS. This makes it ideal for integrating SMS functionality into your own applications or services.
+SMS Gateway for Android turns your Android smartphone into an SMS and MMS gateway. It's a lightweight application that allows you to send SMS messages programmatically via an API and receive webhooks on incoming SMS and MMS messages. This makes it ideal for integrating messaging functionality into your own applications or services.
 
 <p align="center"><img src="/assets/screenshot.png" alt="App UI screenshot" width="480"></p>
 
@@ -21,8 +21,8 @@ SMS Gateway for Android turns your Android smartphone into an SMS gateway. It's 
 
 - 📜 **Multipart messages:** Send long messages with auto-partitioning.
 - 📊 **Message status tracking:** Monitor the status of sent messages in real-time.
-- 🔔 **Real-time incoming message notifications:** Receive instant notifications for incoming messages via webhook.
-- 📖 **Read received messages:** Access [previously received messages](./features/reading-messages.md) using the same webhook system used for real-time notifications.
+- 🔔 **Real-time incoming message notifications:** Receive instant SMS and MMS notifications via [webhooks](./features/webhooks.md).
+- 📖 **Retrieve previously received messages:** Access your message history via [Reading Messages](./features/reading-messages/).
 
 🔒 Security and Privacy:
 
