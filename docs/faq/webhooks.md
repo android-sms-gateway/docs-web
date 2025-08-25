@@ -125,6 +125,23 @@ Use this build when:
     - Never expose insecure builds to public networks
     - This build bypasses Android's cleartext traffic restrictions
 
+## Why do I receive multiple delivery reports for a single message? 📨
+
+When sending SMS messages longer than the standard character limits (160 characters for GSM/7-bit encoding or 70 characters for Unicode), the message is automatically split into multiple parts by the carrier. 
+
+Each message part is:
+
+- Sent independently by the carrier
+- Processed separately at the network level
+- Delivered with its own confirmation receipt
+
+You'll receive separate `sms:delivered` events for each part, but they share the same:
+
+- `messageId` (links all parts to the original message)
+- `phoneNumber` (recipient)
+
+See also: [Multipart Message Behavior](../features/webhooks.md#multipart-message-behavior)
+
 ## Still Having Issues? :material-chat-question:
 
 Visit our [Support Forum](https://github.com/capcom6/android-sms-gateway/discussions) :material-forum: or contact us at [support@sms-gate.app](mailto:support@sms-gate.app) :material-email:
