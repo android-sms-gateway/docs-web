@@ -21,7 +21,7 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `receivedAt`: Local timestamp
 
 - :material-multimedia: **mms:received**
-    - `messageId`: Carrier generated ID
+    - `messageId`: Carrier-generated ID, if available, same as `transactionId` otherwise
     - `transactionId`: Unique MMS transaction identifier
     - `subject`: Message subject line (nullable)
     - `size`: Attachment size in bytes
@@ -342,7 +342,12 @@ The signing key is randomly generated at first request and can be changed in **S
             .update(message)
             .digest('hex');
 
-        return expectedSignature === signature;
+        const sig = String(signature).trim().toLowerCase();
+        if (sig.length !== expectedSignature.length) return false;
+        return crypto.timingSafeEqual(
+            Buffer.from(expectedSignature, 'hex'),
+            Buffer.from(sig, 'hex')
+        );
     }
     ```
 
