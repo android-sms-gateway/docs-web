@@ -1,27 +1,27 @@
-# FAQ - General ❓
+# ❓ FAQ - General
 
-## How to hide messages on the device? 🙈
+## 🙈 How to hide messages on the device?
 
-Due to technical limitations (since Android 4.4 KitKat), SMS Gateway cannot delete messages, and messages are always displayed in the default SMS app.
+SMS messages sent or received by the app are always visible in the device's default SMS application due to technical limitations in Android (introduced in Android 4.4 KitKat).
 
-Making SMS Gateway the default SMS app can solve this problem, but we intentionally avoid implementing message hiding to prevent spyware behavior and maintain transparency.
+Making SMSGate the default SMS app could solve this problem, but we intentionally avoid implementing this to prevent misuse and maintain transparency.
 
 !!! tip "Recommendation"
     - Restrict physical access to the phone
     - Set a strong PIN code
     - Use a dedicated Android device
 
-## Can I send MMS messages? 📸
+## 📸 Can I send MMS messages?
 
-No, the app does not support MMS messages. The app follows the principle of "do one thing, do it well".
+The SMSGate app focuses on core SMS functionality and does not support sending MMS (Multimedia Messaging Service) messages. This design choice aligns with the principle of "do one thing, do it well"—ensuring reliable SMS delivery without complicating the application with additional, less critical features.
 
-## Does the app support Android 15? 🤖
+## 🤖 Does the app support Android 15?
 
-Yes, but due to changes in the Android 15 permissions model, manual permission setup is required:
+The SMSGate app fully supports Android 15 (API level 35). However, due to enhanced privacy and security changes in the Android 15 permissions model, manual SMS permission setup is required to ensure proper functionality:
 
 1. :material-android: Install [the latest app version](https://github.com/capcom6/android-sms-gateway/releases/latest)
 2. :material-shield-key: Grant SMS permissions via ADB
-    ```bash
+    ```bash title="Grant SMS Permission via ADB"
     adb shell pm grant me.capcom.smsgateway android.permission.SEND_SMS
     ```
     or via the [Settings app](./errors.md#does-not-have-androidpermissionsend_sms)
@@ -31,11 +31,13 @@ Yes, but due to changes in the Android 15 permissions model, manual permission s
     Special thanks to *@mabushey* for solution!  
     [:material-github: Issue #184](https://github.com/capcom6/android-sms-gateway/issues/184)
 
-## How can I send an SMS using the second SIM card? 📱📱
+## 📱 How can I send an SMS using the second SIM card?
 
-Please refer to the [Multi-SIM Support](../features/multi-sim.md) section.
+The SMSGate app supports sending messages from multiple SIM cards simultaneously. To utilize a secondary SIM card for message sending, please refer to the comprehensive [Multi-SIM Support](../features/multi-sim.md) section for detailed setup instructions and configuration options.
 
-## Does the app require power saving mode to be turned off to function without interruptions? 🔋
+## 🔋 Does the app require power saving mode to be turned off to function without interruptions?
+
+The SMSGate app is designed to work reliably even when power saving modes are enabled, though specific behavior may vary depending on the device manufacturer and Android version. Below are details for each operational mode:
 
 ### Local Mode 🏠
 
@@ -62,7 +64,7 @@ Please refer to the [Multi-SIM Support](../features/multi-sim.md) section.
     - **Don't Kill My App:**  
       Follow the [Don't Kill My App](https://dontkillmyapp.com) guide to ensure the app is not killed by the operating system.
 
-## How do I enable or disable delivery reports for messages? 📨✅
+## 📨 How do I enable or disable delivery reports for messages?
 
 ```json title="Disable Delivery Reports"
 {
@@ -74,15 +76,15 @@ Please refer to the [Multi-SIM Support](../features/multi-sim.md) section.
 
 1. Default: `true` (reports enabled)
 
-## Can I use long or non-standard phone numbers? #️⃣
+## #️⃣ Can I use long or non-standard phone numbers?
 
 By default, the app requires the phone number to be in E.164 compatible format. You can bypass this requirement by using the `skipPhoneValidation` query parameter:
 
-```bash
+```bash title="Bypass Phone Validation via API"
 curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
 ```
 
-## How can I avoid mobile operator restrictions? 🚫
+## 🚫 How can I avoid mobile operator restrictions?
 
 === "⏱️ Random Delay"
 
@@ -108,9 +110,11 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
 
     The app provides a feature to rotate between [multiple SIM cards](../features/multi-sim.md#sim-card-rotation) automatically, avoiding reaching SIM limits.
 
-## How can I check the online status of the device? 📶
+## 📶 How can I check the online status of the device?
 
-```mermaid
+You can monitor the online status of your SMSGate device using multiple methods depending on your operational mode (Local, Cloud, or Private). Below is a visual overview of the available options:
+
+```mermaid title="Device Online Status Check Methods"
 graph TD
     A[Check Method] --> B[Local Mode]
     A --> C[Cloud Mode]
@@ -135,7 +139,7 @@ Irrespective of the mode, you can register a `system:ping` webhook to monitor th
 !!! warning "Caution"
     Using the ping feature will increase battery usage. It's important to balance the need for frequent status updates with the impact on device battery life, especially if the device is expected to operate for extended periods without charging.
 
-## Can I send SMS with a custom sender name? 📛
+## 📛 Can I send SMS with a custom sender name?
 
 The app uses your SIM card to send messages, so by default, it uses the same sender information as your phone's default messaging app (usually your phone number). Any changes to the sender name would need to be set up through your carrier, not within the app itself.
 
@@ -145,14 +149,14 @@ The app uses your SIM card to send messages, so by default, it uses the same sen
     - Alphanumeric Sender ID services
     - Business SMS solutions  
 
-## How do I change my password? 🔑
+## 🔑 How do I change my password?
 
 | Mode          | Documentation                                                                        |
 | ------------- | ------------------------------------------------------------------------------------ |
 | Local         | [Server Config](../getting-started/local-server.md#server-configuration)             |
 | Cloud/Private | [Password Management](../getting-started/public-cloud-server.md#password-management) |
 
-## Does the app support RCS messaging? 💬
+## 💬 Does the app support RCS messaging?
 
 Currently, the app does not support RCS (Rich Communication Services) messaging. It is recommended to disable RCS in Google Messages to avoid [issues](./webhooks.md#the-smsreceived-webhook-is-not-triggering-material-message-question).
 
