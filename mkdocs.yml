@@ -69,6 +69,7 @@ nav:
       - Encryption: privacy/encryption.md
   - FAQ:
       - General: faq/general.md
+      - Local Server: faq/local-server.md
       - Webhooks: faq/webhooks.md
       - Reading Messages: faq/reading-messages.md
       - Errors: faq/errors.md
