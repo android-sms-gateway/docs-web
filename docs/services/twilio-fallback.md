@@ -79,7 +79,7 @@ Run the Docker container:
 docker run -p 3000:3000 --env-file .env ghcr.io/android-sms-gateway/twilio-fallback:latest
 ```
 
-## See Also 📚
+## 📚 See Also
 
 * [SMSGate API](../integration/api.md)
 * [Twilio Webhooks](https://www.twilio.com/docs/usage/webhooks/messaging-webhooks#outbound-message-status-callback)

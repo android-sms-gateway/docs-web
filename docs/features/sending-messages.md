@@ -1,8 +1,8 @@
-# Sending Messages 🚀
+# 🚀 Sending Messages
 
 The **Sending Messages** feature provides a comprehensive API for delivering both traditional text messages and binary data messages via SMS. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
 
-## Message Types 📱
+## 📱 Message Types
 
 <div class="grid cards" style="width:100%" markdown>
 
@@ -18,7 +18,7 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 
 </div>
 
-## API Request Structure 📤
+## 📤 API Request Structure
 
 === "Text Message"
     ```http title="Text Message Request Example"
@@ -109,7 +109,7 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
     - Priorities ≥100 bypass all limits/delays
     - Data messages require app v1.40.0+ and server v1.24.0+
 
-## Code Examples 💻
+## 💻 Code Examples
 
 ### Text Message
 
@@ -282,7 +282,7 @@ Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+123456
     })
     ```
 
-## Message Processing Stages 🏗️
+## 🏗️ Message Processing Stages
 
 The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Private](../getting-started/private-server.md) modes. For [Local](../getting-started/local-server.md) mode, server-side step 2 is skipped.
 
@@ -318,7 +318,27 @@ The steps apply to [Cloud](../getting-started/public-cloud-server.md) and [Priva
         - Use webhooks for real-time status updates
         - Monitor for [`RESULT_ERROR_LIMIT_EXCEEDED` errors](../faq/errors.md#result_error_limit_exceeded-error-)
 
-## Message Priority ⚡
+## ⚙️ Rate-Limiting and Delays
+
+SMSGate provides mechanisms to control message sending rates and introduce delays between messages. These features help ensure reliable message delivery and compliance with carrier regulations. Configuration can be done through the app's user interface or programmatically via the API.
+
+The primary way to manage rate-limiting and delays is through the app's user interface:
+
+1. **Access Settings**:
+    - Open the **Settings** tab within the app.
+    - Navigate to **Messages**.
+
+2. **Configure Delays**:
+    - **Delay between messages**:
+        - Specify a minimum and maximum time (in seconds) to introduce a random delay between sending messages.
+        - This helps to simulate a more human-like sending pattern, reducing the likelihood of messages being flagged as spam.
+
+3. **Set Rate Limits**:
+    - **Limits**:
+        - Specify the maximum number of messages that can be sent within a specified period (minute, hour, or day).
+        - When the limit is reached, the app will pause sending messages until the limit period resets.
+
+## ⚡ Message Priority
 
 Control message processing order using the `priority` field. Higher priority messages are processed first.
 
@@ -331,16 +351,16 @@ Control message processing order using the `priority` field. Higher priority mes
 !!! note "Equal Priority Handling"
     When messages share the same `priority` value, the processing order can be configured. By default, messages are processed in **LIFO order** (Last-In-First-Out), but **FIFO order** (First-In-First-Out) can be chosen in the application settings.
 
-
 !!! tip "Use Cases"
     - :material-run-fast: **High** – time-sensitive messages (OTPs, alerts)
     - :material-walk: **Normal** – routine communications (notifications, reminders)
     - :material-timer-sand: **Low** – non-urgent bulk traffic (marketing, backups)
 
-## See Also 📚
+## 📚 See Also
 
-- [Status Tracking](./status-tracking.md) - Monitor message delivery status
+- [API Documentation](https://api.sms-gate.app) - Complete API reference
 - [Data SMS Support](./data-sms.md) - Sending binary data via SMS
 - [Message Encryption](../privacy/encryption.md) - Securing message content
 - [Multi-SIM Support](./multi-sim.md) - Managing multiple SIM cards
-- [API Documentation](https://api.sms-gate.app) - Complete API reference
+- [Settings Management](./settings-management.md) - Configure rate limits and delays
+- [Status Tracking](./status-tracking.md) - Monitor message delivery status
