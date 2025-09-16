@@ -4,6 +4,8 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 
 ## 📱 Message Types
 
+ SMSGate supports two main message types: text messages and data messages, each with specific characteristics and use cases.
+
 <div class="grid cards" style="width:100%" markdown>
 
 - :material-message-text: **Text Messages**
@@ -216,6 +218,8 @@ Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+123456
 
 === "Python"
     ```python title="Send Data Message using Python"
+    import base64
+
     import requests
     from requests.auth import HTTPBasicAuth
 
@@ -223,8 +227,8 @@ Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+123456
     params = {"skipPhoneValidation": True, "deviceActiveWithin": 12}
 
     # Sample data: "Hello Data World!" encoded as base64
-    message_data = "SGVsbG8gRGF0YSBXb3JsZCE="
-    
+    message_data = base64.b64encode(b"Hello Data World!").decode("ascii")
+
     payload = {
         "dataMessage": {"data": message_data, "port": 53739},
         "phoneNumbers": ["+1234567890"],
@@ -258,8 +262,8 @@ Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+123456
     };
 
     // Sample data: "Hello Data World!" encoded as base64
-    const messageData = 'SGVsbG8gRGF0YSBXb3JsZCE=';
-    
+    const messageData = Buffer.from('Hello Data World!', 'utf8').toString('base64');
+
     const payload = {
         dataMessage: {
             data: messageData,
@@ -337,6 +341,9 @@ The primary way to manage rate-limiting and delays is through the app's user int
     - **Limits**:
         - Specify the maximum number of messages that can be sent within a specified period (minute, hour, or day).
         - When the limit is reached, the app will pause sending messages until the limit period resets.
+
+!!! note "Multiple Recipients"
+    When a request includes multiple `phoneNumbers`, it is treated as a single logical message. Delay and rate‑limit evaluations occur once per request, not per recipient. On a single device, the SMS for all recipients are sent back‑to‑back within the same processing slot (not truly simultaneous).
 
 ## ⚡ Message Priority
 
