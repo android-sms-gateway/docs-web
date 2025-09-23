@@ -67,7 +67,7 @@ ASG_USERNAME="your_username"
 ASG_PASSWORD="your_password"
 ```
 
-### Command-line Options
+### Global Options
 
 The following table summarizes the available command-line options:
 
@@ -77,6 +77,9 @@ The following table summarizes the available command-line options:
 | `-u`, `--username` | `ASG_USERNAME` | :bust_in_silhouette: Auth username  | **Required**                           |
 | `-p`, `--password` | `ASG_PASSWORD` | :key: Auth password                 | **Required**                           |
 | `-f`, `--format`   | -              | :page_facing_up: Output format      | `text`                                 |
+
+!!! note
+    Global options must be specified before the command.
 
 ### Output Formats
 
@@ -103,7 +106,7 @@ The `send` command allows you to send a message to one or more phone numbers.
 
 **Syntax:**
 ```bash title="Basic Usage"
-smsgate send [options] 'Message content'
+smsgate send [command options] 'Message content'
 ```
 
 **Options:**
@@ -245,8 +248,8 @@ Credentials can also be passed via CLI options:
 
 ```bash
 # Pass credentials by options
-smsgate send -u <username> -p <password> \
-    --phones '+12025550100' 'Hello, Dr. Turk!'
+smsgate -u <username> -p <password> \
+    send --phones '+12025550100' 'Hello, Dr. Turk!'
 ```
 
 ### Using Docker
