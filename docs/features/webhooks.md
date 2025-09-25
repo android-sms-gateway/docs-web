@@ -34,6 +34,7 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `messageId`: Unique ID
     - `phoneNumber`: Recipient
     - `simNumber`: SIM index (nullable)
+    - `partsCount`: Number of message parts
     - `sentAt`: Local timestamp
 
 - :white_check_mark: **sms:delivered**
@@ -253,12 +254,12 @@ For webhooks within private networks:
 
 When sending SMS messages longer than the standard limits (160 characters for GSM‑7 or 70 characters for UCS‑2/Unicode), the app automatically splits the message into multiple parts before transmission. This multipart behavior affects webhook delivery in specific ways:
 
-| Event           | Behavior                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------- |
-| `sms:received`  | Triggered once after all parts of an incoming multipart message are received and assembled        |
-| `sms:sent`      | Triggered once when all parts of the outgoing message are successfully sent                       |
-| `sms:delivered` | Triggered once **for each individual part** of the message                                        |
-| `sms:failed`    | Triggered once if any part of the message fails to send or deliver; other parts may still succeed |
+| Event           | Behavior                                                                                                                          |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `sms:received`  | Triggered once after all parts of an incoming multipart message are received and assembled                                        |
+| `sms:sent`      | Triggered once when all parts of the outgoing message are successfully sent, the `partsCount` field is set to the number of parts |
+| `sms:delivered` | Triggered once **for each individual part** of the message                                                                        |
+| `sms:failed`    | Triggered once if any part of the message fails to send or deliver; other parts may still succeed                                 |
 
 !!! tip "Handling Multipart Delivery Reports"
     To avoid processing duplicate deliveries in your webhook handler:
