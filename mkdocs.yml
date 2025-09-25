@@ -53,6 +53,7 @@ nav:
       - Webhooks: features/webhooks.md
       - Multi-SIM Support: features/multi-sim.md
       - Multi-Device Support: features/multi-device.md
+      - MMS Support: features/mms.md
       - Status Tracking: features/status-tracking.md
       - Health Checks: features/health.md
       - Ping: features/ping.md
