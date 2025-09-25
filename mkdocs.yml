@@ -49,17 +49,17 @@ nav:
       - GET to POST: integration/get-to-post.md
       - Webhooks: features/webhooks.md
   - Features:
-      - Settings Management: features/settings-management.md
       - Sending Messages: features/sending-messages.md
-      - Data SMS Support: features/data-sms.md
-      - Status Tracking: features/status-tracking.md
-      - Reading Messages: features/reading-messages.md
       - Webhooks: features/webhooks.md
       - Multi-SIM Support: features/multi-sim.md
       - Multi-Device Support: features/multi-device.md
+      - Status Tracking: features/status-tracking.md
       - Health Checks: features/health.md
       - Ping: features/ping.md
+      - Reading Messages: features/reading-messages.md
+      - Data SMS Support: features/data-sms.md
       - Logging: features/logging.md
+      - Settings Management: features/settings-management.md
   - Services:
       - Certificate Authority: services/ca.md
       - Twilio Fallback: services/twilio-fallback.md
