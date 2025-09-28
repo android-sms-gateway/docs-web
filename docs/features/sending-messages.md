@@ -89,11 +89,11 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 | -------------------- | ------------------ | ---------------------------------------------------------------- | -------------------------------------------- | --------------------------------------- |
 | `id`                 | string             | :material-identifier: Optional unique message ID                 | auto-generated                               | "order-1234"                            |
 | `deviceId`           | string             | :material-target: Device ID                                      | `null`                                       | "dev_abc123"                            |
-| `textMessage`        | object             | :material-message-text: Text message content                     | `null`                                       | `{ "text": "Hello" }`                   |
-| `textMessage.text`   | string             | Text content (auto-split if >160 chars)                          | **required**                                 | "Hello World"                           |
-| `dataMessage`        | object             | :material-database: Data message content                         | `null`                                       | `{ "data": "SGVsbG8=", "port": 53739 }` |
-| `dataMessage.data`   | string             | Base64-encoded data                                              | **required**                                 | "SGVsbG8="                              |
-| `dataMessage.port`   | integer            | Destination port (0-65535)                                       | **required**                                 | `53739`                                 |
+| `textMessage`        | object             | Text message content                                             | `null`                                       | `{ "text": "Hello" }`                   |
+| `textMessage.text`   | string             | :material-message-text: Text content (auto-split if >160 chars)  | **required**                                 | "Hello World"                           |
+| `dataMessage`        | object             | Data message content                                             | `null`                                       | `{ "data": "SGVsbG8=", "port": 53739 }` |
+| `dataMessage.data`   | string             | :material-database: Base64-encoded data                          | **required**                                 | "SGVsbG8="                              |
+| `dataMessage.port`   | integer            | :material-usb-c-port: Destination port (0-65535)                 | **required**                                 | `53739`                                 |
 | `message`            | string             | ⚠️ Deprecated: Use `textMessage.text` instead                     | `null`                                       | "Hello World"                           |
 | `phoneNumbers`       | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                       |
 | `simNumber`          | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                     |
