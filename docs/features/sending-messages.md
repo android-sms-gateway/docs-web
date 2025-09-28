@@ -108,14 +108,14 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 !!! info "Additional Notes"
     - Phone numbers must be **E.164-compatible**—except when **the message is encrypted** or `skipPhoneValidation=true`
     - `ttl` and `validUntil` are mutually exclusive
-    - Priorities ≥100 bypass all limits/delays
+    - Priorities ≥100 are expedited but may still be subject to delay
     - Data messages require app v1.40.0+ and server v1.24.0+
 
 ## 💻 Code Examples
 
 ### Text Message
 
-Send `Your OTP is 1234` to `+1234567890` without phone number validation via device with ID `yVULogr4Y1ksRfnos1Dsw` if it was active within the last 12 hours. Skip phone number validation and expire the message after 1 hour. Use SIM card slot #1 and set priority to 100 to bypass all limits/delays.
+Send `Your OTP is 1234` to `+1234567890` without phone number validation via device with ID `yVULogr4Y1ksRfnos1Dsw` if it was active within the last 12 hours. Skip phone number validation and expire the message after 1 hour. Use SIM card slot #1 and set priority to 100 to expedite processing.
 
 === "cURL"
     ```bash title="Send Text Message using cURL"
@@ -354,6 +354,16 @@ Control message processing order using the `priority` field. Higher priority mes
 | High   | 100 to 127 | Highest priority, bypasses rate limits |
 | Normal | 0 to 99    | Standard processing (default)          |
 | Low    | -128 to -1 | Low priority                           |
+
+!!! note Priority-Aware Throttling
+    High-priority messages use intelligent throttling that prevents message bursts while maintaining urgency for truly high-priority messages.
+
+    Standard rate limits and delays apply based on priority comparison with the previously sent message:
+
+    - **Skip delays**: High-priority messages skip delays ONLY when they have higher priority than the last sent message
+    - **Apply delays**: Standard rate limits apply when:
+        - Message is not expedited (priority < 100)
+        - Message is expedited but previous message had equal or higher priority
 
 !!! note "Equal Priority Handling"
     When messages share the same `priority` value, the processing order can be configured. By default, messages are processed in **LIFO order** (Last-In-First-Out), but **FIFO order** (First-In-First-Out) can be chosen in the application settings.
