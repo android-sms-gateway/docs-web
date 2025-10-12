@@ -13,3 +13,4 @@ In this section, you will find links to examples related to this project. We do 
 - [Web Client](https://github.com/android-sms-gateway/web-client-ts) - Simple web client for sending and receiving SMS messages based on Node.js and Socket.io.
 - [Google Apps Script](https://github.com/android-sms-gateway/example-google-apps-script) - Google Apps Script example to send SMS via SMS Gateway for Android.
 - [n8n](https://github.com/android-sms-gateway/example-webhooks-n8n) - An n8n workflow for an AI-powered joke agent that responds to SMS messages with automated jokes.
+- [Google Sheets](https://github.com/android-sms-gateway/example-webhooks-google-sheets) - Google Apps Script integration to automatically log incoming SMS messages to Google Sheets.
