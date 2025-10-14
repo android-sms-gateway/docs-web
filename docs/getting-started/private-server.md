@@ -85,6 +85,48 @@ To run the server, you'll need:
         ./sms-gateway
         ```
 
+    === "📦 With Helm"
+        1. **Install Helm**
+        2. **Add the chart repository**
+        ```sh
+        helm repo add sms-gate https://s3.sms-gate.app/charts
+        helm repo update
+        ```
+        3. **Create values.yaml file**
+        ```yaml title="values.yaml"
+        image:
+          pullPolicy: IfNotPresent
+        
+        database:
+          deployInternal: true
+          mariadb:
+            rootPassword: ${GENERATE_MARIADB_ROOT_PASSWORD}
+          password: ${GENERATE_DATABASE_PASSWORD}
+        
+        gateway:
+          privateToken: ${GENERATE_PRIVATE_TOKEN}
+        ```
+
+        4. **Install the chart**
+        ```sh
+        helm upgrade --install sms-gate-server sms-gate/server \
+            --create-namespace \
+            --namespace sms-gate \
+            --values values.yaml
+        ```
+
+        !!! danger "Security Warning"
+            **Never commit secrets to version control!** Replace placeholder values with actual high-entropy secrets:
+            
+            - Generate unique passwords/tokens using: `openssl rand -base64 32`
+            - Use environment variables or secret management tools
+            - Consider [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets) for Kubernetes
+            - Use cloud secret managers (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager)
+
+        For detailed Helm chart documentation, see [Helm Chart Documentation](https://github.com/android-sms-gateway/server/blob/master/deployments/helm-chart/README.md).
+
+
+
 3. **Configure reverse proxy**  
     ```nginx title="Example Nginx Config"
     location / {
