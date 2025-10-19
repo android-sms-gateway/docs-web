@@ -55,6 +55,10 @@ To run the server, you'll need:
     1. Must match device configuration
     2. Must match MySQL/MariaDB configuration
 
+    !!! info "Configuration Location"
+        By default, the application looks for `config.yml` in the current working directory. 
+        Alternatively, you can set the `CONFIG_PATH` environment variable to specify a custom path to the configuration file.
+
 2. **Launch the server**  
 
     === "🐳 With Docker"
