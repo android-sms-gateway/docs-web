@@ -2,12 +2,48 @@
 
 ## Private Server 🔒
 
-<figure markdown>
-   ![Private Server Architecture](../assets/private-server-arch.png){ align=center }
-   <figcaption>Architecture diagram of Private Server mode</figcaption>
-</figure>
-
 To enhance privacy and control, you can host your own private server. This keeps all message data within your infrastructure while maintaining push notification capabilities through our public server at `api.sms-gate.app`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
+
+<center>
+```mermaid
+flowchart
+    %% === MAIN BLOCKS ===
+    Users["👥 Users"]
+    Android["🤖 SMSGate App"]
+
+    subgraph PrivateServer["Private Server"]
+        GoServerPrivate["🐹 Server"]
+        GoWorkerPrivate["🐹 Worker"]
+        DB["🦭 DB"]
+
+        GoServerPrivate <--> DB
+        GoWorkerPrivate --> DB
+    end
+
+    subgraph Google["Google"]
+        FCM["🔥 FCM"]
+    end
+
+    subgraph PublicServer["Public Server"]
+        GoServerPublic["🐹 api.sms-gate.app"]
+    end
+
+    %% === CONNECTIONS ===
+    
+    Users -->|REST API| GoServerPrivate
+    GoServerPrivate -->|notification| GoServerPublic
+    GoServerPublic -->|notification| FCM
+    FCM -->|PUSH| Android
+    Android <--> GoServerPrivate
+
+    %% === ALTERNATIVE NOTIFICATION PATH ===
+    Android -.->|SSE| GoServerPrivate
+
+    %% === STYLING ===
+    classDef altConn stroke-dasharray: 5 5,stroke:#888,fill:none;
+    class Android,GoServerPrivate,GoWorkerPrivate,DB altConn;
+```
+</center>
 
 !!! tip "When to Choose Private Mode"
     - 🏢 Enterprise deployments requiring full data control
@@ -17,18 +53,14 @@ To enhance privacy and control, you can host your own private server. This keeps
 
 ### Prerequisites ✅
 
+The easiest way to run the server is to use [Docker](https://www.docker.com/). For alternative installation methods, see [Private Server Documentation](../features/private-server.md#installation-methods).
+
 To run the server, you'll need:
 
-- 🗄️ MySQL/MariaDB server with empty database and privileged user
 - 🐧 Linux VPS
+- 🐳 Docker installed
+- 🗄️ MySQL/MariaDB server with empty database and privileged user
 - 🔄 Reverse proxy with valid SSL certificate ([project CA](../services/ca.md) supported)
-
-!!! note "Additional Requirements by Method"
-    === "🐳 With Docker"
-        - Docker installed
-
-    === "🖥️ Without Docker (Source Build)"
-        - Git and Go 1.23+ toolchain
 
 ### Run the Server 🖥️
 
@@ -38,7 +70,7 @@ To run the server, you'll need:
     wget https://raw.githubusercontent.com/android-sms-gateway/server/master/configs/config.example.yml -O config.yml
     ```
     Key sections to edit:
-    ```yaml
+    ```yaml title="Private Server Configuration Example"
     gateway:
         mode: private
         private_token: your-secure-token-here # (1)!
@@ -55,83 +87,32 @@ To run the server, you'll need:
     1. Must match device configuration
     2. Must match MySQL/MariaDB configuration
 
-    !!! info "Configuration Location"
-        By default, the application looks for `config.yml` in the current working directory. 
+    !!! important "Configuration Location"
+        By default, the application looks for `config.yml` in the current working directory.
         Alternatively, you can set the `CONFIG_PATH` environment variable to specify a custom path to the configuration file.
 
-2. **Launch the server**  
+2. **Launch the server**
 
-    === "🐳 With Docker"
-
-        ```sh title="Docker Command"
-        docker run -d --name sms-gateway \
-            -p 3000:3000 \
-            -v $(pwd)/config.yml:/app/config.yml \
-            ghcr.io/android-sms-gateway/server:latest
-        ```
-
-    === "🖥️ Without Docker"
-        1. **Build the binary**
-        ```sh
-        git clone https://github.com/android-sms-gateway/server.git
-        cd server
-        go build -o sms-gateway ./cmd/sms-gateway
-        chmod +x sms-gateway
-        ```
-
-        2. **Run database migrations**
-        ```sh
-        ./sms-gateway db:migrate up
-        ```
-
-        3. **Launch the server**
-        ```sh
-        ./sms-gateway
-        ```
-
-    === "📦 With Helm"
-        1. **Install Helm**
-        2. **Add the chart repository**
-        ```sh
-        helm repo add sms-gate https://s3.sms-gate.app/charts
-        helm repo update
-        ```
-        3. **Create values.yaml file**
-        ```yaml title="values.yaml"
-        image:
-          pullPolicy: IfNotPresent
+    ```sh title="Docker Command"
+    docker run -d --name sms-gateway \
+        -p 3000:3000 \
+        -v $(pwd)/config.yml:/app/config.yml \
+        ghcr.io/android-sms-gateway/server:latest
+    ```
         
-        database:
-          deployInternal: true
-          mariadb:
-            rootPassword: ${GENERATE_MARIADB_ROOT_PASSWORD}
-          password: ${GENERATE_DATABASE_PASSWORD}
-        
-        gateway:
-          privateToken: ${GENERATE_PRIVATE_TOKEN}
-        ```
+3. **Run the background worker (optional)**
 
-        4. **Install the chart**
-        ```sh
-        helm upgrade --install sms-gate-server sms-gate/server \
-            --create-namespace \
-            --namespace sms-gate \
-            --values values.yaml
-        ```
+    ```sh title="Docker Command"
+    docker run -d --name sms-gateway-worker \
+        -v $(pwd)/config.yml:/app/config.yml \
+        ghcr.io/android-sms-gateway/server:latest \
+        /app/app worker
+    ```
 
-        !!! danger "Security Warning"
-            **Never commit secrets to version control!** Replace placeholder values with actual high-entropy secrets:
-            
-            - Generate unique passwords/tokens using: `openssl rand -base64 32`
-            - Use environment variables or secret management tools
-            - Consider [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets) for Kubernetes
-            - Use cloud secret managers (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager)
+    The background worker handles maintenance tasks. See [Background Worker](../features/private-server.md#background-worker) for setup details.
 
-        For detailed Helm chart documentation, see [Helm Chart Documentation](https://github.com/android-sms-gateway/server/blob/master/deployments/helm-chart/README.md).
-
-
-
-3. **Configure reverse proxy**  
+4. **Configure reverse proxy**
+    
     ```nginx title="Example Nginx Config"
     location / {
         proxy_pass http://localhost:3000;
@@ -140,9 +121,11 @@ To run the server, you'll need:
     }
     ```
 
+    See [`Reverse Proxy Configuration`](../features/private-server.md#reverse-proxy-configuration) for setup details and advanced options.
+
 !!! success "Verification"
     Test server accessibility:
-    ```sh
+    ```sh title="Health Check Verification"
     curl https://private.example.com/health
     # Should return JSON health status
     ```
@@ -171,9 +154,9 @@ To run the server, you'll need:
     2. Activate **Cloud server** switch
     3. Restart the app using the bottom button
 
-!!! check "Successful Connection"
+!!! success "Successful Connection"
     New credentials will appear in **Cloud Server** section when configured properly:
-    ```
+    ```text
     Username: A1B2C3
     Password:  z9y8x7...
     ```
@@ -184,7 +167,9 @@ Identical to [Cloud Server mode](public-cloud-server.md#password-management).
 
 ---
 
+
 ## See Also 📚
 
+- [Private Server Documentation](../features/private-server.md)
 - [Ubuntu/Docker/Nginx Setup Guide](https://github.com/capcom6/android-sms-gateway/discussions/50)
 - [Docker Compose Quickstart](https://github.com/android-sms-gateway/server/tree/master/deployments/docker-compose-proxy)
