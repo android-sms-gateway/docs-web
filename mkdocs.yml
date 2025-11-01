@@ -49,6 +49,7 @@ nav:
       - GET to POST: integration/get-to-post.md
       - Webhooks: features/webhooks.md
   - Features:
+      - Private Server: features/private-server.md
       - Sending Messages: features/sending-messages.md
       - Webhooks: features/webhooks.md
       - Multi-SIM Support: features/multi-sim.md
