@@ -1,4 +1,4 @@
-# Resources - Usages 📚
+# Resources - Use Cases 📚
 
 Projects using SMS Gateway for Android (discovered from public sources).  
 To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.app)
@@ -45,6 +45,38 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
   Play Among Us in real life with your friends using this open-source software  
   [:material-github: GitHub Repo](https://github.com/Merlode11/Among-Us-Real)
   [:material-web: Website](https://merlode11.github.io/Among-Us-Real/)
+
+- :child: **KidSync**  
+  A smart RFID-based system for secure student drop-off and pick-up verification, featuring real-time SMS notifications and automated attendance monitoring  
+  [:material-github: GitHub Repo](https://github.com/naori11/KidSync)
+
+- :mountain: **Kampo Ibayo Resort - Booking System**  
+  A complete web-based booking management system built for Kampo Ibayo Resort, a small eco-friendly camping resort in General Trias, Cavite, Philippines  
+  [:material-github: GitHub Repo](https://github.com/tatineeeeeee/kampo-ibayo-UI-)
+  [:material-web: Website](https://kampo-ibayo-resort.vercel.app/)
+
+- :stethoscope: **iClinic - Healthcare Management System**
+  A modern web-based clinic management system designed for educational institutions like Norzagaray College  
+  [:material-github: GitHub Repo](https://github.com/Eyrondev/iClini-V.2)
+
+- :robot: **SMS tools**
+  SMS tools is a starting point for a suite of applications to manage SMS from a PC with an Android phone  
+  [:material-github: GitHub Repo](https://github.com/sms-tools/sms-tools)
+
+- :hospital: **Pharmacy Scheduling System**
+  A modern, AI-powered pharmacy scheduling and communication system built with a simplified architecture for better performance, maintainability, and cost efficiency  
+  [:material-github: GitHub Repo](https://github.com/TheJimmerJammer123/pharmacy-scheduling-system)
+
+- :material-home-city: **SmartSMS Barangay Management System**  
+  A modern, full-stack web application for efficient barangay management, resident records, document requests, and mass communication via SMS and email. Designed for local government units to streamline operations and improve community engagement  
+  [:material-github: GitHub Repo](https://github.com/aeronjay/SmartSMS-Barangay)
+  [:material-web: Website](https://smartsms-barangay.onrender.com/)
+
+- :robot: **Inboxerr Backend**  
+  API backend for SMS management and delivery  
+  [:material-github: GitHub Repo](https://github.com/QU35710N-7/inboxerr-BACKEND)
+
+
 </div>
 
 ## Closed Source :material-lock:

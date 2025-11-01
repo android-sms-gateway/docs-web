@@ -77,7 +77,7 @@ nav:
   - Resources:
       - Examples: resources/examples.md
       - Third-Party: resources/3rdparty.md
-      - Usages: resources/usages.md
+      - Use Cases: resources/use-cases.md
   - Contributing: contributing.md
   - License: license.md
 validation:
