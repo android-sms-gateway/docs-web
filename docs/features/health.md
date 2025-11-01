@@ -1,10 +1,6 @@
-# Healthcheck
+# Healthcheck 💔
 
-The app provides a healthcheck endpoint at `GET /health` that you can use to check the status of the app. The endpoint returns a JSON response. The response of the healthcheck differs for Local and Cloud/Private modes. Additionally, you can receive health information via the `system:ping` webhook.
-
-In all modes, a response code of `200` indicates normal app operation.
-
-The health information includes:
+The SMSGate provides healthcheck endpoints for monitoring the health of the app. The health information includes:
 
 * **releaseId**: A unique identifier for the app release.
 * **version**: The app version.
@@ -12,116 +8,163 @@ The health information includes:
     * **pass**: The app is running normally.
     * **warn**: The app is running with some issues.
     * **fail**: The app is not running normally.
-* **checks**: A list of health checks performed by the app.
+* **checks**: A list of health checks performed by the app, depends on the server mode.
     * **description**: A description of the health check.
     * **observedUnit**: The unit of the observed value.
     * **observedValue**: The value observed by the health check.
     * **status**: The status of the health check.
 
-## Local Mode
+!!! note "📈 Status Calculation"
+    The overall health status is calculated as follows:
 
-In Local mode, the healthcheck endpoint provides information about the device and the application.
+    - **Default Status**: `pass`
+    - **Status Levels**:
+        - `pass` (0) - All checks passing
+        - `warn` (1) - At least one warning
+        - `fail` (2) - At least one failure
+    - **Overall Status**: Determined by highest severity level across all checks
 
-Example response:
+## Server Health ☁️
 
-```json
-{
-  "checks": {
-    "messages:failed": {
-      "description": "Failed messages for last hour",
-      "observedUnit": "messages",
-      "observedValue": 0,
-      "status": "pass"
-    },
-    "connection:status": {
-      "description": "Internet connection status",
-      "observedUnit": "boolean",
-      "observedValue": 1,
-      "status": "pass"
-    },
-    "connection:transport": {
-      "description": "Network transport type",
-      "observedUnit": "flags",
-      "observedValue": 4,
-      "status": "pass"
-    },
-    "connection:cellular": {
-      "description": "Cellular network type",
-      "observedUnit": "index",
-      "observedValue": 0,
-      "status": "pass"
-    },
-    "battery:level": {
-      "description": "Battery level in percent",
-      "observedUnit": "percent",
-      "observedValue": 94,
-      "status": "pass"
-    },
-    "battery:charging": {
-      "description": "Is the phone charging?",
-      "observedUnit": "flags",
-      "observedValue": 4,
-      "status": "pass"
+=== "📱 Local Server Mode"
+
+    In Local mode, the healthcheck endpoint provides information about the device and the application.
+
+    Example response:
+
+    ```json
+    {
+      "checks": {
+        "messages:failed": {
+          "description": "Failed messages for last hour",
+          "observedUnit": "messages",
+          "observedValue": 0,
+          "status": "pass"
+        },
+        "connection:status": {
+          "description": "Internet connection status",
+          "observedUnit": "boolean",
+          "observedValue": 1,
+          "status": "pass"
+        },
+        "connection:transport": {
+          "description": "Network transport type",
+          "observedUnit": "flags",
+          "observedValue": 4,
+          "status": "pass"
+        },
+        "connection:cellular": {
+          "description": "Cellular network type",
+          "observedUnit": "index",
+          "observedValue": 0,
+          "status": "pass"
+        },
+        "battery:level": {
+          "description": "Battery level in percent",
+          "observedUnit": "percent",
+          "observedValue": 94,
+          "status": "pass"
+        },
+        "battery:charging": {
+          "description": "Is the phone charging?",
+          "observedUnit": "flags",
+          "observedValue": 4,
+          "status": "pass"
+        }
+      },
+      "releaseId": 1,
+      "status": "pass",
+      "version": "1.0.0"
     }
-  },
-  "releaseId": 1,
-  "status": "pass",
-  "version": "1.0.0"
-}
-```
+    ```
 
-### Available health checks
+    Available health checks:
 
-* **messages:failed**: The number of failed messages for the last hour. `warn` when there is at least one failed message and `fail` when all messages during the last hour have failed.
-* **connection:status**: The status of the internet connection. `fail` when the Internet connection is not available.
-* **connection:transport**: The transport type of the network connection. When the device is connected to multiple networks, only a single value is provided:
-    * 0: None
-    * 1: Unknown
-    * 2: Cellular
-    * 4: WiFi
-    * 8: Ethernet
-* **connection:cellular**: The cellular network type. Available only if `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
-    * 0: None
-    * 1: Unknown
-    * 2: Mobile2G
-    * 3: Mobile3G
-    * 4: Mobile4G
-    * 5: Mobile5G
-* **battery:level**: The battery level in percent. `warn` when less than 25% and `fail` when less than 10%.
-* **battery:charging**: The status of charging as bit flags. For example, if the device is charging via USB, the value will be `1 + 4 = 5`.
-    * 0: Not charging
-    * 1: Charging
-    * 2: AC charger connected
-    * 4: USB charger connected
+    - **messages:failed**: The number of failed messages for the last hour. `warn` when there is at least one failed message and `fail` when all messages during the last hour have failed.
+    - **connection:status**: The status of the internet connection. `fail` when the Internet connection is not available.
+    - **connection:transport**: The transport type of the network connection. When the device is connected to multiple networks, only a single value is provided:
+        * 0: None
+        * 1: Unknown
+        * 2: Cellular
+        * 4: WiFi
+        * 8: Ethernet
+    - **connection:cellular**: The cellular network type. Available only if `connection:transport` has flag `2: Cellular`, otherwise `0: None`.
+        * 0: None
+        * 1: Unknown
+        * 2: Mobile2G
+        * 3: Mobile3G
+        * 4: Mobile4G
+        * 5: Mobile5G
+    - **battery:level**: The battery level in percent. `warn` when less than 25% and `fail` when less than 10%.
+    - **battery:charging**: The status of charging as bit flags. For example, if the device is charging via USB, the value will be `1 + 4 = 5`.
+        * 0: Not charging
+        * 1: Charging
+        * 2: AC charger connected
+        * 4: USB charger connected
 
-## Cloud Mode
+=== "⚙️ Cloud and Private Server Modes"
 
-The health endpoint in cloud mode provides information about the server, not devices.
+    The SMSGate server provides Kubernetes-compatible health check endpoints for monitoring service health. The system implements three dedicated endpoints following Kubernetes best practices, along with a legacy endpoint for backward compatibility with existing clients.
 
-If you need to receive device health information in Cloud or Private modes, you can use the `system:ping` webhook.
+    For **Kubernetes deployments**, use the following endpoints:
 
-Example response:
+    - **🔄 Liveness Probe**: `GET /health/live`
+        - **Purpose**: Determine if the application is running correctly
+        - **Response Format**:
+          ```json
+          {
+            "status": "pass",
+            "version": "1.33.0",
+            "releaseId": "1234",
+            "checks": {
+              "system:goroutines": {
+                "description": "Number of goroutines",
+                "observedUnit": "goroutines",
+                "observedValue": 15,
+                "status": "pass"
+              },
+              "system:memory": {
+                "description": "Memory usage",
+                "observedUnit": "MiB",
+                "observedValue": 45,
+                "status": "pass"
+              }
+            }
+          }
+          ```
+    - **🚦 Readiness Probe**: `GET /health/ready`
+        - **Purpose**: Determine if the application is ready to accept traffic
+        - **Response Format**:
+          ```json
+          {
+            "status": "pass",
+            "version": "1.33.0",
+            "releaseId": "1234",
+            "checks": {
+              "db:ping": {
+                "description": "Database ping",
+                "observedUnit": "failed pings",
+                "observedValue": 0,
+                "status": "pass"
+              }
+            }
+          }
+          ```
+    - **🚀 Startup Probe**: `GET /health/startup`
+        - **Purpose**: Determine if the application has completed its startup sequence
+        - **Response Format**: Same as readiness probe
 
-```json
-{
-  "status": "pass",
-  "version": "v1.17.0",
-  "releaseId": 932,
-  "checks": {
-    "db:ping": {
-      "description": "Failed sequential pings count",
-      "observedValue": 0,
-      "status": "pass"
-    }
-  }
-}
-```
+    !!! important "Migration Note"
+        Additionally, a legacy endpoint (`GET /health`) is maintained for backward compatibility with existing clients. This endpoint uses the same logic as the readiness probe.
 
-The only provided health check is `db:ping`. It checks the database connectivity and counts failed sequential pings.
+    !!! tip
+        Use the `system:ping` webhook to monitor device health, as the server probes only monitor the application server itself.
 
-## Webhooks
+## Device Health 📱
 
-In any mode, you can utilize the `system:ping` webhook to receive health information about the devices. The webhook payload will be the same as the device's healthcheck response.
+The `system:ping` webhook provides device health information across all deployment modes.
+
+In Cloud/Private server deployments, the webhook provides device-level health information while the server probes monitor the application server itself. This separation ensures administrators can monitor both the application infrastructure and the connected devices.
 
 Example payload:
 
@@ -181,6 +224,6 @@ Example payload:
 
 The webhook allows you to monitor the health of your devices in real-time, providing valuable information about message delivery, connectivity, and battery status.
 
-## Links
+## See Also 📚
 
 * [Webhooks Guide](./webhooks.md)
