@@ -21,3 +21,10 @@ We offer client libraries in various programming languages to assist with integr
     [:material-github: GitHub Repo](https://github.com/android-sms-gateway/client-py)
     
 </div>
+
+## Support 📞
+
+For issues or questions about the client libraries:
+
+- **GitHub Issues**: Report bugs or request features on the respective repository
+- **Documentation**: Refer to the README files in each repository for detailed usage instructions
