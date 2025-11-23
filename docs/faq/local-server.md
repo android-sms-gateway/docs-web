@@ -33,3 +33,7 @@ Attempting to connect to the device's API directly can give you an immediate sen
 ## 🔑 How do I change my password in Local mode? :material-key:
 
 For Local mode, password management is handled through the [Server Configuration](../getting-started/local-server.md#server-configuration) section.
+
+## 🔐 What authentication methods are supported in Local Server mode?
+
+Local Server mode **only supports Basic Authentication**. JWT authentication is not available in this mode. For JWT authentication, please use Public Cloud Server or Private Server modes.

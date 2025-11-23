@@ -44,6 +44,7 @@ nav:
   - Integration:
       - Overview: integration/index.md
       - API: integration/api.md
+      - Authentication: integration/authentication.md
       - Libraries: integration/client-libraries.md
       - CLI: integration/cli.md
       - GET to POST: integration/get-to-post.md
@@ -75,6 +76,7 @@ nav:
       - Webhooks: faq/webhooks.md
       - Reading Messages: faq/reading-messages.md
       - Errors: faq/errors.md
+      - Authentication: faq/authentication.md
   - Resources:
       - Examples: resources/examples.md
       - Third-Party: resources/3rdparty.md

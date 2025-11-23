@@ -13,6 +13,9 @@ This mode is ideal for sending messages from a local network, enabling direct co
 3. Tap the status button (labeled `Offline`) at the bottom of the screen to start the server; it will switch to `Online` when running.
 4. The `Local Server` section will display your device's local and public IP addresses, as well as the credentials for basic authentication.
 
+    !!! warning "Authentication Method"
+        Local Server mode **only supports Basic Authentication**. JWT authentication is not available in this mode.
+
     !!! note "Public IP Accessibility"
         The displayed public IP address is only accessible from the internet if your device has a public IP assigned by your ISP and your firewall/router allows connections to the specified port (with port forwarding configured). Many ISPs use Carrier-Grade NAT (CG‑NAT), which prevents direct internet access to devices behind shared addresses. See also: [FAQ — Local Server](../faq/local-server.md).
 
