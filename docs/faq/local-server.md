@@ -28,8 +28,21 @@ If your public IP address is not accessible from the internet due to CG-NAT or o
 
 ## 📶 How can I check the online status of the device in Local mode?
 
-Attempting to connect to the device's API directly can give you an immediate sense of its online status. Accessing the `/health` endpoint is a straightforward way to do this.
+Attempting to connect to the device's API directly can give you an immediate sense of its online status. Accessing the `/health` endpoint is a straightforward way to do this. Additionally, you can check network connectivity by running `ping <device_ip>` from your PC. If there's no response, the Wi-Fi connection may have dropped, often due to the phone's Wi-Fi entering a low-power mode.
 
-## 🔑 How do I change my password in Local mode? :material-key:
+## 📵 Why does the Local Server disconnect on my Android device?
+
+The Android OS may kill background apps to save battery, causing the Local Server to stop running. This is common on certain devices, especially Xiaomi, Samsung, or other manufacturers with aggressive battery optimization.
+
+To prevent this:
+
+- Keep your device connected to a charger while using the app
+- Disable battery optimization for SMS Gate in your device settings
+- Follow specific instructions for your phone model at [dontkillmyapp.com](https://dontkillmyapp.com/)
+- Enable "Keep screen on" in the app settings (if available) or keep the device screen active
+
+Additionally, check if the app icon is still visible in the status bar. If it's missing, the app was likely killed by the OS.
+
+## 🔑 How do I change my password in Local mode?
 
 For Local mode, password management is handled through the [Server Configuration](../getting-started/local-server.md#server-configuration) section.
