@@ -38,8 +38,10 @@ Webhooks provide real-time notifications about SMS events. Follow these steps to
      "event": "sms:received",
      "id": "Ey6ECgOkVVFjz3CL48B8C",
      "payload": {
-       "textMessage": { "text": "Android is always a sweet treat!"},
+       "messageId": "abc123",
+       "message": "Android is always a sweet treat!",
        "phoneNumber": "6505551212",
+       "simNumber": 1,
        "receivedAt": "2024-06-22T15:46:11.000+07:00"
      },
      "webhookId": "LreFUt-Z3sSq0JufY9uWB"

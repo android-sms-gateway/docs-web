@@ -173,7 +173,7 @@ Your server will receive a POST request with a payload like:
         "simNumber": 1,
         "receivedAt": "2024-06-22T15:46:11.000+07:00"
       },
-      "webhookId": "<unique-id>"
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }
     ```
 
@@ -190,7 +190,7 @@ Your server will receive a POST request with a payload like:
         "simNumber": 1,
         "receivedAt": "2024-06-22T15:46:11.000+07:00"
       },
-      "webhookId": "<unique-id>"
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }
     ```
 
@@ -210,7 +210,7 @@ Your server will receive a POST request with a payload like:
         "contentClass": "IMAGE_BASIC",
         "receivedAt": "2025-08-23T05:15:30.000+07:00"
       },
-      "webhookId": "<unique-id>"
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }
     ```
 
