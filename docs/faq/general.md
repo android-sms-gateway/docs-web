@@ -114,7 +114,7 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
 
 You can monitor the online status of your SMSGate device using multiple methods depending on your operational mode (Local, Cloud, or Private). Below is a visual overview of the available options:
 
-```mermaid title="Device Online Status Check Methods"
+```mermaid
 graph TD
     A[Check Method] --> B[Local Mode]
     A --> C[Cloud Mode]
