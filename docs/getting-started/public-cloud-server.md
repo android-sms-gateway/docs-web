@@ -12,7 +12,7 @@ Use Cloud Server mode when your device has dynamic or shared IP addresses. Start
 - 🔒 Basic authentication
 
 ### Requirements ⚠️
-- Requires Google Play Services for Firebase Cloud Messaging (FCM) push notifications  
+- Requires Google Play Services for Firebase Cloud Messaging (FCM) push notifications
 - Provides a Server-Sent Events (SSE) fallback for devices without Play Services
 - Needs active internet connection
 
@@ -91,6 +91,33 @@ sequenceDiagram
 
     - Configurable check interval
     - May increase battery consumption
+
+#### Notification Channel Selection 🔔
+
+The app allows you to control which notification channel is used:
+
+| Mode         | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| **Auto**     | Uses FCM when available, falls back to SSE (default) |
+| **SSE Only** | Forces Server-Sent Events, bypassing FCM entirely    |
+
+**When to use SSE Only:**
+
+- :building_construction: **Enterprise environments** where FCM is restricted by firewall policies
+- :no_mobile_phones: **Devices without Google Play Services** (e.g., Chinese devices, custom ROMs)
+- :lock: **Privacy-focused** deployments wanting to avoid Google services
+- :wrench: **Testing** SSE functionality
+
+**Configuration:**
+
+Change the notification channel in the app settings:
+
+1. Navigate to **Settings** → **Cloud Server**
+2. Find **Notification Channel** option
+3. Select **Auto** or **SSE Only**
+4. Restart the app to apply changes
+
+**Important:** SSE Only mode maintains a persistent HTTP connection, which may increase battery consumption and shows a persistent notification in the status bar.
 
 ### How to Use 🛠️
 
