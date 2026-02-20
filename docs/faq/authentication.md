@@ -1,5 +1,12 @@
 # ❌ FAQ - Authentication
 
+## 🚫 Why does /auth/token return HTTP 501 in Local Server mode?
+
+This is expected behavior. JWT authentication is **not implemented in local server mode**. When you make a request to `/auth/token` in local server mode, you will receive HTTP 501 Not Implemented.
+
+!!! tip "Single API Consistency"
+    While this breaks the "single API" consistency between local and cloud modes, JWT authentication for local server mode is planned for a future release.
+
 ## 🔐 What is JWT authentication and how does it work?
 
 JWT (JSON Web Token) authentication is the primary authentication mechanism for the SMSGate API. It provides a secure, scalable way to authenticate API requests without transmitting credentials with each request.

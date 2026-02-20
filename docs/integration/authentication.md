@@ -9,6 +9,9 @@ The SMSGate supports multiple authentication methods to accommodate different us
 - **Basic Authentication**: Legacy username/password for backward compatibility
 - **JWT Bearer Tokens**: Primary authentication mechanism with configurable TTL
 
+!!! important "JWT Authentication Availability"
+    JWT authentication is only available in **Public Cloud Server** mode. In **Local Server** mode, only Basic Authentication is supported.
+
 JWT authentication is recommended for all new integrations as it provides better security, scalability, and fine-grained access control through scopes.
 
 ## JWT Authentication 🔐
@@ -24,6 +27,9 @@ To generate a JWT token, make a POST request to the token endpoint using Basic A
 ```
 POST /3rdparty/v1/auth/token
 ```
+
+!!! warning "Local Server Mode"
+    This endpoint returns HTTP 501 Not Implemented in local server mode. Use Basic Authentication instead.
 
 ### Request
 

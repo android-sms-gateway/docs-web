@@ -36,4 +36,7 @@ For Local mode, password management is handled through the [Server Configuration
 
 ## 🔐 What authentication methods are supported in Local Server mode?
 
-Local Server mode **only supports Basic Authentication**. JWT authentication is not available in this mode. For JWT authentication, please use Public Cloud Server or Private Server modes.
+Local Server mode **only supports Basic Authentication**. JWT authentication is not available in this mode.
+
+!!! tip "Future Support"
+    JWT authentication for local server mode is planned for a future release to provide a consistent API across all deployment modes.
