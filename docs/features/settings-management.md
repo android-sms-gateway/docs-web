@@ -39,27 +39,26 @@ The settings parameters are represented as a JSON object. The structure includes
 
 ```json
 {
-    "encryption": {
-        "passphrase": null
-    },
-    "messages": {
-        "send_interval_min": null,
-        "send_interval_max": null,
-        "limit_period": "Disabled",
-        "limit_value": null,
-        "sim_selection_mode": "OSDefault",
-        "log_lifetime_days": null
-    },
-    "ping": {
-        "interval_seconds": null
+    "gateway": {
+        "notification_channel": "AUTO"
     },
     "logs": {
         "lifetime_days": 30
     },
+    "messages": {
+        "limit_period": "Disabled",
+        "limit_value": null,
+        "log_lifetime_days": null,
+        "send_interval_max": null,
+        "send_interval_min": null,
+        "sim_selection_mode": "OSDefault"
+    },
+    "ping": {
+        "interval_seconds": null
+    },
     "webhooks": {
         "internet_required": true,
-        "retry_count": 1,
-        "signing_key": null
+        "retry_count": 1
     }
 }
 ```
@@ -68,9 +67,15 @@ When operating in Local mode, you can also configure the following Cloud/Private
 
 ```json
 {
+    "encryption": {
+        "passphrase": null
+    },
     "gateway": {
         "cloud_url": "https://api.sms-gate.app/mobile/v1",
         "private_token": null
+    },
+    "webhooks": {
+        "signing_key": null
     }
 }
 ```
