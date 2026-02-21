@@ -39,7 +39,6 @@ To prevent this:
 - Keep your device connected to a charger while using the app
 - Disable battery optimization for SMS Gate in your device settings
 - Follow specific instructions for your phone model at [dontkillmyapp.com](https://dontkillmyapp.com/)
-- Enable "Keep screen on" in the app settings (if available) or keep the device screen active
 
 Additionally, check if the app icon is still visible in the status bar. If it's missing, the app was likely killed by the OS.
 
