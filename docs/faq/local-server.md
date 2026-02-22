@@ -28,7 +28,10 @@ If your public IP address is not accessible from the internet due to CG-NAT or o
 
 ## 📶 How can I check the online status of the device in Local mode?
 
-Attempting to connect to the device's API directly can give you an immediate sense of its online status. Accessing the `/health` endpoint is a straightforward way to do this. Additionally, you can check network connectivity by running `ping <device_ip>` from your PC. If there's no response, the Wi-Fi connection may have dropped, often due to the phone's Wi-Fi entering a low-power mode.
+You can verify the device's online status with two quick checks:
+
+1. **API health** – open `http://<device_ip>:<port>/health` in a browser or HTTP client. A successful response confirms the Local Server is running.
+2. **Network reachability** – run `ping <device_ip>` from your PC. If there is no response, the Wi-Fi connection may have dropped, often due to the phone's Wi-Fi entering a low-power mode.
 
 ## 📵 Why does the Local Server disconnect on my Android device?
 
@@ -40,7 +43,7 @@ To prevent this:
 - Disable battery optimization for SMS Gate in your device settings
 - Follow specific instructions for your phone model at [dontkillmyapp.com](https://dontkillmyapp.com/)
 
-Additionally, check if the app icon is still visible in the status bar. If it's missing, the app was likely killed by the OS.
+Additionally, check if the SMS Gate notification icon is still visible in the status bar (a persistent notification is shown while the Local Server is running). If it's missing, the app was likely killed by the OS.
 
 ## 🔑 How do I change my password in Local mode?
 
