@@ -127,7 +127,7 @@ Use this build when:
 
 ## 📨 Why do I receive multiple delivery reports for a single message?
 
-When sending SMS messages longer than the standard character limits (160 characters for GSM/7-bit encoding or 70 characters for Unicode), the message is automatically split into multiple parts. 
+When sending SMS messages longer than the standard character limits (160 characters for GSM/7-bit encoding or 70 characters for Unicode), the message is automatically split into multiple parts.
 
 Each message part is:
 
@@ -138,8 +138,9 @@ Each message part is:
 You'll receive separate `sms:delivered` events for each part, but they share the same:
 
 - `messageId` (links all parts to the original message)
-- `phoneNumber` (recipient)
-
+- `sender` (device's phone number that sent the message)
+- `recipient` (recipient's phone number)
+    
 See also: [Multipart Message Behavior](../features/webhooks.md#multipart-message-behavior)
 
 ## :material-multimedia: Why isn't my MMS webhook triggering?

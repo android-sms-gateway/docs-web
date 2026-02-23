@@ -16,8 +16,12 @@ The app allows you to track the status of messages using multiple methods.
       "event": "sms:failed",
       "payload": {
         "messageId": "zXDYfTmTVf3iMd16zzdBj",
-        "reason": "Invalid number",
-        "failedAt": "2024-02-20T15:30:00Z"
+        "sender": "+1234567890",
+        "recipient": "+9876543210",
+        "phoneNumber": "+9876543210",
+        "simNumber": 1,
+        "failedAt": "2024-02-20T15:30:00Z",
+        "reason": "Invalid number"
       }
     }
     ```
