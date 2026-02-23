@@ -48,6 +48,7 @@ nav:
       - Libraries: integration/client-libraries.md
       - CLI: integration/cli.md
       - GET to POST: integration/get-to-post.md
+      - Agent Systems: integration/agents.md
       - Webhooks: features/webhooks.md
   - Features:
       - Private Server: features/private-server.md
@@ -111,6 +112,8 @@ plugins:
       categories:
         - categories
         - tags
+exclude_docs: |
+  /skill.md
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true

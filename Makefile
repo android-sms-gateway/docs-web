@@ -13,7 +13,7 @@ dev: ## Run the development server
 
 .PHONY: build
 build: ## Build the documentation
-	pipenv run mkdocs build
+	pipenv run mkdocs build && cp docs/skill.md site
 
 .PHONY: clean
 clean: ## Remove build artifacts
