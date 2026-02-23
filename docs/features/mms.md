@@ -28,7 +28,8 @@ When an MMS message is received, your webhook will receive a POST request with t
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
     "messageId": "mms_12345abcde",
-    "phoneNumber": "+1234567890",
+    "sender": "+1234567891",
+    "recipient": "+1234567890",
     "simNumber": 1,
     "transactionId": "T1234567890ABC",
     "subject": "Photo attachment",

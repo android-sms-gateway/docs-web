@@ -9,14 +9,18 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 - :incoming_envelope: **sms:received**
     - `messageId`: Content-based ID
     - `message`: SMS content
-    - `phoneNumber`: Sender's number
+    - `sender` ⭐: Sender's phone number (use instead of deprecated `phoneNumber`)
+    - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
+    - `phoneNumber` ⚠️: Sender's number (deprecated, use `sender`)
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
 - :material-database: **sms:data-received**
     - `messageId`: Content-based ID
     - `data`: Base64-encoded data message
-    - `phoneNumber`: Sender's number
+    - `sender` ⭐: Sender's phone number (use instead of deprecated `phoneNumber`)
+    - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
+    - `phoneNumber` ⚠️: Sender's number (deprecated, use `sender`)
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
@@ -26,26 +30,34 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `subject`: Message subject line (nullable)
     - `size`: Attachment size in bytes
     - `contentClass`: MMS content classification (nullable)
-    - `phoneNumber`: Sender's number
+    - `sender` ⭐: Sender's phone number (use instead of deprecated `phoneNumber`)
+    - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
+    - `phoneNumber` ⚠️: Sender's number (deprecated, use `sender`)
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
 - :outbox_tray: **sms:sent**
     - `messageId`: Unique ID
-    - `phoneNumber`: Recipient
+    - `sender` ⭐: Device's phone number
+    - `recipient` 📍: Recipient's phone number (use instead of deprecated `phoneNumber`)
+    - `phoneNumber` ⚠️: Recipient (deprecated, use `recipient`)
     - `simNumber`: SIM index (nullable)
     - `partsCount`: Number of message parts
     - `sentAt`: Local timestamp
 
 - :white_check_mark: **sms:delivered**
     - `messageId`: Unique ID
-    - `phoneNumber`: Recipient
+    - `sender` ⭐: Device's phone number
+    - `recipient` 📍: Recipient's phone number (use instead of deprecated `phoneNumber`)
+    - `phoneNumber` ⚠️: Recipient (deprecated, use `recipient`)
     - `simNumber`: SIM index (nullable)
     - `deliveredAt`: Local timestamp
 
 - :x: **sms:failed**
     - `messageId`: Unique ID
-    - `phoneNumber`: Recipient
+    - `sender` ⭐: Device's phone number
+    - `recipient` 📍: Recipient's phone number (use instead of deprecated `phoneNumber`)
+    - `phoneNumber` ⚠️: Recipient (deprecated, use `recipient`)
     - `simNumber`: SIM index (nullable)
     - `reason`: Error details
     - `failedAt`: Local timestamp
@@ -54,6 +66,9 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `health`: [Healthcheck status](./health.md)
 
 </div>
+
+!!! note "`sender` and `recipient` May Be `null`"
+    For inbound events (`sms:received`, `sms:data-received`, `mms:received`), `recipient` represents the device's own phone number and can be `null` if the app lacks `READ_PHONE_STATE` permission or the carrier doesn't provide the number. For outbound events like `sms:delivered`, `recipient` is always the recipient's number. `sender` (the device's own number) may similarly be `null` for outbound events if the device number is unavailable.
 
 ## Prerequisites ✅
 
@@ -169,7 +184,8 @@ Your server will receive a POST request with a payload like:
       "payload": {
         "messageId": "abc123",
         "message": "Android is always a sweet treat!",
-        "phoneNumber": "6505551212",
+        "sender": "6505551212",
+        "recipient": "+1234567890",
         "simNumber": 1,
         "receivedAt": "2024-06-22T15:46:11.000+07:00"
       },
@@ -186,7 +202,8 @@ Your server will receive a POST request with a payload like:
       "payload": {
         "messageId": "abc123",
         "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
-        "phoneNumber": "6505551212",
+        "sender": "6505551212",
+        "recipient": "+1234567890",
         "simNumber": 1,
         "receivedAt": "2024-06-22T15:46:11.000+07:00"
       },
@@ -202,13 +219,67 @@ Your server will receive a POST request with a payload like:
       "id": "Ey6ECgOkVVFjz3CL48B8C",
       "payload": {
         "messageId": "mms_12345abcde",
-        "phoneNumber": "+1234567890",
+        "sender": "6505551212",
+        "recipient": "+1234567890",
         "simNumber": 1,
         "transactionId": "T1234567890ABC",
         "subject": "Photo attachment",
         "size": 125684,
         "contentClass": "IMAGE_BASIC",
         "receivedAt": "2025-08-23T05:15:30.000+07:00"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+    }
+    ```
+
+=== "sms:sent"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "sms:sent",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "msg-456",
+        "sender": "+1234567890",
+        "recipient": "+9998887777",
+        "simNumber": 1,
+        "partsCount": 1,
+        "sentAt": "2026-02-18T02:05:00.000+07:00"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+    }
+    ```
+
+=== "sms:delivered"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "sms:delivered",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "msg-789",
+        "sender": "+1234567890",
+        "recipient": "+9998887777",
+        "simNumber": 1,
+        "deliveredAt": "2026-02-18T02:10:00.000+07:00"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+    }
+    ```
+
+=== "sms:failed"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "sms:failed",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "msg-000",
+        "sender": "+1234567890",
+        "recipient": "+4445556666",
+        "simNumber": 3,
+        "failedAt": "2026-02-18T02:15:00.000+07:00",
+        "reason": "Network error"
       },
       "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }

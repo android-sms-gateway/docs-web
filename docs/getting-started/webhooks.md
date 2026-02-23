@@ -40,7 +40,8 @@ Webhooks provide real-time notifications about SMS events. Follow these steps to
      "payload": {
        "messageId": "abc123",
        "message": "Android is always a sweet treat!",
-       "phoneNumber": "6505551212",
+       "sender": "6505551212",
+       "recipient": "+1234567890",
        "simNumber": 1,
        "receivedAt": "2024-06-22T15:46:11.000+07:00"
      },
@@ -57,7 +58,7 @@ Webhooks provide real-time notifications about SMS events. Follow these steps to
 ### Local Network Tips 🌍
 
 - Use `127.0.0.1` with ADB reverse port forwarding for local testing
-- For private IPs:  
+- For private IPs:
     1. [Generate Private Webhook certificate](../services/ca.md)
     2. Install on the server
     3. Use `https` in webhook URL
