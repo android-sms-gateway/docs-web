@@ -227,7 +227,7 @@ If you no longer wish to receive webhook notifications, deregister your webhook 
 
 ```sh title="Cloud mode example"
 curl -X DELETE -u <username>:<password> \
-  'https://api.sms-gate.app/3rdparty/v1/webhooks/%3Cunique-id%3E'
+  'https://api.sms-gate.app/3rdparty/v1/webhooks/LreFUt-Z3sSq0JufY9uWB'
 ```
 
 ## Local Network Solutions 🏠
