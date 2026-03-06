@@ -15,21 +15,24 @@ Making SMSGate the default SMS app could solve this problem, but we intentionall
 
 The SMSGate app focuses on core SMS functionality and does not support sending MMS (Multimedia Messaging Service) messages. This design choice aligns with the principle of "do one thing, do it well"—ensuring reliable SMS delivery without complicating the application with additional, less critical features.
 
-## 🤖 Does the app support Android 15?
+## 🤖 Does the app support Android 15 and higher?
 
-The SMSGate app fully supports Android 15 (API level 35). However, due to enhanced privacy and security changes in the Android 15 permissions model, manual SMS permission setup is required to ensure proper functionality:
+The SMSGate app fully supports Android 15 (API level 35) and higher. However, there are two important considerations when installing and configuring the app on these newer Android versions.
 
-1. :material-android: Install [the latest app version](https://github.com/capcom6/android-sms-gateway/releases/latest)
-2. :material-shield-key: Grant SMS permissions via ADB
-    ```bash title="Grant SMS Permission via ADB"
-    adb shell pm grant me.capcom.smsgateway android.permission.SEND_SMS
-    ```
-    or via the [Settings app](./errors.md#does-not-have-androidpermissionsend_sms)
-3. :material-restart: Reboot device
+=== "Installation"
 
-!!! note "Community Contribution"
-    Special thanks to *@mabushey* for solution!  
-    [:material-github: Issue #184](https://github.com/capcom6/android-sms-gateway/issues/184)
+    On Android 15+, Google Play Protect may block APK installation because the app is not distributed via Google Play.
+    Follow the [installation guide](../installation.md#installing-from-apk) for the step-by-step APK flow, including the Play Protect fallback.
+
+    !!! warning "Security Note"
+        Only disable Play Protect temporarily for the installation. Re-enable it immediately after the app is installed, and download APKs only from the official GitHub releases page.
+
+=== "Permissions"
+
+    Due to enhanced privacy and security changes in Android 15+, the SMS permission may be grayed out in the Settings app by default. You must grant it [manually](./errors.md#does-not-have-androidpermissionsend_sms-error).
+
+!!! note "Related Issue"
+    See [Issue #280](https://github.com/capcom6/android-sms-gateway/issues/280) for community reports and discussion.
 
 ## 📱 How can I send an SMS using the second SIM card?
 

@@ -4,17 +4,46 @@
 
 The app requires the `android.permission.SEND_SMS` permission to send SMS messages. While the app requests this permission on first launch, if for any reason it wasn't granted you may need to grant it manually.
 
-!!! tip "Manual Permission Setup" 
-    1. :gear: Open device Settings → Apps → SMS Gateway  
-    2. :material-shield-key: Navigate to Permissions → SMS  
-    3. :material-toggle-switch: Enable SMS permission  
-    
-!!! tip "Hidden Permissions"
-    On some devices:
+=== "Via Settings"
 
-    - Tap ⋮ menu → "All permissions"  
-    - Locate SMS under "Not allowed" section  
-    - Change to "Allow"
+    1. :gear: Open device Settings → Apps → SMSGate
+    2. :material-shield-key: Navigate to Permissions → SMS
+    3. :material-toggle-switch: Enable SMS permission
+        
+    !!! tip "Hidden Permissions"
+        On some devices:
+
+        1. Tap ⋮ menu → "All permissions"
+        2. Locate SMS under "Not allowed" section
+        3. Change to "Allow"
+
+    !!! tip "Restricted Settings"
+        If the permission is grayed out:
+
+        1. Tap **More** → **Allow restricted settings**
+        2. Navigate to Permissions → SMS and enable it
+
+    !!! note "Community Contribution"
+        Special thanks to *@mabushey* and *@AlexxIT* for the SMS permission solution!
+        [:material-github: Issue #184](https://github.com/capcom6/android-sms-gateway/issues/184)  
+        [:material-github: Issue #280](https://github.com/capcom6/android-sms-gateway/issues/280)
+
+=== "Via ADB"
+
+    1. :material-android: Enable **USB Debugging** on your device (Settings → Developer Options)
+    2. :material-usb: Connect your device to a computer with ADB installed
+    3. :material-shield-key: Grant permissions via ADB:
+        ```bash title="Grant SMS Permissions via ADB"
+        adb shell pm grant me.capcom.smsgateway android.permission.SEND_SMS
+        adb shell pm grant me.capcom.smsgateway android.permission.RECEIVE_SMS
+        adb shell pm grant me.capcom.smsgateway android.permission.READ_PHONE_STATE
+        ```
+    4. :material-restart: Reboot your device
+
+    !!! warning "Important"
+        - The SMS permission will remain grayed out in Settings even after granting via ADB - this is expected behavior on Android 15+
+        - You only need to do this once (permissions persist after app updates)
+        - If you uninstall and reinstall the app, you'll need to grant permissions again via ADB
 
 ## ⚠️ `RESULT_ERROR_GENERIC_FAILURE` Error
 
