@@ -32,11 +32,11 @@ The SMSGate app fully supports Android 15 (API level 35) and higher. However, th
     4. :material-shield-key: Re-enable Google Play Protect after installation
 
     !!! warning "Security Note"
-        Only disable Play Protect temporarily for the installation. Re-enable it immediately after the app is installed. The app is safe to use and does not contain malware.
+        Only disable Play Protect temporarily for the installation. Re-enable it immediately after the app is installed, and download APKs only from the official GitHub releases page.
 
 === "Permissions"
 
-    Due to enhanced privacy and security changes in Android 15+, the SMS permission may be grayed out in the Settings app and cannot be enabled manually through the UI. You must grant it [manually](./errors.md#does-not-have-androidpermissionsend_sms-error).
+    Due to enhanced privacy and security changes in Android 15+, the SMS permission may be grayed out in the Settings app by default. You must grant it [manually](./errors.md#does-not-have-androidpermissionsend_sms-error).
 
 !!! note "Related Issue"
     See [Issue #280](https://github.com/capcom6/android-sms-gateway/issues/280) for community reports and discussion.

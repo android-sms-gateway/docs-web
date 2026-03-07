@@ -22,9 +22,10 @@ Grant the following permissions for full functionality:
 4. Access **Settings** > **Security** or **Privacy** on your device.
 5. Activate **Unknown sources** to allow installations from non-Play Store sources.
 6. :warning: **For Android 15+ users**:  
-   Temporarily disable Google Play Protect:
-    - Open **Google Play Store** → **Profile** → **Play Protect** → **Settings**
-    - Turn off **Scan apps with Play Protect**
+    If Play Protect blocks the APK, temporarily disable it:
+       - Open **Google Play Store** → **Profile** → **Play Protect** → **Settings**
+       - Turn off **Scan apps with Play Protect**
+       - Re-enable it immediately after installation
 7. Use a file manager to find the APK file on your device.
 8. Tap the APK to begin installation.
 9.  Complete the setup as prompted on-screen.
