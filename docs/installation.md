@@ -29,8 +29,6 @@ Grant the following permissions for full functionality:
 7. Use a file manager to find the APK file on your device.
 8. Tap the APK to begin installation.
 9.  Complete the setup as prompted on-screen.
-10. :warning: Re-enable Google Play Protect after installation completes.
-
 
 ### Build Variants
 

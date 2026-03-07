@@ -24,7 +24,7 @@ The SMSGate app fully supports Android 15 (API level 35) and higher. However, th
     On Android 15+, Google Play Protect may block the installation of the APK because it's not from the Google Play Store. To install the app successfully:
 
     1. :material-download: Download [the latest app version](https://github.com/capcom6/android-sms-gateway/releases/latest)
-    2. :material-shield-off: **Temporarily disable Google Play Protect**:
+    2. :material-shield-off: **If Play Protect blocks installation, temporarily disable it**:
         - Open **Google Play Store** → **Profile** → **Play Protect** → **Settings**
         - Turn off **Scan apps with Play Protect**
         - Alternatively, when the installation fails, you'll be prompted to allow the installation
