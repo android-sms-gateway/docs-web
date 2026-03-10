@@ -41,12 +41,15 @@ When an MMS message is received, your webhook will receive a POST request with t
 }
 ```
 
+!!! warning "No Message Content"
+    The MMS webhook payload contains **metadata only** - no message text or attachment content is included.
+
 The description of each field can be found in the [Webhook Supported Events](./webhooks.md#supported-events) section.
 
 ## 🚫 Limitations
 
 - **Receive-Only**: MMS messages cannot be sent through the API
-- **No Attachment Content**: Webhooks provide metadata only, not actual content
+- **No Message Content**: Webhooks provide metadata only - no message text or attachment content is included
 - **Carrier Dependencies**: Functionality varies by mobile carrier and network conditions
 
 ## 📚 See Also
