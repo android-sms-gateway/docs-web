@@ -7,7 +7,7 @@ This guide provides a comprehensive overview of authentication in the SMSGate AP
 The SMSGate supports multiple authentication methods to accommodate different use cases:
 
 - **Basic Authentication**: Legacy username/password for backward compatibility
-- **JWT Bearer Tokens**: Primary authentication mechanism with configurable TTL
+- **JWT Bearer Tokens**: Primary authentication mechanism with configurable TTL and refresh token support
 
 !!! important "JWT Authentication Availability"
     JWT authentication is only available in **Public Cloud Server** mode. In **Local Server** mode, only Basic Authentication is supported.
@@ -16,11 +16,11 @@ JWT authentication is recommended for all new integrations as it provides better
 
 ## JWT Authentication 🔐
 
-JWT authentication uses bearer tokens to authenticate API requests. These tokens contain encoded information about the user, their permissions (scopes), and token metadata.
+JWT authentication uses bearer tokens to authenticate API requests. These tokens contain encoded information about the user, their permissions (scopes), and token metadata. The system supports both access tokens (short-lived) and refresh tokens (long-lived) for seamless token rotation.
 
 ## Token Generation 🚀
 
-To generate a JWT token, make a POST request to the token endpoint using Basic Authentication.
+To generate a JWT token pair (access and refresh tokens), make a POST request to the token endpoint using Basic Authentication.
 
 ### Endpoint
 
@@ -61,18 +61,20 @@ curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token" \
   "id": "w8pxz0a4Fwa4xgzyCvSeC",
   "token_type": "Bearer",
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "expires_at": "2025-11-22T08:45:00Z"
 }
 ```
 
 ### Response Fields
 
-| Field          | Type   | Description                               |
-| -------------- | ------ | ----------------------------------------- |
-| `id`           | string | Token identifier (JTI)                    |
-| `token_type`   | string | Token type (always "Bearer")              |
-| `access_token` | string | The JWT token                             |
-| `expires_at`   | string | ISO 8601 timestamp when the token expires |
+| Field           | Type   | Description                               |
+| --------------- | ------ | ----------------------------------------- |
+| `id`            | string | Token identifier (JTI)                    |
+| `token_type`    | string | Token type (always "Bearer")              |
+| `access_token`  | string | The JWT access token                      |
+| `refresh_token` | string | The JWT refresh token                     |
+| `expires_at`    | string | ISO 8601 timestamp when the token expires |
 
 ## Using JWT Tokens 📝
 
@@ -90,6 +92,38 @@ Authorization: Bearer <your-jwt-token>
 curl -X GET "https://api.sms-gate.app/3rdparty/v1/messages" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
+
+## Refreshing Tokens 🔄
+
+Access tokens are short-lived for security. Use the refresh token to obtain a new token pair without re-authenticating with credentials.
+
+### Endpoint
+
+```
+POST /3rdparty/v1/auth/token/refresh
+```
+
+### Request
+
+```bash
+curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token/refresh" \
+  -H "Authorization: Bearer <your-refresh-token>"
+```
+
+### Response
+
+```json
+{
+  "id": "new_token_jti",
+  "token_type": "Bearer",
+  "access_token": "new_access_token_string",
+  "refresh_token": "new_refresh_token_string",
+  "expires_at": "2025-11-22T09:45:00Z"
+}
+```
+
+!!! tip "Token Rotation"
+    Each refresh operation generates a new token pair and revokes the old one. Always use the latest refresh token.
 
 ## Token Management 🔄
 
@@ -111,8 +145,9 @@ curl -X DELETE "https://api.sms-gate.app/3rdparty/v1/auth/token/w8pxz0a4Fwa4xgzy
 - **Use short TTLs**: Set appropriate expiration times based on your security requirements
 - **Request minimal scopes**: Only request the scopes your application needs
 - **Store tokens securely**: Keep tokens in secure storage, not in client-side code
-- **Implement token rotation**: Refresh tokens before they expire for long-running applications
+- **Implement token rotation**: Use refresh tokens to obtain new access tokens before expiration
 - **Revoke unused tokens**: Immediately revoke tokens that are no longer needed
+- **Handle refresh token expiration**: Refresh tokens have a longer TTL (default: 720h) but should still be rotated periodically
 
 ## JWT Scopes 🔍
 
@@ -171,9 +206,13 @@ All scopes follow the pattern: `resource:action`
 
 #### Token Management Scopes
 
-| Scope           | Description                                  | Access Level   |
-| --------------- | -------------------------------------------- | -------------- |
-| `tokens:manage` | Permission to generate and revoke JWT tokens | Administrative |
+| Scope            | Description                                  | Access Level   |
+| ---------------- | -------------------------------------------- | -------------- |
+| `tokens:manage`  | Permission to generate and revoke JWT tokens | Administrative |
+| `tokens:refresh` | System scope for token refresh operations    | System         |
+
+!!! note "System Scopes"
+    The `tokens:refresh` scope is a system scope that is automatically included in refresh tokens. You do not need to (and should not) request this scope directly when generating tokens. It is managed internally by the system to enable token rotation.
 
 ### Scope Assignment by Endpoint
 
@@ -217,10 +256,11 @@ All scopes follow the pattern: `resource:action`
 
 #### Token Management API
 
-| Endpoint                       | Method | Required Scope  | Description        |
-| ------------------------------ | ------ | --------------- | ------------------ |
-| `/3rdparty/v1/auth/token`      | POST   | `tokens:manage` | Generate new token |
-| `/3rdparty/v1/auth/token/:jti` | DELETE | `tokens:manage` | Revoke token       |
+| Endpoint                          | Method | Required Scope       | Description        |
+| --------------------------------- | ------ | -------------------- | ------------------ |
+| `/3rdparty/v1/auth/token`         | POST   | `tokens:manage`      | Generate new token |
+| `/3rdparty/v1/auth/token/refresh` | POST   | Bearer refresh token | Refresh token      |
+| `/3rdparty/v1/auth/token/:jti`    | DELETE | `tokens:manage`      | Revoke token       |
 
 ## Code Examples 💻
 
@@ -246,6 +286,11 @@ All scopes follow the pattern: `resource:action`
           "text": "Hello from JWT!"
         }
       }'
+    ```
+
+    ```bash title="Refresh JWT Token"
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token/refresh" \
+      -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     ```
 
 === "Python"
@@ -305,6 +350,31 @@ All scopes follow the pattern: `resource:action`
         print(f"Error sending message: {response.status_code} - {response.text}")
     ```
 
+    ```python title="Refresh JWT Token"
+    import requests
+
+    # Configuration
+    gateway_url = "https://api.sms-gate.app"
+    refresh_token = "your_refresh_token"
+
+    # Refresh token
+    response = requests.post(
+        f"{gateway_url}/3rdparty/v1/auth/token/refresh",
+        headers={
+            "Authorization": f"Bearer {refresh_token}",
+            "Content-Type": "application/json"
+        }
+    )
+
+    if response.status_code == 200:
+        token_data = response.json()
+        access_token = token_data["access_token"]
+        refresh_token = token_data["refresh_token"]
+        print(f"Token refreshed successfully. Expires at: {token_data['expires_at']}")
+    else:
+        print(f"Error refreshing token: {response.status_code} - {response.text}")
+    ```
+
 === "JavaScript"
 
     ```javascript title="Generate JWT Token"
@@ -359,6 +429,30 @@ All scopes follow the pattern: `resource:action`
         console.log('Message sent successfully!');
       } else {
         console.error('Error sending message:', data);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+    ```
+
+    ```javascript title="Refresh JWT Token"
+    // Configuration
+    const gatewayUrl = "https://api.sms-gate.app";
+    const refreshToken = "your_refresh_token";
+
+    // Refresh token
+    fetch(`${gatewayUrl}/3rdparty/v1/auth/token/refresh`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${refreshToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.access_token) {
+        console.log('Token refreshed successfully. Expires at:', data.expires_at);
+      } else {
+        console.error('Error refreshing token:', data);
       }
     })
     .catch(error => console.error('Error:', error));
@@ -440,7 +534,7 @@ All scopes follow the pattern: `resource:action`
 ```python
 import requests
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 class SMSGatewayClient:
     def __init__(self, gateway_url, username, password):
@@ -448,10 +542,11 @@ class SMSGatewayClient:
         self.username = username
         self.password = password
         self.access_token = None
+        self.refresh_token = None
         self.token_expires_at = None
     
     def get_token(self, scopes, ttl=3600):
-        """Get a new JWT token"""
+        """Get a new JWT token pair"""
         response = requests.post(
             f"{self.gateway_url}/3rdparty/v1/auth/token",
             auth=(self.username, self.password),
@@ -462,6 +557,7 @@ class SMSGatewayClient:
         if response.status_code == 201:
             token_data = response.json()
             self.access_token = token_data["access_token"]
+            self.refresh_token = token_data["refresh_token"]
             # Parse expiration time
             self.token_expires_at = datetime.fromisoformat(
                 token_data["expires_at"].replace("Z", "+00:00")
@@ -470,12 +566,40 @@ class SMSGatewayClient:
         else:
             raise Exception(f"Failed to get token: {response.status_code} - {response.text}")
     
+    def refresh_access_token(self):
+        """Refresh the access token using the refresh token"""
+        if not self.refresh_token:
+            raise Exception("No refresh token available")
+        
+        response = requests.post(
+            f"{self.gateway_url}/3rdparty/v1/auth/token/refresh",
+            headers={
+                "Authorization": f"Bearer {self.refresh_token}",
+                "Content-Type": "application/json"
+            }
+        )
+        
+        if response.status_code == 200:
+            token_data = response.json()
+            self.access_token = token_data["access_token"]
+            self.refresh_token = token_data["refresh_token"]
+            # Parse expiration time
+            self.token_expires_at = datetime.fromisoformat(
+                token_data["expires_at"].replace("Z", "+00:00")
+            )
+            return self.access_token
+        else:
+            raise Exception(f"Failed to refresh token: {response.status_code} - {response.text}")
+    
     def ensure_valid_token(self, scopes):
         """Ensure we have a valid token, refresh if needed"""
-        if (self.access_token is None or 
-            self.token_expires_at is None or 
-            datetime.now() + timedelta(minutes=5) >= self.token_expires_at):
-            self.get_token(scopes)
+        if (self.access_token is None or
+            self.token_expires_at is None or
+            datetime.now(timezone.utc) + timedelta(minutes=5) >= self.token_expires_at):
+            if self.refresh_token:
+                self.refresh_access_token()
+            else:
+                self.get_token(scopes)
         return self.access_token
     
     def send_message(self, recipient, message):
@@ -493,8 +617,11 @@ class SMSGatewayClient:
             )
             
             if response.status_code == 401:
-                # Token might be expired or invalid, try once more
-                token = self.get_token(["messages:send"])
+                # Token might be expired or invalid, try refreshing
+                if self.refresh_token:
+                    token = self.refresh_access_token()
+                else:
+                    token = self.get_token(["messages:send"])
                 response = requests.post(
                     f"{self.gateway_url}/3rdparty/v1/messages",
                     headers={
@@ -529,6 +656,7 @@ print("Message sent:", result)
 - **Scope Limitation**: Request only the scopes you need
 - **Secure Storage**: Store tokens securely on the server side, not in client-side code
 - **Revocation**: Implement token revocation for compromised tokens
+- **Refresh Token Security**: Store refresh tokens securely and rotate them periodically
 
 ### Client Security
 

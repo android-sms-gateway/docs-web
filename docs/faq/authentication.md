@@ -9,7 +9,7 @@ This is expected behavior. JWT authentication is **not implemented in local serv
 
 ## 🔐 What is JWT authentication and how does it work?
 
-JWT (JSON Web Token) authentication is the primary authentication mechanism for the SMSGate API. It provides a secure, scalable way to authenticate API requests without transmitting credentials with each request.
+JWT (JSON Web Token) authentication is the primary authentication mechanism for the SMSGate API. It provides a secure, scalable way to authenticate API requests without transmitting credentials with each request. The system supports both access tokens (short-lived) and refresh tokens (long-lived) for seamless token rotation.
 
 ## 🔄 How do I migrate from Basic Auth to JWT?
 
@@ -102,11 +102,11 @@ JWT tokens have a configurable time-to-live (TTL). The default TTL is 24 hours (
 
 ### Token Refresh Strategy
 
-Since JWT tokens cannot be refreshed (they must be reissued), implement a proactive refresh strategy:
+JWT tokens can be refreshed using the refresh token endpoint. The refresh token is automatically included in the token pair response and contains a system-managed scope that enables token rotation. Implement a proactive refresh strategy:
 
 ```python
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 class SMSGatewayClient:
     def __init__(self, gateway_url, username, password):
@@ -114,10 +114,11 @@ class SMSGatewayClient:
         self.username = username
         self.password = password
         self.access_token = None
+        self.refresh_token = None
         self.token_expires_at = None
     
     def get_token(self, scopes, ttl=3600):
-        """Get a new JWT token"""
+        """Get a new JWT token pair"""
         response = requests.post(
             f"{self.gateway_url}/3rdparty/v1/auth/token",
             auth=(self.username, self.password),
@@ -128,6 +129,7 @@ class SMSGatewayClient:
         if response.status_code == 201:
             token_data = response.json()
             self.access_token = token_data["access_token"]
+            self.refresh_token = token_data["refresh_token"]
             self.token_expires_at = datetime.fromisoformat(
                 token_data["expires_at"].replace("Z", "+00:00")
             )
@@ -135,19 +137,50 @@ class SMSGatewayClient:
         else:
             raise Exception(f"Failed to get token: {response.status_code}")
     
+    def refresh_access_token(self):
+        """Refresh the access token using the refresh token"""
+        if not self.refresh_token:
+            raise Exception("No refresh token available")
+        
+        response = requests.post(
+            f"{self.gateway_url}/3rdparty/v1/auth/token/refresh",
+            headers={
+                "Authorization": f"Bearer {self.refresh_token}",
+                "Content-Type": "application/json"
+            }
+        )
+        
+        if response.status_code == 200:
+            token_data = response.json()
+            self.access_token = token_data["access_token"]
+            self.refresh_token = token_data["refresh_token"]
+            self.token_expires_at = datetime.fromisoformat(
+                token_data["expires_at"].replace("Z", "+00:00")
+            )
+            return self.access_token
+        else:
+            raise Exception(f"Failed to refresh token: {response.status_code}")
+    
     def ensure_valid_token(self, scopes):
         """Ensure we have a valid token, refresh if needed"""
         if (self.access_token is None or
             self.token_expires_at is None or
-            datetime.now() + timedelta(minutes=5) >= self.token_expires_at):
-            return self.get_token(scopes)
+            datetime.now(timezone.utc) + timedelta(minutes=5) >= self.token_expires_at):
+            if self.refresh_token:
+                self.refresh_access_token()
+            else:
+                self.get_token(scopes)
         return self.access_token
 ```
 
+!!! note "Refresh Token Scope"
+    The `tokens:refresh` scope is a system scope that is automatically included in refresh tokens. You do not need to (and should not) request this scope directly when generating tokens. It is managed internally by the system to enable token rotation.
+
 !!! tip "Token Management Best Practices"
-    - Refresh tokens 5-10 minutes before expiration
+    - Use refresh tokens to obtain new access tokens before expiration
     - Implement exponential backoff for failed refresh attempts
     - Store tokens securely (not in client-side code)
+    - Handle refresh token expiration: Refresh tokens have a longer TTL (default: 720h) but should still be rotated periodically
 
 ## 🛡️ How do I revoke a JWT token?
 
@@ -214,11 +247,11 @@ The "token expired" error occurs when the JWT token has passed its expiration ti
        print(f"Error decoding token: {e}")
    ```
 
-2. **Implement Token Refresh**: Refresh tokens before they expire
+2. **Implement Token Refresh**: Use refresh tokens to obtain new access tokens before expiration
    ```python
    # Refresh token 5 minutes before expiration
-   if datetime.now() + timedelta(minutes=5) >= token_expires_at:
-       new_token = get_new_token()
+   if datetime.now(timezone.utc) + timedelta(minutes=5) >= token_expires_at:
+       new_token = refresh_access_token()
    ```
 
 3. **Adjust Token TTL**: Use a longer TTL for long-running operations
@@ -246,7 +279,7 @@ The "token revoked" error occurs when a JWT token has been manually revoked befo
 
 ### Troubleshooting Steps
 
-1. **Request New Token**: Generate a new token with the same scopes
+1. **Request New Token**: Generate a new token with the same scopes, or use the refresh token if available
    ```bash
    curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token" \
      -u "username:password" \
@@ -255,6 +288,12 @@ The "token revoked" error occurs when a JWT token has been manually revoked befo
        "ttl": 3600,
        "scopes": ["messages:send", "messages:read"]
      }'
+   ```
+   
+   Or use the refresh token endpoint:
+   ```bash
+   curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token/refresh" \
+     -H "Authorization: Bearer <your-refresh-token>"
    ```
 
 2. **Investigate Revocation Reason**: Contact support to understand why the token was revoked
@@ -317,6 +356,7 @@ When migrating from Basic Authentication to JWT, you may encounter various issue
 1. **Token Generation Errors**: Unable to generate JWT tokens
 2. **Permission Errors**: JWT tokens don't have the same permissions as Basic Auth
 3. **Code Compatibility**: Existing code doesn't work with JWT authentication
+4. **Refresh Token Implementation**: Need to implement refresh token logic for long-running applications
 
 ### Troubleshooting Steps
 
@@ -342,11 +382,19 @@ When migrating from Basic Authentication to JWT, you may encounter various issue
        return requests.post(endpoint, headers=headers, auth=auth, json=data)
    ```
 
-3. **Test in Staging**: Test JWT authentication in a staging environment before production
+3. **Implement Refresh Token Logic**: Use refresh tokens to obtain new access tokens without re-authenticating
+   ```python
+   # Refresh token when access token expires
+   if datetime.now() + timedelta(minutes=5) >= token_expires_at:
+       new_token = refresh_access_token()
+   ```
+
+4. **Test in Staging**: Test JWT authentication in a staging environment before production
 
 !!! tip "Migration Best Practices"
     - Keep Basic Auth as a fallback during transition
     - Monitor authentication errors during migration
+    - Implement refresh token logic for long-running applications
 
 ## 🛡️ JWT Security Issues
 
@@ -357,6 +405,7 @@ JWT tokens are generally secure, but improper implementation can lead to securit
 1. **Long TTLs**: Using excessively long token expiration times
 2. **Token Leakage**: Tokens being exposed in logs, browser storage, or network traffic
 3. **Insufficient Scopes**: Using overly broad scopes like `all:any`
+4. **Refresh Token Security**: Refresh tokens have longer TTLs and should be stored securely
 
 ### Troubleshooting Steps
 
@@ -378,7 +427,14 @@ JWT tokens are generally secure, but improper implementation can lead to securit
    encrypted_token = cipher_suite.encrypt(jwt_token.encode())
    ```
 
+3. **Secure Refresh Tokens**: Store refresh tokens securely and rotate them periodically
+   ```python
+   # Store refresh token securely
+   encrypted_refresh_token = cipher_suite.encrypt(refresh_token.encode())
+   ```
+
 !!! tip "Security Best Practices"
     - Use the shortest practical TTL for your use case
     - Store tokens securely on the server side
     - Implement proper token revocation
+    - Store refresh tokens securely and rotate them periodically
