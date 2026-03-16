@@ -17,4 +17,4 @@ mkdocs-rss-plugin = "~=1.16.0"
 pymdown-extensions = "~=10.16"
 
 [requires]
-python_version = "3"
+python_version = "3.10"
