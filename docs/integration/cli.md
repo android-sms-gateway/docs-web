@@ -53,7 +53,7 @@ The CLI tool can be installed using various methods depending on your operating 
 
 For a complete list of supported platforms, please refer to the [GitHub Releases page](https://github.com/android-sms-gateway/cli/releases/latest).
 
-## Configuration ⚙️
+## ⚙️ Configuration
 
 The CLI tool can be configured using command-line flags, environment variables, or a `.env` file in the working directory. This section provides detailed information about configuration options and output formats.
 
@@ -71,36 +71,59 @@ ASG_PASSWORD="your_password"
 
 The following table summarizes the available command-line options:
 
-| Option             | Env Var        | Description                         | Default                                |
-| ------------------ | -------------- | ----------------------------------- | -------------------------------------- |
-| `-e`, `--endpoint` | `ASG_ENDPOINT` | :globe_with_meridians: API endpoint | `https://api.sms-gate.app/3rdparty/v1` |
-| `-u`, `--username` | `ASG_USERNAME` | :bust_in_silhouette: Auth username  | **Required**                           |
-| `-p`, `--password` | `ASG_PASSWORD` | :key: Auth password                 | **Required**                           |
-| `-f`, `--format`   | -              | :page_facing_up: Output format      | `text`                                 |
-
-!!! note
-    Global options must be specified before the command.
+| Option             | Env Var        | Description      | Default value                          |
+| ------------------ | -------------- | ---------------- | -------------------------------------- |
+| `--endpoint`, `-e` | `ASG_ENDPOINT` | The endpoint URL | `https://api.sms-gate.app/3rdparty/v1` |
+| `--username`, `-u` | `ASG_USERNAME` | Your username    | **required**                           |
+| `--password`, `-p` | `ASG_PASSWORD` | Your password    | **required**                           |
+| `--format`, `-f`   | n/a            | Output format    | `text`                                 |
 
 ### Output Formats
 
-The CLI supports three output formats for different use cases:
+The CLI supports three output formats:
 
-- `text` - human-readable format (default)
-- `json` - formatted JSON output
-- `raw` - unformatted JSON for machine consumption
+1. `text`: Human-readable text output (default)
+2. `json`: Pretty printed JSON-formatted output
+3. `raw`: One-line JSON-formatted output
 
 !!! note
     When the exit code is not `0`, the error description is printed to stderr without any formatting.
 
-## Commands 🛠️
+## 🛠️ Usage
 
-The CLI tool provides commands for managing messages and webhooks. This section describes each command group and their available options.
+```bash
+smsgate [global options] command [command options] [arguments...]
+```
 
-### Message Commands
+### Commands
+
+The CLI offers three main groups of commands:
+
+- **Messages**: Commands for sending messages and checking their status.
+- **Webhooks**: Commands for managing webhooks, including creating, updating, and deleting them.
+- **Logs**: Commands for retrieving logs for a specific time range.
+
+For a complete list of available commands, you can run `smsgate help` or `smsgate --help` in your terminal.
+
+### Exit Codes
+
+The CLI tool uses exit codes to indicate the outcome of operations.
+
+| Code | Description           |
+| ---- | --------------------- |
+| 0    | ✅ Success             |
+| 1    | ❌ Invalid input       |
+| 2    | 🌐 Network error       |
+| 3    | 📄 Output format error |
+
+!!! failure
+    Exit codes other than 0 indicate errors. Always check the error message output for troubleshooting information.
+
+## 📝 Message Commands
 
 Message commands allow you to send SMS messages and check their status. The following subsections detail each message-related command.
 
-#### Send a Message
+### Send a Message
 
 The `send` command allows you to send a message to one or more phone numbers.
 
@@ -135,7 +158,7 @@ smsgate send [command options] 'Message content'
 
 ---
 
-#### Get Message Status
+### Get Message Status
 
 The `status` command retrieves the status of a message using its ID.
 
@@ -147,13 +170,11 @@ smsgate status 'Message ID'
 !!! note
     The status command requires the message ID returned from the `send` command.
 
----
-
-### Webhook Commands
+## 🔗 Webhook Commands
 
 Webhook commands allow you to manage webhooks for event notifications. The following subsections detail each webhook-related command.
 
-#### Register Webhook
+### Register Webhook
 
 The `register` command allows you to register a new webhook.
 
@@ -174,7 +195,7 @@ smsgate webhooks register [options] URL
 
 ---
 
-#### List Webhooks
+### List Webhooks
 
 The `list` command displays all registered webhooks.
 
@@ -188,7 +209,7 @@ smsgate webhooks list
 
 ---
 
-#### Delete Webhook
+### Delete Webhook
 
 The `delete` command removes a webhook by its ID.
 
@@ -200,33 +221,57 @@ smsgate webhooks delete 'Webhook ID'
 !!! warning
     Deleting a webhook is irreversible. Ensure you no longer need the webhook before deleting it.
 
-## Usage Examples 💡
+## 📋 Logs Commands
 
-This section provides practical examples of using the CLI tool for various tasks. For security reasons, it is recommended to pass credentials using environment variables or a `.env` file.
+The `logs` command retrieves logs for a specific time range. Dates should be in RFC3339 format (e.g., `2024-01-15T10:30:00Z`).
 
-### Basic Operations
+**Syntax:**
+```bash
+smsgate logs [options]
+```
+
+**Options:**
+
+| Option   | Description                  | Default Value | Example                |
+| -------- | ---------------------------- | ------------- | ---------------------- |
+| `--from` | Start time for log retrieval | 24 hours ago  | `2024-01-15T00:00:00Z` |
+| `--to`   | End time for log retrieval   | Current time  | `2024-01-15T23:59:59Z` |
+
+!!! note
+    If no time range is specified, logs for the last 24 hours are retrieved by default.
+
+## 💡 Usage Examples
+
+### Sending Messages
 
 ```bash
 # Send a message
-smsgate send --phones '+12025550100' 'Hello, Dr. Turk!'
+smsgate send --phones '+12025550123' 'Hello, Dr. Turk!'
 
 # Send a message to multiple numbers
-smsgate send --phones '+12025550100' --phones '+12025550101' 'Hello, doctors!'
+smsgate send --phones '+12025550123' --phones '+12025550124' 'Hello, doctors!'
 # or
-smsgate send --phones '+12025550100,+12025550101' 'Hello, doctors!'
-
-# Send a message with a specific device
-smsgate send --device-id 'DwWLuSmLbXvwzF8mbmTE8' --phones '+12025550100' 'Hello from specific device!'
-
-# Send a data message
-smsgate send --data --data-port 12345 --phones '+12025550100' 'aGVsbG8gd29ybGQ='
+smsgate send --phones '+12025550123,+12025550124' 'Hello, doctors!'
 ```
 
-### Message Management
+### Getting Message Status
 
 ```bash
 # Get the status of a sent message
 smsgate status zXDYfTmTVf3iMd16zzdBj
+```
+
+### Getting Logs
+
+```bash
+# Get logs for the last 24 hours (default)
+smsgate logs
+
+# Get logs for a specific time range
+smsgate logs --from '2024-01-15T00:00:00Z' --to '2024-01-15T23:59:59Z'
+
+# Get logs with custom time range and output format
+smsgate --format json logs --from '2024-01-15T10:00:00+07:00' --to '2024-01-15T18:00:00+07:00'
 ```
 
 ### Webhook Management
@@ -242,45 +287,61 @@ smsgate webhooks list
 smsgate webhooks delete 'webhook-id'
 ```
 
-### Alternative Credential Methods
-
-Credentials can also be passed via CLI options:
-
-```bash
-# Pass credentials by options
-smsgate -u <username> -p <password> \
-    send --phones '+12025550100' 'Hello, Dr. Turk!'
-```
-
 ### Using Docker
-
-If you prefer not to install the CLI tool locally, you can use Docker to run it:
 
 ```bash
 docker run -it --rm --env-file .env ghcr.io/android-sms-gateway/cli \
-    send --phones '+12025550100' 'Hello, Dr. Turk!'
+  send --phone '+12025550123' 'Hello, Dr. Turk!'
 ```
 
 !!! tip
     Using Docker is ideal for CI/CD pipelines or environments where you want to avoid local installations.
 
-## Exit Codes 🔚
+## 📄 Output Formats
 
-The CLI tool uses exit codes to indicate the outcome of operations. Properly handling these codes in scripts can improve error handling and automation.
+### Text
 
-| Code | Description           |
-| ---- | --------------------- |
-| 0    | ✅ Success             |
-| 1    | ❌ Invalid input       |
-| 2    | 🌐 Network error       |
-| 3    | 📄 Output format error |
+```text
+ID: zXDYfTmTVf3iMd16zzdBj
+State: Pending
+IsHashed: false
+IsEncrypted: false
+Recipients:
+        +12025550123    Pending
+        +12025550124    Pending
+```
 
-!!! failure
-    Exit codes other than 0 indicate errors. Always check the error message output for troubleshooting information.
+### JSON
 
-## See Also 📚
+```json
+{
+  "id": "zXDYfTmTVf3iMd16zzdBj",
+  "state": "Pending",
+  "isHashed": false,
+  "isEncrypted": false,
+  "recipients": [
+    {
+      "phoneNumber": "+12025550123",
+      "state": "Pending"
+    },
+    {
+      "phoneNumber": "+12025550124",
+      "state": "Pending"
+    }
+  ],
+  "states": {}
+}
+```
 
-For more information about integrating the SMS Gateway, explore the following resources:
+### Raw
+
+```json
+{"id":"zXDYfTmTVf3iMd16zzdBj","state":"Pending","isHashed":false,"isEncrypted":false,"recipients":[{"phoneNumber":"+12025550123","state":"Pending"},{"phoneNumber":"+12025550124","state":"Pending"}],"states":{}}
+```
+
+## 📚 See Also
+
+For more information about integrating the SMSGate, explore the following resources:
 
 - [:material-github: CLI Repository](https://github.com/android-sms-gateway/cli)
 - [:material-api: API Reference](./api.md)
