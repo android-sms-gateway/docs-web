@@ -134,20 +134,20 @@ smsgate send [command options] 'Message content'
 
 **Options:**
 
-| Option                    | Description                                                                                                                                           | Default Value | Example                 |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------- |
-| `--id`                    | A unique message ID. If not provided, one will be automatically generated.                                                                            | empty         | `zXDYfTmTVf3iMd16zzdBj` |
-| `--device-id`             | Optional device ID for explicit selection. If not provided, a random device will be selected.                                                         | empty         | `oi2i20J8xVP1ct5neqGZt` |
-| `--phones`                | Specifies the recipient's phone number(s). This option can be used multiple times or accepts comma-separated values. Numbers must be in E.164 format. | **required**  | `+12025550123`          |
-| `--sim-number`            | The one-based SIM card slot number. If not specified, the device's SIM rotation feature will be used.                                                 | empty         | `2`                     |
-| `--delivery-report`       | Enables delivery report for the message.                                                                                                              | `true`        | `true`                  |
-| `--priority`              | Sets the priority of the message. Messages with priority >= 100 bypass all limits and delays.                                                         | `0`           | `100`                   |
-| `--ttl`                   | Time-to-live (TTL) for the message. If not provided, the message will not expire.<br>**Conflicts with `--valid-until`.**                              | empty         | `1h30m`                 |
-| `--valid-until`           | The expiration date and time for the message. If not provided, the message will not expire.<br>**Conflicts with `--ttl`.**                            | empty         | `2024-12-31T23:59:59Z`  |
-| `--data`                  | Send data message instead of text (content in base64).                                                                                                | `false`       | `true`                  |
-| `--data-port`             | Destination port for data message (1 to 65535).                                                                                                       | `53739`       | `12345`                 |
-| `--skip-phone-validation` | Skip phone number validation.                                                                                                                         | `false`       | `true`                  |
-| `--device-active-within`  | Time window in hours for device activity filtering. `0` means no filtering.                                                                           | `0`           | `12`                    |
+| Option                      | Description                                                                                                                                           | Default Value | Example                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------- |
+| `--id`                      | A unique message ID. If not provided, one will be automatically generated.                                                                            | empty         | `zXDYfTmTVf3iMd16zzdBj` |
+| `--device-id`               | Optional device ID for explicit selection. If not provided, a random device will be selected.                                                         | empty         | `oi2i20J8xVP1ct5neqGZt` |
+| `--phones`, `--phone`, `-p` | Specifies the recipient's phone number(s). This option can be used multiple times or accepts comma-separated values. Numbers must be in E.164 format. | **required**  | `+12025550123`          |
+| `--sim-number`              | The one-based SIM card slot number. If not specified, the device's SIM rotation feature will be used.                                                 | empty         | `2`                     |
+| `--delivery-report`         | Enables delivery report for the message.                                                                                                              | `true`        | `true`                  |
+| `--priority`                | Sets the priority of the message. Messages with priority >= 100 bypass all limits and delays.                                                         | `0`           | `100`                   |
+| `--ttl`                     | Time-to-live (TTL) for the message. If not provided, the message will not expire.<br>**Conflicts with `--valid-until`.**                              | empty         | `1h30m`                 |
+| `--valid-until`             | The expiration date and time for the message. If not provided, the message will not expire.<br>**Conflicts with `--ttl`.**                            | empty         | `2024-12-31T23:59:59Z`  |
+| `--data`                    | Send data message instead of text (content in base64).                                                                                                | `false`       | `true`                  |
+| `--data-port`               | Destination port for data message (1 to 65535).                                                                                                       | `53739`       | `12345`                 |
+| `--skip-phone-validation`   | Skip phone number validation.                                                                                                                         | `false`       | `true`                  |
+| `--device-active-within`    | Time window in hours for device activity filtering. `0` means no filtering.                                                                           | `0`           | `12`                    |
 
 !!! note "Disabling booleans"
     To disable, use `--delivery-report=false`.
