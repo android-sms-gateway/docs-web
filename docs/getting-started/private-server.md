@@ -140,26 +140,31 @@ To run the server, you'll need:
 !!! danger "Important"
     Changing servers will **reset credentials** and require device re-registration!
 
-1. **Access Settings**  
+1. **Access Settings**
     Navigate to **Settings** tab → **Cloud Server**
 
-2. **Enter server details**  
+2. **Enter server details**
     ```text
     API URL: https://private.example.com/api/mobile/v1
     Private Token: your-secure-token-here
     ```
+    !!! note "API URL Path"
+         The API URL **must** include the `/api/mobile/v1` path. Using just the base URL (e.g., `https://private.example.com`) will not work.
 
-3. **Activate connection**  
+3. **Activate connection**
     1. Switch to **Home** tab
     2. Activate **Cloud server** switch
-    3. Restart the app using the bottom button
+    3. **Tap the "Offline" button** to initiate connection and registration process
+    4. Wait for the app to establish connection (button will change to "Online")
 
 !!! success "Successful Connection"
-    New credentials will appear in **Cloud Server** section when configured properly:
+     After successful connection, credentials will be **automatically generated** and appear in the **Cloud Server** section:
     ```text
     Username: A1B2C3
     Password:  z9y8x7...
     ```
+    !!! info "Automatic Registration"
+         No manual registration step is required. Username and password are generated automatically on the first successful connection to the server.
 
 ### Password Management 🔑
 
