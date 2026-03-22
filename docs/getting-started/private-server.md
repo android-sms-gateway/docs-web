@@ -154,7 +154,7 @@ To run the server, you'll need:
 3. **Activate connection**
     1. Switch to **Home** tab
     2. Activate **Cloud server** switch
-    3. **Tap the "Offline" button** to initiate connection and registration process
+    3. **Tap the "Offline" button** to initiate the connection and registration process
     4. Wait for the app to establish connection (button will change to "Online")
 
 !!! success "Successful Connection"
