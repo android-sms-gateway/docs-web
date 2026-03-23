@@ -48,7 +48,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS and MMS gatewa
 - 🔔 **SMS Notifications:** Deliver immediate notifications to users for important updates, offers, and service enhancements.
 - 📊 **User Feedback:** Solicit and collect user feedback through SMS, providing valuable insights for improving your services.
 
-*Note*: It is not recommended to use this for batch sending due to potential mobile operator restrictions.
+*Note*: While the app supports batch sending from CSV and Excel files via CLI, it is strongly recommended to consult the ToS of your carrier and use the app responsibly.
 
 ## Project Stage
 
