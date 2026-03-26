@@ -39,7 +39,7 @@ Please consider the [Private Server](./private-server.md) mode first. It offers 
     - Valid SSL certificate
 
 5. ⚙️ **Build Tools**
-    - Go 1.23+
+    - Go 1.24+
     - Docker 24.0+
 
 ## Backend Configuration ⚙️
@@ -62,15 +62,16 @@ Please consider the [Private Server](./private-server.md) mode first. It offers 
     3. Update FCM credentials
 
 === ":material-lock: Private Mode"
-    ```diff title="internal/sms-gateway/modules/push/upstream/client.go"
-    - const BASE_URL = "https://api.sms-gate.app/upstream/v1"
-    + const BASE_URL = "https://your-main-server.com/upstream/v1"
-    ```
-    **Build Commands**:
-    ```bash
-    make build  # Binary
-    make docker-build  # Container
-    ```
+  ```yaml title="config.yml (gateway section)"
+  gateway:
+    mode: private
+    upstream_url: https://your-main-server.com/api/upstream/v1
+  ```
+  **Build Commands**:
+  ```bash
+  make build  # Binary
+  make docker-build  # Container
+  ```
     
     !!! info "Architecture Requirement"
         Private servers require at least one public server

@@ -51,7 +51,7 @@ flowchart
     - Reverse proxy with valid SSL certificate ([project CA](../services/ca.md) supported)
 
 === "🖥️ From Sources"
-    - Git and Go 1.23+ toolchain
+    - Git and Go 1.24+ toolchain
     - MySQL/MariaDB server with empty database and privileged user
     - Reverse proxy with valid SSL certificate ([project CA](../services/ca.md) supported)
 
