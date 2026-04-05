@@ -4,6 +4,7 @@ The application supports end-to-end encryption by encrypting sensitive fields be
 
 !!! important "Encryption Scope"
     Only specific fields should be encrypted:
+
     - For text messages: `textMessage.text` field
     - For data messages: `dataMessage.data` field
     - All values in the `phoneNumbers` array
@@ -25,26 +26,39 @@ Please note that using encryption will increase device battery usage.
 1. Select a passphrase that will be used for encryption and specify it on the device
 2. Generate a random salt (16 bytes recommended)
 3. Create a secret key using PBKDF2 with:
-   - SHA1 hash function
-   - 256-bit key size
-   - 75,000 iterations (recommended)
+    - SHA1 hash function
+    - 256-bit key size
+    - Iteration count (see [Iteration Count Recommendations](#iteration-count-recommendations) below)
 4. Encrypt the target fields separately using AES-256-CBC
 5. Encode encrypted values as Base64
-6. Format each encrypted value as:  
+6. Format each encrypted value as:
    `$aes-256-cbc/pbkdf2-sha1$i=<iterations>$<base64 salt>$<base64 encrypted data>`
 
-!!! example "Field Encryption"
-    ```json
-    {
-      "textMessage": {
-        "text": "$aes-256-cbc/pbkdf2-sha1$i=75000$...$..."
-      },
-      "phoneNumbers": [
-        "$aes-256-cbc/pbkdf2-sha1$i=75000$...$..."
-      ],
-      "isEncrypted": true
-    }
-    ```
+## Iteration Count Recommendations 🔢
+
+### OWASP Guidelines
+
+According to [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html), the recommended minimum iteration count for PBKDF2-SHA1 is **1,400,000 iterations** as of 2026. This provides stronger security against brute-force attacks by making key derivation more computationally expensive.
+
+### Application Default
+
+**The current default iteration count is 75,000**, which is significantly lower than the OWASP recommendation of 1,400,000 iterations. The iteration ranges suggested in this document are intentionally below OWASP guidelines to maintain device compatibility. This deliberate choice balances security with performance on older devices:
+
+- The application supports devices running **Android 5.0 (API level 21)** and above
+- On older devices, even 75,000 iterations can cause decryption to take **several seconds**
+- Higher iteration counts would make the user experience unacceptable on these devices
+
+### Security Considerations
+
+While we recommend using the highest iteration count your use case can tolerate, consider these factors:
+
+1. **Device Performance**: Higher iterations increase CPU usage and battery consumption
+2. **User Experience**: Decryption time increases linearly with iteration count
+3. **Security Needs**: Evaluate the sensitivity of your data and threat model
+
+!!! tip "Recommended Approach"
+    - **Compatibility-driven (below OWASP)**: For new deployments on modern devices (Android 10+), consider using **300,000-600,000 iterations**; for broad device compatibility including older devices, **75,000-150,000 iterations** provides reasonable security. Note that these ranges accept increased residual risk of brute-force attacks in exchange for usability on older/lower-powered devices.
+    - The iteration count is stored in the encrypted format, allowing different values per message
 
 ## Implementation Examples 💻
 
@@ -130,7 +144,7 @@ Please note that using encryption will increase device battery usage.
     [Source](https://github.com/capcom6/android-sms-gateway-php/blob/master/src/Encryptor.php)
 
 === "TypeScript"
-    Please note, that Bun's implementation of the `crypto` package is not optimized, so it is much slower than Node's implementation.
+    Please note, that Bun's implementation of the `crypto` package is not optimized as of 2024, so it is much slower than Node's implementation.
     
     ```typescript
     import crypto from "crypto";
