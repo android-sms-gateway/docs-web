@@ -148,6 +148,7 @@ To run the server, you'll need:
     API URL: https://private.example.com/api/mobile/v1
     Private Token: your-secure-token-here
     ```
+    
     !!! note "API URL Path"
          The API URL **must** include the `/api/mobile/v1` path. Using just the base URL (e.g., `https://private.example.com`) will not work.
 
