@@ -42,23 +42,6 @@ To access the **Swagger UI** for API documentation and testing, follow these ste
     - **Security** – same authentication as the API
     - **Convenience** – no manual `curl` commands
 
-
-### ⚙️ Server Configuration
-
-To modify the port, username, or password:
-
-1. Open the app and navigate to the "Settings" tab
-2. Locate the "Local Server" section
-3. Update the port, username, or password as needed
-4. Return to the "Home" tab
-5. Stop and restart the server using the button at the bottom of the screen to apply the changes
-
-#### Requirements
-
-* Port number must be between 1024 and 65535
-* Username must be at least 3 characters long
-* Password must be at least 8 characters long
-
 ## 📚 See Also
 
 - [Public Cloud Server Mode](./public-cloud-server.md) for internet-accessible messaging

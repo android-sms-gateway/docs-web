@@ -1,6 +1,6 @@
-# Getting Started 🚀
+# 🚀 Getting Started
 
-## Cloud Server ☁️
+## ☁️ Cloud Server
 
 Use Cloud Server mode when your device has dynamic or shared IP addresses. Start immediately—no registration, email, or phone number required.
 
@@ -174,20 +174,6 @@ Change the notification channel in the app settings:
           })
         });
         ```
-
-#### Password Management 🔐
-
-!!! danger "Security Requirements"
-    - :material-form-textbox-password: Minimum 14 characters
-    - :material-text: No reuse of previous passwords is recommended
-    - :material-clock-alert: Changes take immediate effect
-
-**Update Steps**:
-
-1. :gear: Settings → Cloud Server
-2. :material-key: Credentials → Password
-3. :material-form-textbox-password: Enter new password
-4. :material-check: Confirm changes
 
 ---
 

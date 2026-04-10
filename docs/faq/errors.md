@@ -24,8 +24,8 @@ The app requires the `android.permission.SEND_SMS` permission to send SMS messag
         2. Navigate to Permissions → SMS and enable it
 
     !!! note "Community Contribution"
-        Special thanks to *@mabushey* and *@AlexxIT* for the SMS permission solution!
-        [:material-github: Issue #184](https://github.com/capcom6/android-sms-gateway/issues/184)  
+        Special thanks to *@mabushey* and *@AlexxIT* for the SMS permission solution!  
+        [:material-github: Issue #184](https://github.com/capcom6/android-sms-gateway/issues/184) 
         [:material-github: Issue #280](https://github.com/capcom6/android-sms-gateway/issues/280)
 
 === "Via ADB"
@@ -76,25 +76,12 @@ This error indicates the system has blocked further messages to prevent abuse. K
 
 - [How can I avoid mobile operator restrictions?](./general.md#how-can-i-avoid-mobile-operator-restrictions) FAQ entry.
 
-## 📶 `RESULT_RIL_MODEM_ERR` Error
-
-The `RESULT_RIL_MODEM_ERR` error usually indicates a problem with the device's modem or the communication between the application and the modem. This error can stem from various causes:
-
-- SIM card not properly seated  
-- Outdated modem firmware  
-
-!!! tip "Troubleshooting Checklist"
-    1. :material-restart: Reboot device  
-    2. :material-sim: Clean SIM contacts with alcohol swab
-    3. :material-update: Install latest OS updates  
-    4. :material-factory: Reset network settings
-
 ## 📱 `RESULT_NO_DEFAULT_SMS_APP` Error
 
 The `RESULT_NO_DEFAULT_SMS_APP` error occurs when no default SMS app is set on the device or when the default SIM for sending SMS messages hasn't been configured. To resolve this issue, follow these steps:
 
-1. Open :gear: Settings → Apps → Default apps  
-2. Select default messaging app  
+1. Open :gear: Settings → Apps → Default apps
+2. Select default messaging app
 3. Choose preferred SIM for sending in the default messaging app
 
 !!! tip "API Workaround"
@@ -108,24 +95,37 @@ The `RESULT_NO_DEFAULT_SMS_APP` error occurs when no default SMS app is set on t
     }
     ```
 
+## 📶 `RESULT_RIL_MODEM_ERR` Error
+
+The `RESULT_RIL_MODEM_ERR` error usually indicates a problem with the device's modem or the communication between the application and the modem. This error can stem from various causes:
+
+- SIM card not properly seated
+- Outdated modem firmware
+
+!!! tip "Troubleshooting Checklist"
+    1. :material-restart: Reboot device
+    2. :material-sim: Clean SIM contacts with alcohol swab
+    3. :material-update: Install latest OS updates
+    4. :material-factory: Reset network settings
+
 ## 📴 `Can't send message: No SIMs found` Error
 
 This error occurs when the app cannot detect any SIM cards on the device. There are several possible causes for this issue:
 
-=== "Hardware Issues"  
+=== "Hardware Issues"
  
-    - :material-sim-alert: SIM not fully inserted  
-    - :material-chip: SIM card has poor contact  
+    - :material-sim-alert: SIM not fully inserted
+    - :material-chip: SIM card has poor contact
     - :material-wrench: Damaged SIM tray
  
-=== "Software Issues"  
+=== "Software Issues"
  
     1. :material-shield-refresh: For Xiaomi devices:
         - Enable Developer Options (tap Build Number 7x)
         - Disable MIUI optimizations to prevent the app from requesting permissions repeatedly
         - Reboot device
  
-    2. :material-key-chain: Ensure the app has all required permissions in your device settings or via ADB.  
+    2. :material-key-chain: Ensure the app has all required permissions in your device settings or via ADB.
         ```bash
         adb shell pm list permissions | grep READ_PHONE_STATE
         ```

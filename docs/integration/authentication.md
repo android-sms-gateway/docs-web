@@ -1,4 +1,4 @@
-# Integration - Authentication 🔒
+# 🔒 Integration - Authentication
 
 This guide provides a comprehensive overview of authentication in the SMSGate API. JWT authentication is the primary mechanism for securing API access, providing a robust and scalable way to authenticate requests.
 
@@ -8,9 +8,6 @@ The SMSGate supports multiple authentication methods to accommodate different us
 
 - **Basic Authentication**: Legacy username/password for backward compatibility
 - **JWT Bearer Tokens**: Primary authentication mechanism with configurable TTL and refresh token support
-
-!!! important "JWT Authentication Availability"
-    JWT authentication is only available in **Public Cloud Server** mode. In **Local Server** mode, only Basic Authentication is supported.
 
 JWT authentication is recommended for all new integrations as it provides better security, scalability, and fine-grained access control through scopes.
 
@@ -665,7 +662,7 @@ print("Message sent:", result)
 - **Token Storage**: Store tokens securely (e.g., HttpOnly cookies, secure server-side storage)
 - **CSRF Protection**: Implement CSRF protection for web applications
 
-## See Also 🔗
+## 🔗 See Also
 
 - [API Reference](api.md) - Complete API endpoint documentation
 - [Integration Guide](index.md) - Overview of integration options
