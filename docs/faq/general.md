@@ -11,29 +11,6 @@ Making SMSGate the default SMS app could solve this problem, but we intentionall
     - Set a strong PIN code
     - Use a dedicated Android device
 
-## 📸 Can I send MMS messages?
-
-The SMSGate app focuses on core SMS functionality and does not support sending MMS (Multimedia Messaging Service) messages. This design choice aligns with the principle of "do one thing, do it well"—ensuring reliable SMS delivery without complicating the application with additional, less critical features.
-
-## 🤖 Does the app support Android 15 and higher?
-
-The SMSGate app fully supports Android 15 (API level 35) and higher. However, there are two important considerations when installing and configuring the app on these newer Android versions.
-
-=== "Installation"
-
-    On Android 15+, Google Play Protect may block APK installation because the app is not distributed via Google Play.
-    Follow the [installation guide](../installation.md#installing-from-apk) for the step-by-step APK flow, including the Play Protect fallback.
-
-    !!! warning "Security Note"
-        Only disable Play Protect temporarily for the installation. Re-enable it immediately after the app is installed, and download APKs only from the official GitHub releases page.
-
-=== "Permissions"
-
-    Due to enhanced privacy and security changes in Android 15+, the SMS permission may be grayed out in the Settings app by default. You must grant it [manually](./errors.md#does-not-have-androidpermissionsend_sms-error).
-
-!!! note "Related Issue"
-    See [Issue #280](https://github.com/capcom6/android-sms-gateway/issues/280) for community reports and discussion.
-
 ## 📱 How can I send an SMS using the second SIM card?
 
 The SMSGate app supports sending messages from multiple SIM cards simultaneously. To utilize a secondary SIM card for message sending, please refer to the comprehensive [Multi-SIM Support](../features/multi-sim.md) section for detailed setup instructions and configuration options.
@@ -44,27 +21,27 @@ The SMSGate app is designed to work reliably even when power saving modes are en
 
 ### Local Mode 🏠
 
-- **Power saving settings:**  
+- **Power saving settings**  
   The app provides an option to disable battery optimizations directly from the *Settings* tab under the "System" section. This helps ensure uninterrupted operation.  
   The app also uses a foreground service with a wake lock, which allows it to function reliably even with power-saving mode enabled.  
-- **Battery impact:**  
+- **Battery impact**  
   Using a wake lock and disabling battery optimizations may lead to increased battery consumption.
 
 ### Cloud Mode ☁️
 
-- **Power saving settings:**  
+- **Power saving settings**  
   Similar to Local Mode, disabling battery optimizations can enhance reliability. However, the app primarily relies on Firebase Cloud Messaging (FCM) push notifications, which functions without requiring power-saving mode to be turned off.  
-- **Potential delays:**  
+- **Potential delays**  
   High message rates could cause occasional delays when the device is in power-saving mode due to FCM's limitations on high-priority notifications.
 
 !!! tip "Recommendation"
-    - **Testing:**  
+    - **Testing**  
       Test the app with and without battery optimizations disabled to evaluate its performance on your device and Android version.  
-    - **Device manufacturers:**  
+    - **Device manufacturers**  
       Behavior may vary depending on the device manufacturer and specific Android customizations.  
-    - **Local + Cloud:**  
+    - **Local + Cloud**  
       For maximum responsiveness, consider using a local server alongside the cloud connection.  
-    - **Don't Kill My App:**  
+    - **Don't Kill My App**  
       Follow the [Don't Kill My App](https://dontkillmyapp.com) guide to ensure the app is not killed by the operating system.
 
 ## 📨 How do I enable or disable delivery reports for messages?
@@ -127,20 +104,21 @@ graph TD
     C --> G["system:ping webhook"]
 ```
 
-### Local mode
+=== "Local mode"
 
-Attempting to connect to the device's API directly can give you an immediate sense of its online status. Accessing the `/health` endpoint is a straightforward way to do this.
+    Attempting to connect to the device's API directly can give you an immediate sense of its online status. Accessing the `/health` endpoint is a straightforward way to do this.
 
-### Cloud mode
+=== "Cloud/Private mode"
 
-The app operates asynchronously, relying on PUSH notifications rather than maintaining a continuous connection to the server. You can use the `GET /device` endpoint to obtain some information about the device's state. The response includes a `lastSeen` field, showing the last time the device connected to the server. Due to the app's idle mode behavior, the device may only connect to the server once every 15 minutes, meaning the `lastSeen` time may not always represent the current status.
+    The app operates asynchronously, relying on PUSH notifications rather than maintaining a continuous connection to the server unless SSE is used.  
+    You can use the `GET /device` endpoint to obtain some information about the device's state. The response includes a `lastSeen` field, showing the last time the device connected to the server. Due to the app's idle mode behavior, the device may only connect to the server once every 15 minutes, meaning the `lastSeen` time may not always represent the current status.
 
-### Any mode
+=== "Any mode"
 
-Irrespective of the mode, you can register a `system:ping` webhook to monitor the device's online status. This webhook will notify your server about the status of the app at user-defined intervals, set within the app's Settings on the device. This feature offers a proactive approach to track connectivity and ensure the device is functioning as expected across any operational mode.
+    Irrespective of the mode, you can register a `system:ping` webhook to monitor the device's online status. This webhook will notify your server about the status of the app at user-defined intervals, set within the app's Settings on the device. This feature offers a proactive approach to track connectivity and ensure the device is functioning as expected across any operational mode.
 
-!!! warning "Caution"
-    Using the ping feature will increase battery usage. It's important to balance the need for frequent status updates with the impact on device battery life, especially if the device is expected to operate for extended periods without charging.
+    !!! warning "Caution"
+        Using the ping feature will increase battery usage. It's important to balance the need for frequent status updates with the impact on device battery life, especially if the device is expected to operate for extended periods without charging.
 
 ## 📛 Can I send SMS with a custom sender name?
 
@@ -150,14 +128,54 @@ The app uses your SIM card to send messages, so by default, it uses the same sen
     Contact your mobile provider for:
 
     - Alphanumeric Sender ID services
-    - Business SMS solutions  
+    - Business SMS solutions
 
 ## 🔑 How do I change my password?
 
-| Mode          | Documentation                                                                        |
-| ------------- | ------------------------------------------------------------------------------------ |
-| Local         | [Server Config](../getting-started/local-server.md#server-configuration)             |
-| Cloud/Private | [Password Management](../getting-started/public-cloud-server.md#password-management) |
+=== "Local Mode"
+    1. Open the app and navigate to **Settings**
+    2. Go to **Local Server**
+    3. Tap **Credentials** → **Password**
+    4. Enter your new password (at least 8 characters)
+    5. Stop and restart the server using the button at the bottom to apply changes
+
+    !!! warning "Server Restart Required"
+        After changing credentials, you must stop and restart the local server for the changes to take effect.
+
+=== "Cloud/Private Mode"
+    1. Open the app and navigate to **Settings**
+    2. Go to **Cloud Server**
+    3. Tap **Credentials** → **Password**
+    4. Enter your new password (at least 14 characters)
+    5. Confirm the changes
+ 
+    !!! danger "Important"
+        - Password changes take effect immediately across all devices
+        - You will need to re-authenticate with the new password on all clients
+        - For Private Server mode, the same password management process applies
+ 
+## 📸 Can I send MMS messages?
+
+The SMSGate app focuses on core SMS functionality and does not support sending MMS (Multimedia Messaging Service) messages. This design choice aligns with the principle of "do one thing, do it well"—ensuring reliable SMS delivery without complicating the application with additional, less critical features.
+
+## 🤖 Does the app support Android 15 and higher?
+
+The SMSGate app fully supports Android 15 (API level 35) and higher. However, there are two important considerations when installing and configuring the app on these newer Android versions.
+
+=== "Installation"
+
+    On Android 15+, Google Play Protect may block APK installation because the app is not distributed via Google Play.
+    Follow the [installation guide](../installation.md#installing-from-apk) for the step-by-step APK flow, including the Play Protect fallback.
+
+    !!! warning "Security Note"
+        Only disable Play Protect temporarily for the installation. Re-enable it immediately after the app is installed, and download APKs only from the official GitHub releases page.
+
+=== "Permissions"
+
+    Due to enhanced privacy and security changes in Android 15+, the SMS permission may be grayed out in the Settings app by default. You must grant it [manually](./errors.md#does-not-have-androidpermissionsend_sms-error).
+
+!!! note "Related Issue"
+    See [Issue #280](https://github.com/capcom6/android-sms-gateway/issues/280) for community reports and discussion.
 
 ## 💬 Does the app support RCS messaging?
 

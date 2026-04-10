@@ -1,89 +1,8 @@
-# ❌ FAQ - Authentication
-
-## 🚫 Why does /auth/token return HTTP 501 in Local Server mode?
-
-This is expected behavior. JWT authentication is **not implemented in local server mode**. When you make a request to `/auth/token` in local server mode, you will receive HTTP 501 Not Implemented.
-
-!!! tip "Single API Consistency"
-    While this breaks the "single API" consistency between local and cloud modes, JWT authentication for local server mode is planned for a future release.
+# 🔐 FAQ - Authentication
 
 ## 🔐 What is JWT authentication and how does it work?
 
 JWT (JSON Web Token) authentication is the primary authentication mechanism for the SMSGate API. It provides a secure, scalable way to authenticate API requests without transmitting credentials with each request. The system supports both access tokens (short-lived) and refresh tokens (long-lived) for seamless token rotation.
-
-## 🔄 How do I migrate from Basic Auth to JWT?
-
-Migrating from Basic Authentication to JWT provides enhanced security, better performance, and fine-grained access control. Here's how to migrate:
-
-### Step 1: Update Your Code
-
-Replace Basic Auth with JWT Bearer tokens:
-
-=== "Before (Basic Auth)"
-   ```python
-   response = requests.post(
-      "https://api.sms-gate.app/3rdparty/v1/messages",
-      auth=("username", "password"),
-      json={"phoneNumbers": ["+1234567890"], "textMessage": {"text": "Hello world!"}}
-   )
-   ```
-
-=== "After (JWT)"
-   ```python
-   # First, get a token
-   token_response = requests.post(
-      "https://api.sms-gate.app/3rdparty/v1/auth/token",
-      auth=("username", "password"),
-      json={"ttl": 3600, "scopes": ["messages:send"]}
-   )
-
-   if token_response.status_code == 201:
-      token_data = token_response.json()
-      access_token = token_data["access_token"]
-      
-      # Then use the token
-      response = requests.post(
-         "https://api.sms-gate.app/3rdparty/v1/messages",
-         headers={
-               "Authorization": f"Bearer {access_token}",
-               "Content-Type": "application/json"
-         },
-         json={"phoneNumbers": ["+1234567890"], "textMessage": {"text": "Hello world!"}}
-      )
-   ```
-
-### Step 2: Implement Token Management
-
-- **Token Refresh**: Implement automatic token refresh before expiration
-- **Error Handling**: Handle 401/403 errors gracefully
-- **Secure Storage**: Store tokens securely on the server side
-
-## 🔑 What are JWT scopes and how do I use them?
-
-JWT scopes define the permissions associated with a token, implementing the principle of least privilege. All scopes follow the pattern: `resource:action`
-
-All available scopes are listed in the [Authentication](../integration/authentication.md#jwt-scopes-) section.
-
-### Using Scopes
-
-When requesting a JWT token, specify which scopes you need:
-
-```json
-{
-  "ttl": 3600,
-  "scopes": [
-    "messages:send",
-    "messages:read",
-    "devices:list"
-  ]
-}
-```
-
-!!! tip "Scope Best Practices"
-    - Request only the scopes you need
-    - Create multiple tokens with different scopes for different components
-    - Use short TTLs for tokens with sensitive scopes
-    - Avoid using `all:any` unless absolutely necessary
 
 ## ⏰ How long do JWT tokens last and how do I refresh them?
 
@@ -182,18 +101,79 @@ class SMSGatewayClient:
     - Store tokens securely (not in client-side code)
     - Handle refresh token expiration: Refresh tokens have a longer TTL (default: 720h) but should still be rotated periodically
 
-## 🛡️ How do I revoke a JWT token?
+## 🔑 What are JWT scopes and how do I use them?
 
-JWT tokens can be revoked before they expire using the token revocation endpoint. This is useful when a token is compromised or no longer needed.
+JWT scopes define the permissions associated with a token, implementing the principle of least privilege. All scopes follow the pattern: `resource:action`
 
-### Revoking a Token
+All available scopes are listed in the [Authentication](../integration/authentication.md#jwt-scopes-) section.
 
-```bash
-curl -X DELETE "https://api.sms-gate.app/3rdparty/v1/auth/token/{jti}" \
-  -H "Authorization: Basic username:password"
+### Using Scopes
+
+When requesting a JWT token, specify which scopes you need:
+
+```json
+{
+  "ttl": 3600,
+  "scopes": [
+    "messages:send",
+    "messages:read",
+    "devices:list"
+  ]
+}
 ```
 
-Where `{jti}` is the token ID from the token response.
+!!! tip "Scope Best Practices"
+    - Request only the scopes you need
+    - Create multiple tokens with different scopes for different components
+    - Use short TTLs for tokens with sensitive scopes
+    - Avoid using `all:any` unless absolutely necessary
+
+## 🔄 How do I migrate from Basic Auth to JWT?
+
+Migrating from Basic Authentication to JWT provides enhanced security, better performance, and fine-grained access control. Here's how to migrate:
+
+### Step 1: Update Your Code
+
+Replace Basic Auth with JWT Bearer tokens:
+
+=== "Before (Basic Auth)"
+    ```python
+    response = requests.post(
+        "https://api.sms-gate.app/3rdparty/v1/messages",
+        auth=("username", "password"),
+        json={"phoneNumbers": ["+1234567890"], "textMessage": {"text": "Hello world!"}}
+    )
+    ```
+   
+=== "After (JWT)"
+    ```python
+    # First, get a token
+    token_response = requests.post(
+        "https://api.sms-gate.app/3rdparty/v1/auth/token",
+        auth=("username", "password"),
+        json={"ttl": 3600, "scopes": ["messages:send"]}
+    )
+
+    if token_response.status_code == 201:
+        token_data = token_response.json()
+        access_token = token_data["access_token"]
+        
+        # Then use the token
+        response = requests.post(
+            "https://api.sms-gate.app/3rdparty/v1/messages",
+            headers={
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/json"
+            },
+            json={"phoneNumbers": ["+1234567890"], "textMessage": {"text": "Hello world!"}}
+        )
+    ```
+
+### Step 2: Implement Token Management
+
+- **Token Refresh**: Implement automatic token refresh before expiration
+- **Error Handling**: Handle 401/403 errors gracefully
+- **Secure Storage**: Store tokens securely on the server side
 
 ## 🔐 "Invalid token" JWT Error
 
@@ -268,36 +248,6 @@ The "token expired" error occurs when the JWT token has passed its expiration ti
     - Handle token expiration gracefully in your code
     - Consider clock skew in your expiration logic
 
-## 🚫 "Token revoked" JWT Error
-
-The "token revoked" error occurs when a JWT token has been manually revoked before its natural expiration time.
-
-### Common Causes
-
-1. **Manual Revocation**: Token was explicitly revoked by an administrator
-2. **Security Incident**: Token was revoked due to a security concern
-
-### Troubleshooting Steps
-
-1. **Request New Token**: Generate a new token with the same scopes, or use the refresh token if available
-   ```bash
-   curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token" \
-     -u "username:password" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "ttl": 3600,
-       "scopes": ["messages:send", "messages:read"]
-     }'
-   ```
-   
-   Or use the refresh token endpoint:
-   ```bash
-   curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token/refresh" \
-     -H "Authorization: Bearer <your-refresh-token>"
-   ```
-
-2. **Investigate Revocation Reason**: Contact support to understand why the token was revoked
-
 ## 🙅 "Scope required" JWT Error
 
 The "scope required" error occurs when the JWT token doesn't have the necessary scope to access a specific resource or perform a specific action.
@@ -347,94 +297,52 @@ The "scope required" error occurs when the JWT token doesn't have the necessary 
     - Create multiple tokens for different purposes
     - Regularly review and update your scope requirements
 
-## 🔄 "Migration from Basic Auth to JWT" Issues
+## 🚫 "Token revoked" JWT Error
 
-When migrating from Basic Authentication to JWT, you may encounter various issues. Here are common problems and their solutions.
+The "token revoked" error occurs when a JWT token has been manually revoked before its natural expiration time.
 
-### Common Issues
+### Common Causes
 
-1. **Token Generation Errors**: Unable to generate JWT tokens
-2. **Permission Errors**: JWT tokens don't have the same permissions as Basic Auth
-3. **Code Compatibility**: Existing code doesn't work with JWT authentication
-4. **Refresh Token Implementation**: Need to implement refresh token logic for long-running applications
+1. **Manual Revocation**: Token was explicitly revoked by an administrator
+2. **Security Incident**: Token was revoked due to a security concern
 
 ### Troubleshooting Steps
 
-1. **Verify Token Generation**: Ensure you can generate JWT tokens successfully
-   ```bash
-   curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token" \
-     -u "username:password" \
-     -H "Content-Type: application/json" \
-     -d '{"ttl": 3600, "scopes": ["messages:send"]}'
-   ```
+1. **Request New Token**: Generate a new token with the same scopes, or use the refresh token if available
+    ```bash
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token" \
+        -u "username:password" \
+        -H "Content-Type: application/json" \
+        -d '{
+        "ttl": 3600,
+        "scopes": ["messages:send", "messages:read"]
+        }'
+    ```
+    
+    Or use the refresh token endpoint:
+    ```bash
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token/refresh" \
+        -H "Authorization: Bearer <your-refresh-token>"
+    ```
 
-2. **Update Code Gradually**: Migrate code incrementally rather than all at once
-   ```python
-   # Hybrid approach during migration
-   def make_request(endpoint, data=None, use_jwt=True):
-       if use_jwt and jwt_token:
-           headers = {"Authorization": f"Bearer {jwt_token}"}
-       else:
-           # Fall back to Basic Auth
-           headers = {}
-           auth = (username, password)
-       
-       return requests.post(endpoint, headers=headers, auth=auth, json=data)
-   ```
+2. **Investigate Revocation Reason**: Contact support to understand why the token was revoked
 
-3. **Implement Refresh Token Logic**: Use refresh tokens to obtain new access tokens without re-authenticating
-   ```python
-   # Refresh token when access token expires
-   if datetime.now() + timedelta(minutes=5) >= token_expires_at:
-       new_token = refresh_access_token()
-   ```
+## 🛡️ How do I revoke a JWT token?
 
-4. **Test in Staging**: Test JWT authentication in a staging environment before production
+JWT tokens can be revoked before they expire using the token revocation endpoint. This is useful when a token is compromised or no longer needed.
 
-!!! tip "Migration Best Practices"
-    - Keep Basic Auth as a fallback during transition
-    - Monitor authentication errors during migration
-    - Implement refresh token logic for long-running applications
+### Revoking a Token
 
-## 🛡️ JWT Security Issues
+```bash
+curl -X DELETE "https://api.sms-gate.app/3rdparty/v1/auth/token/{jti}" \
+  -H "Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+```
 
-JWT tokens are generally secure, but improper implementation can lead to security vulnerabilities.
+Where `{jti}` is the token ID from the token response.
 
-### Common Security Issues
 
-1. **Long TTLs**: Using excessively long token expiration times
-2. **Token Leakage**: Tokens being exposed in logs, browser storage, or network traffic
-3. **Insufficient Scopes**: Using overly broad scopes like `all:any`
-4. **Refresh Token Security**: Refresh tokens have longer TTLs and should be stored securely
+## 🔗 See Also
 
-### Troubleshooting Steps
-
-1. **Review Token TTL**: Ensure your token TTL is appropriate for your use case
-   ```json
-   {
-     "ttl": 3600,  // 1 hour - reasonable for most use cases
-     "scopes": ["messages:send"]
-   }
-   ```
-
-2. **Implement Secure Storage**: Ensure tokens are stored securely
-   ```python
-   # Example of secure token storage
-   from cryptography.fernet import Fernet
-   
-   key = Fernet.generate_key()
-   cipher_suite = Fernet(key)
-   encrypted_token = cipher_suite.encrypt(jwt_token.encode())
-   ```
-
-3. **Secure Refresh Tokens**: Store refresh tokens securely and rotate them periodically
-   ```python
-   # Store refresh token securely
-   encrypted_refresh_token = cipher_suite.encrypt(refresh_token.encode())
-   ```
-
-!!! tip "Security Best Practices"
-    - Use the shortest practical TTL for your use case
-    - Store tokens securely on the server side
-    - Implement proper token revocation
-    - Store refresh tokens securely and rotate them periodically
+- [Authentication Guide](../integration/authentication.md) - Complete authentication documentation
+- [Cloud Server Setup](../getting-started/public-cloud-server.md) - Initial setup guide
+- [Private Server Setup](../getting-started/private-server.md) - Self-hosted deployment
