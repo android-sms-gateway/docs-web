@@ -1,4 +1,4 @@
-# Private Server 🛡️
+# 🛡️ Private Server
 
 To enhance privacy and control, you can host your own private server. This keeps all message data within your infrastructure while maintaining push notification capabilities through our public server at `api.sms-gate.app`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
 
@@ -43,7 +43,7 @@ flowchart
 ```
 </center>
 
-## Prerequisites ✅
+## ✅ Prerequisites
 
 === "🐳 With Docker"
     - Docker installed on Linux VPS
@@ -58,7 +58,7 @@ flowchart
 === "📦 With Helm"
     - Kubernetes cluster with Helm 3+
 
-## Installation Methods 📦
+## 📦 Installation Methods
 
 === "🐳 With Docker"
 
@@ -130,7 +130,7 @@ flowchart
 
     For detailed Helm chart documentation, see [Helm Chart Documentation](https://github.com/android-sms-gateway/server/blob/master/deployments/helm-chart/README.md).
 
-## Reverse Proxy Configuration 🌐
+## 🌐 Reverse Proxy Configuration
 
 ### Example Nginx Configuration
 
@@ -142,6 +142,14 @@ location / {
 }
 ```
 
+!!! note "API URL Structure"
+    When configuring clients to interact with your private server, remember that the URL path must include `/api` as a prefix:
+    
+    - **Android App**: `https://your-domain.com/api/mobile/v1`
+    - **External API Calls**: `https://your-domain.com/api/3rdparty/v1/...`
+    
+    This differs from the cloud server (`api.sms-gate.app`) where the `api` part is in the domain name. See [Getting Started with Private Server](../getting-started/private-server.md#using-the-api) for details.
+
 ### Advanced Configuration
 
 For SSL termination and advanced routing scenarios, consider:
@@ -152,7 +160,7 @@ For SSL termination and advanced routing scenarios, consider:
 - Setting up rate limiting
 - Implementing proxying for SSE connections
 
-## Background Worker ⚙️
+## ⚙️ Background Worker
 
 The background worker operates as a separate process from the main server and handles these core maintenance tasks:
 
