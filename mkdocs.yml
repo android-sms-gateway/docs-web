@@ -32,7 +32,6 @@ theme:
         name: Switch to system preference
 nav:
   - Home: index.md
-  - Blog: blog/index.md
   - Installation: installation.md
   - Getting Started:
       - Overview: getting-started/index.md
@@ -47,30 +46,23 @@ nav:
       - Authentication: integration/authentication.md
       - Libraries: integration/client-libraries.md
       - CLI: integration/cli.md
+      - Webhooks: features/webhooks.md
       - GET to POST: integration/get-to-post.md
       - Agent Systems: integration/agents.md
-      - Webhooks: features/webhooks.md
   - Features:
-      - Private Server: features/private-server.md
       - Sending Messages: features/sending-messages.md
+      - Reading Messages: features/reading-messages.md
       - Webhooks: features/webhooks.md
-      - Multi-SIM Support: features/multi-sim.md
-      - Multi-Device Support: features/multi-device.md
-      - MMS Support: features/mms.md
       - Status Tracking: features/status-tracking.md
+      - Multi-Device Support: features/multi-device.md
+      - Multi-SIM Support: features/multi-sim.md
+      - MMS Support: features/mms.md
+      - Data SMS Support: features/data-sms.md
       - Health Checks: features/health.md
       - Ping: features/ping.md
-      - Reading Messages: features/reading-messages.md
-      - Data SMS Support: features/data-sms.md
+      - Private Server: features/private-server.md
       - Logging: features/logging.md
       - Settings Management: features/settings-management.md
-  - Services:
-      - Certificate Authority: services/ca.md
-      - Twilio Fallback: services/twilio-fallback.md
-  - Pricing: pricing.md
-  - Privacy:
-      - Policy: privacy/policy.md
-      - Encryption: privacy/encryption.md
   - FAQ:
       - General: faq/general.md
       - Local Server: faq/local-server.md
@@ -78,17 +70,25 @@ nav:
       - Reading Messages: faq/reading-messages.md
       - Errors: faq/errors.md
       - Authentication: faq/authentication.md
+      - Private Server: faq/private-server.md
   - Resources:
       - Examples: resources/examples.md
-      - Third-Party: resources/3rdparty.md
       - Use Cases: resources/use-cases.md
+      - Third-Party: resources/3rdparty.md
+  - Services:
+      - Twilio Fallback: services/twilio-fallback.md
+      - Certificate Authority: services/ca.md
+  - Blog: blog/index.md
+  - Pricing: pricing.md
+  - Privacy:
+      - Policy: privacy/policy.md
+      - Encryption: privacy/encryption.md
   - Contributing: contributing.md
   - License: license.md
 validation:
   omitted_files: warn
   absolute_links: warn
   unrecognized_links: warn
-  anchors: warn
 plugins:
   - search
   - render_swagger
@@ -99,7 +99,8 @@ plugins:
       htmlmin_opts:
         remove_comments: true
       cache_safe: true
-  - social
+  - social:
+      enabled: !ENV [CI, false]
   - git-revision-date-localized:
       enable_creation_date: true
   - blog:

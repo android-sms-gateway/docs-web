@@ -1,6 +1,6 @@
-# Getting Started 🚀
+# 🚀 Getting Started
 
-## Private Server 🔒
+## 🔒 Private Server
 
 To enhance privacy and control, you can host your own private server. This keeps all message data within your infrastructure while maintaining push notification capabilities through our public server at `api.sms-gate.app`. This setup eliminates the need to configure Firebase Cloud Messaging (FCM) or rebuild the Android app, but it does demand some technical know-how.
 
@@ -152,6 +152,15 @@ To run the server, you'll need:
     !!! note "API URL Path"
          The API URL **must** include the `/api/mobile/v1` path. Using just the base URL (e.g., `https://private.example.com`) will not work.
 
+    !!! warning "HTTPS Required"
+         The Android app **requires HTTPS** for all communications with your private server unless you use an insecure build variant. Using HTTP will result in connection failures.
+         
+         To obtain a valid SSL certificate:
+         
+         - Use [Let's Encrypt](https://letsencrypt.org/) for a free, trusted certificate
+         - Use our [project CA](../services/ca.md) for private IP addresses or internal domains
+         - Use a tunneling service like [ngrok](https://ngrok.com/) or [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) for testing
+
 3. **Activate connection**  
     1. Switch to **Home** tab
     2. Activate **Cloud server** switch
@@ -168,14 +177,41 @@ To run the server, you'll need:
 !!! info "Automatic Registration"
     No manual registration step is required. Username and password are generated automatically on the first successful connection to the server.
 
-### Password Management 🔑
+### Using the API 📡
 
-Identical to [Cloud Server mode](public-cloud-server.md#password-management).
+All API interactions with the SMSGate use the same request format and authentication methods, but the URL structure differs between Cloud and Private server modes.
+
+#### URL Structure Comparison
+
+| Component    | Cloud Server                                    | Private Server                                     |
+| ------------ | ----------------------------------------------- | -------------------------------------------------- |
+| Base URL     | `https://api.sms-gate.app`                      | `https://your-domain.com`                          |
+| API Path     | `/3rdparty/v1/...`                              | `/api/3rdparty/v1/...`                             |
+| Full Example | `https://api.sms-gate.app/3rdparty/v1/messages` | `https://your-domain.com/api/3rdparty/v1/messages` |
+
+!!! note "Why the Difference?"
+    The cloud server uses URL rewriting where the domain `api.sms-gate.app` already contains the `api` part. With a private server, you need to explicitly include `/api` in the URL path.
+
+#### Example: Sending a Message
+
+```bash
+# Cloud Server
+curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages" \
+  -u "username:password" \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumbers": ["+1234567890"], "textMessage": {"text": "Hello"}}'
+
+# Private Server
+curl -X POST "https://your-domain.com/api/3rdparty/v1/messages" \
+  -u "username:password" \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumbers": ["+1234567890"], "textMessage": {"text": "Hello"}}'
+```
 
 ---
 
 
-## See Also 📚
+## 📚 See Also
 
 - [Private Server Documentation](../features/private-server.md)
 - [Ubuntu/Docker/Nginx Setup Guide](https://github.com/capcom6/android-sms-gateway/discussions/50)
