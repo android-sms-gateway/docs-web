@@ -48,3 +48,4 @@ To access the **Swagger UI** for API documentation and testing, follow these ste
 - [Private Server Mode](./private-server.md) for self-hosted solutions
 - [API Integration Guide](../integration/api.md) for detailed API specifications
 - [Webhooks Documentation](../features/webhooks.md) for automated workflows
+- [Reading Messages](../features/reading-messages.md) for retrieving message history
