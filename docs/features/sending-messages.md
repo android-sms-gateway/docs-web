@@ -97,7 +97,8 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 | `message`            | string             | ⚠️ Deprecated: Use `textMessage.text` instead                     | `null`                                       | "Hello World"                           |
 | `phoneNumbers`       | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                       |
 | `simNumber`          | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                     |
-| `ttl`/`validUntil`   | integer/RFC3339    | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2024-12-31T23:59:59Z"`      |
+| `ttl`/`validUntil`   | integer/RFC3339    | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2026-12-31T23:59:59Z"`      |
+| `scheduleAt`         | RFC3339            | :material-calendar-clock: Schedule message for future delivery   | `null` (send immediately)                    | `"2026-12-31T09:00:00Z"`                |
 | `withDeliveryReport` | boolean            | :material-checkbox-marked: Delivery confirmation                 | `true`                                       | `true`                                  |
 | `priority`           | integer (-128-127) | :material-priority-high: Send priority (-128 to 127)             | `0`                                          | `100`                                   |
 | `isEncrypted`        | boolean            | :material-lock: [Message is encrypted](../privacy/encryption.md) | `false`                                      | `true`                                  |
@@ -108,8 +109,11 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 !!! info "Additional Notes"
     - Phone numbers must be **E.164-compatible**—except when **the message is encrypted** or `skipPhoneValidation=true`
     - `ttl` and `validUntil` are mutually exclusive
+    - `scheduleAt` must be in the future (UTC timestamp)
+    - `scheduleAt` must be ≤ `validUntil` if both are specified
     - Priorities ≥100 are expedited but may still be subject to delay
     - Data messages require app v1.40.0+ and server v1.24.0+
+    - Scheduled messages require app v1.41.0+ and server v1.25.0+
 
 ## 💻 Code Examples
 
@@ -372,6 +376,67 @@ Control message processing order using the `priority` field. Higher priority mes
     - :material-run-fast: **High** – time-sensitive messages (OTPs, alerts)
     - :material-walk: **Normal** – routine communications (notifications, reminders)
     - :material-timer-sand: **Low** – non-urgent bulk traffic (marketing, backups)
+
+## ⏰ Scheduled Messages
+
+Schedule message delivery for a specific future time using the `scheduleAt` field. The message will be queued immediately but held until the specified timestamp before being sent.
+
+### Overview
+
+When you specify a future timestamp in the `scheduleAt` field:
+1. The message is validated and stored in the queue immediately
+2. The server orders scheduled messages by their scheduled time
+3. The device receives the message but withholds sending until the scheduled time arrives
+
+### Use Cases
+
+- **Appointment Reminders**: Send reminders at a specific time before appointments
+- **Timezone-Aware Notifications**: Schedule messages to arrive at optimal times across different timezones
+- **Compliance**: Ensure messages are sent during permitted time windows
+
+### API Usage
+
+=== "Schedule a Message"
+    ```bash title="Schedule a message for future delivery"
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages" \
+      -u "username:password" \
+      --json '{
+        "textMessage": {
+          "text": "Your appointment is tomorrow at 10 AM"
+        },
+        "phoneNumbers": ["+1234567890"],
+        "scheduleAt": "2026-12-31T09:00:00Z"
+      }'
+    ```
+
+=== "Schedule with Expiration"
+    ```bash title="Schedule with validUntil - message expires if not sent in time"
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages" \
+      -u "username:password" \
+      --json '{
+        "textMessage": {
+          "text": "Time-sensitive reminder"
+        },
+        "phoneNumbers": ["+1234567890"],
+        "scheduleAt": "2026-12-31T09:00:00Z",
+        "validUntil": "2026-12-31T12:00:00Z"
+      }'
+    ```
+
+### Field Constraints
+
+| Constraint                         | Rule                                                          |
+| ---------------------------------- | ------------------------------------------------------------- |
+| `scheduleAt` must be in the future | Rejected if timestamp is in the past or equal to current time |
+| `scheduleAt` ≤ `validUntil`        | Required when both fields are specified                       |
+| Timezone                           | All timestamps must be in UTC (RFC3339 format)                |
+
+### Best Practices
+
+- **Always set `validUntil`**: If the scheduled time passes without delivery (e.g., device offline), the message will expire
+- **Account for timezones**: All timestamps are UTC—convert from local time before sending
+- **Use appropriate scheduling**: For very short delays (< 5 minutes), consider sending immediately with high `priority` instead of scheduling
+- **Check device availability**: Ensure the target device will be online at the scheduled time
 
 ## 📚 See Also
 
