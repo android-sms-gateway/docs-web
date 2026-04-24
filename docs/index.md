@@ -21,6 +21,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS and MMS gatewa
 
 - 📜 **Multipart messages:** Send long messages with auto-partitioning.
 - 📊 **Message status tracking:** Monitor the status of sent messages in real-time.
+- ⏰ **Scheduled messages:** [Schedule messages](./features/sending-messages.md#scheduled-messages) for future delivery at a specific time.
 - 🔔 **Real-time incoming message notifications:** Receive instant SMS and MMS notifications via [webhooks](./features/webhooks.md).
 - 📖 **Retrieve previously received messages:** Access your message history via [Reading Messages](./features/reading-messages.md).
 
