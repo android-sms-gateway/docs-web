@@ -1,6 +1,6 @@
 # Resources - Use Cases 📚
 
-Projects using SMS Gateway for Android (discovered from public sources).  
+Projects using SMSGate App (discovered from public sources).  
 To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.app)
 
 ## Open Source :material-source-branch:
@@ -75,6 +75,23 @@ To add/remove listings, [:material-email: contact us](mailto:support@sms-gate.ap
 - :robot: **Inboxerr Backend**  
   API backend for SMS management and delivery  
   [:material-github: GitHub Repo](https://github.com/QU35710N-7/inboxerr-BACKEND)
+
+- :calendar: **Good Morning Text**  
+  Automated daily SMS with personalized quotes, scheduled via cron or Task Scheduler  
+  [:material-github: GitHub Repo](https://github.com/sostrin67/good-morning-text)
+
+- :key: **Self-Hosted OTP**  
+  Multi-tenant OTP microservice built with Next.js, Upstash Redis, and SMS Gateway  
+  [:material-github: GitHub Repo](https://github.com/Soah1312/self-hosted-otp)
+  [:material-web: Demo](https://sms-service-xi.vercel.app/)
+
+- :robot: **SMS Gateway (OpenClaw Skill)**  
+  OpenClaw skill for sending and receiving SMS with device health checks and webhook support  
+  [:material-github: GitHub Repo](https://github.com/minstn/sms-gateway)
+
+- :material-desktop-classic: **SMS Gateway GUI**  
+  Modern web-based GUI for managing SMS, devices, webhooks, and settings via React + Express  
+  [:material-github: GitHub Repo](https://github.com/Meir553/sms-gate-gui)
 
 
 </div>
