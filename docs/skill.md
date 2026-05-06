@@ -732,7 +732,7 @@ The app can receive MMS messages and notify via webhooks. **Sending MMS is not s
 | 429 | Too Many Requests | Rate limit exceeded |
 | 500 | Internal Server Error | Retry with exponential backoff |
 | 501 | Not Implemented | Feature not available in current mode (e.g., JWT in Local mode) |
-| 503 | Service Unavailable | Server temporarily unavailable, retry |
+| 503 | Service Unavailable | Server temporarily unavailable, retry (or queue limits exceeded - see below) |
 
 ### Common Error Responses
 
@@ -755,6 +755,27 @@ The app can receive MMS messages and notify via webhooks. **Sending MMS is not s
   "retryAfter": 60
 }
 ```
+
+**Queue Limit Exceeded (503 Service Unavailable):**
+When the server's message queue limits are exceeded, the API returns a 503 error:
+
+```json
+{
+  "error": "QueueLimitExceeded",
+  "message": "queue limits exceeded: <reason>"
+}
+```
+
+Common reasons:
+- `too many pending messages: X / Y` - Device queue has too many pending messages
+- `too old pending message: <timestamp>` - Oldest pending message exceeds the configured age limit
+- `too many failed messages` - All recent messages have failed
+
+**Resolution:**
+- **Public Cloud**: Automatically limited to 24-hour oldest pending message. This is fixed and cannot be changed.
+- **Cloud/Private Server**: Configure queue limits via environment variables.
+- Wait for pending messages to be processed before sending new ones
+- Use message TTL to prevent indefinite queuing
 
 **Authentication Errors:**
 - **401 Unauthorized**: Invalid credentials or expired JWT token

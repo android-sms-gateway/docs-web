@@ -202,7 +202,7 @@ Send `Your OTP is 1234` to `+1234567890` without phone number validation via dev
 
 ### Data Message
 
-Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+1234567890` without phone number validation and expire the message after 1 hour. Use SIM card slot #1 and set priority to 100 to bypass all limits/delays.
+Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+1234567890` without phone number validation and expire the message after 1 hour. Use SIM card slot #1 and set priority to 100 to bypass device-side rate limiting/delays.
 
 === "cURL"
     ```bash title="Send Data Message using cURL"
@@ -348,6 +348,57 @@ The primary way to manage rate-limiting and delays is through the app's user int
 
 !!! note "Multiple Recipients"
     When a request includes multiple `phoneNumbers`, it is treated as a single logical message. Delay and rate‑limit evaluations occur once per request, not per recipient. On a single device, the SMS for all recipients are sent back‑to‑back within the same processing slot (not truly simultaneous).
+
+## 🖥️ Server Queue Limits
+
+The server implements queue limits to prevent devices from being overwhelmed with message processing tasks. These limits are enforced on the server side and apply to Cloud and Private Server deployments.
+
+### How Queue Limits Work
+
+Before enqueueing a message, the server checks if the device's queue has exceeded any configured limits. If limits are exceeded, the API returns **HTTP 503 Service Unavailable** with an error message indicating which limit was exceeded.
+
+### Limit Types
+
+| Limit Type          | Description                                             |
+| ------------------- | ------------------------------------------------------- |
+| **Max Pending**     | Maximum number of pending messages in a device's queue  |
+| **Max Pending Age** | Maximum age of pending messages before they're rejected |
+| **Max Failed**      | Maximum number of failed messages in a time window      |
+
+### Server Type Differences
+
+=== "Public Cloud"
+    For Public Cloud deployments, the system enforces **automatic queue management** with a fixed 24-hour limit:
+
+    - **Max Pending Age**: Automatically set to **24 hours** - messages pending longer than 24h are rejected
+    - **Other Limits**: Not configurable - unlimited
+
+    This automatic limit protects the shared infrastructure from devices with stale pending messages.
+
+=== "Private Server"
+    For self-hosted Private Server deployments, **all queue limits are configurable**. See [Private Server Documentation](./private-server.md#message-queue-limits) for configuration details.
+
+### Error Response
+
+When queue limits are exceeded, the API returns:
+
+```json
+{
+  "error": "QueueLimitExceeded",
+  "message": "queue limits exceeded: <reason>"
+}
+```
+
+Common reasons:
+- `too many pending messages: X / Y` - Device queue has too many pending messages
+- `too old pending message: <timestamp>` - Oldest pending message exceeds the configured age limit
+- `too many failed messages` - All recent messages have failed
+
+### Best Practices
+
+1. **Use Message TTL**: Always set `ttl` or `validUntil` to prevent messages from queuing indefinitely
+2. **Monitor Queue Status**: Check device status to see pending message count
+3. **Configure Appropriate Limits**: For Private servers, tune limits based on your device capacity
 
 ## ⚡ Message Priority
 
