@@ -150,6 +150,35 @@ location / {
     
     This differs from the cloud server (`api.sms-gate.app`) where the `api` part is in the domain name. See [Getting Started with Private Server](../getting-started/private-server.md#using-the-api) for details.
 
+### Message Queue Limits
+
+The server implements queue limits to prevent devices from being overwhelmed with message processing tasks. These limits are configurable for Private Server deployments.
+
+#### Overview
+
+Queue limits monitor device message queues and enforce three types of limits:
+
+| Limit Type          | Description                                             |
+| ------------------- | ------------------------------------------------------- |
+| **Max Pending**     | Maximum number of pending messages in a device's queue  |
+| **Max Pending Age** | Maximum age of pending messages before they're rejected |
+| **Max Failed**      | Maximum failed messages in a time window                |
+
+When any limit is exceeded, the API returns **HTTP 503 Service Unavailable**.
+
+#### Configuration
+
+Configure queue limits via environment variables:
+
+| Variable                                  | Description                              | Default         |
+| ----------------------------------------- | ---------------------------------------- | --------------- |
+| `MESSAGES__QUEUE__MAX_PENDING`            | Maximum pending messages per device      | `0` (unlimited) |
+| `MESSAGES__QUEUE__MAX_PENDING_AGE`        | Maximum age of pending messages          | `0` (unlimited) |
+| `MESSAGES__QUEUE__MAX_FAILED`             | Maximum failed messages in time window   | `0` (unlimited) |
+| `MESSAGES__QUEUE__MAX_FAILED_AGE`         | Time window for failed message counting  | `0` (unlimited) |
+| `MESSAGES__QUEUE__STATS_REFRESH_INTERVAL` | Interval for refreshing queue statistics | `5s`            |
+| `MESSAGES__QUEUE__STATS_CACHE_TTL`        | Cache TTL for limit check results        | `60s`           |
+
 ### Advanced Configuration
 
 For SSL termination and advanced routing scenarios, consider:
