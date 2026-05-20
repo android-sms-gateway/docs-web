@@ -1,6 +1,6 @@
 # 🚀 Twilio™ Fallback Service
 
-!!! warning
+!!! warning "Not Affiliated with Twilio"
     This service is not affiliated with, endorsed by, or sponsored by Twilio. It is an independent project that utilizes the Twilio API.
 
 ## 📖 Overview
@@ -82,4 +82,5 @@ docker run -p 3000:3000 --env-file .env ghcr.io/android-sms-gateway/twilio-fallb
 ## 📚 See Also
 
 * [SMSGate API](../integration/api.md)
+* [SMPP Server](./smpp-server.md)
 * [Twilio Webhooks](https://www.twilio.com/docs/usage/webhooks/messaging-webhooks#outbound-message-status-callback)

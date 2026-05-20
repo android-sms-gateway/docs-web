@@ -43,6 +43,7 @@ nav:
   - Integration:
       - Overview: integration/index.md
       - API: integration/api.md
+      - SMPP Protocol: integration/smpp.md
       - Authentication: integration/authentication.md
       - Libraries: integration/client-libraries.md
       - CLI: integration/cli.md
@@ -71,12 +72,14 @@ nav:
       - Errors: faq/errors.md
       - Authentication: faq/authentication.md
       - Private Server: faq/private-server.md
+      - SMPP Server: faq/smpp-server.md
   - Resources:
       - Examples: resources/examples.md
       - Use Cases: resources/use-cases.md
       - Third-Party: resources/3rdparty.md
   - Services:
       - Twilio Fallback: services/twilio-fallback.md
+      - SMPP Server: services/smpp-server.md
       - Certificate Authority: services/ca.md
   - Blog: blog/index.md
   - Pricing: pricing.md
