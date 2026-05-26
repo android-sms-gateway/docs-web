@@ -2,6 +2,17 @@
 
 ## 📋 General
 
+### Is there a public SMPP server hosted by SMSGate?
+
+Yes. A public SMPP server is available at **`smpp.sms-gate.app:2775`** (plain) and **`smpp.sms-gate.app:2776`** (TLS). You can connect using your SMSGate credentials — no additional setup or registration required. See the [SMPP Server service page](../services/smpp-server.md) for details.
+
+!!! info "Test Mode"
+    The public SMPP server is currently in test mode. It runs a shared instance with default configuration.
+
+### Does the public SMPP server support TLS?
+
+Yes. Connect to port **2776** for SMPP over TLS. The certificate is issued via Let's Encrypt, so standard TLS trust applies — no custom CA needed.
+
 ### What is SMPP?
 
 SMPP (Short Message Peer-to-Peer) is a telecommunications industry protocol used for exchanging SMS messages between external messaging entities (ESME) and Short Message Service Centers (SMSC). It is widely used by SMS aggregators, messaging platforms, and enterprise communication systems.
