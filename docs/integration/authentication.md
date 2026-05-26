@@ -25,9 +25,6 @@ To generate a JWT token pair (access and refresh tokens), make a POST request to
 POST /3rdparty/v1/auth/token
 ```
 
-!!! warning "Local Server Mode"
-    This endpoint returns HTTP 501 Not Implemented in local server mode. Use Basic Authentication instead.
-
 ### Request
 
 ```bash
