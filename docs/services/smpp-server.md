@@ -2,9 +2,6 @@
 
 The SMPP Server is a standalone SMPP v3.4 protocol service that bridges SMPP-compatible clients (SMS aggregators, messaging platforms) with the SMSGate ecosystem. It enables external systems to submit SMS messages and receive delivery receipts using the industry-standard SMPP protocol.
 
-!!! warning "Non-Affiliated Project"
-    The SMPP Server is a separate project and is **not affiliated with, endorsed by, or sponsored by** any SMPP protocol standards body. It is an independent open-source project.
-
 ## 📖 Overview
 
 The SMPP Server acts as a bridge between SMPP clients and the SMSGate REST API. It translates SMPP protocol operations into HTTP API calls, allowing existing SMPP-based infrastructure to work seamlessly with Android devices running the SMS Gateway app.
@@ -53,7 +50,36 @@ The SMPP Server is a standalone Go service with no shared database. All communic
 
 </div>
 
-## 📦 Installation
+## ☁️ Public SMPP Server
+
+A public SMPP server is available at **`smpp.sms-gate.app`** — no installation or self-hosting required. Connect directly using your SMSGate credentials.
+
+| Detail         | Value                                  |
+| -------------- | -------------------------------------- |
+| Host           | `smpp.sms-gate.app`                    |
+| Plain port     | 2775                                   |
+| TLS port       | 2776 (Let's Encrypt)                   |
+| Authentication | SMSGate username / password            |
+| Gateway API    | `https://api.sms-gate.app/3rdparty/v1` |
+
+### Comparison: Public vs Self-Hosted
+
+| Aspect            | Public Server (`smpp.sms-gate.app`) | Self-Hosted                      |
+| ----------------- | ----------------------------------- | -------------------------------- |
+| Setup             | None — connect directly             | Requires Docker, VPS, or binary  |
+| TLS               | Automatic (Let's Encrypt)           | Manual certificate configuration |
+| Webhook callbacks | Automatically configured            | Requires a public URL            |
+| Rate limiting     | Shared instance limits              | Full control                     |
+| Configuration     | Fixed (managed instance)            | Customizable via env vars        |
+| Metrics           | Not publicly exposed                | Full access (port 3000)          |
+
+!!! warning "Test Mode"
+    The public SMPP server is currently in **test mode**. It runs a shared instance with default configuration. Please [report issues](https://github.com/android-sms-gateway/smpp-server/issues) on GitHub.
+
+## Self-Hosted Deployment
+
+!!! warning "Non-Affiliated Project"
+    The SMPP Server is a separate project and is **not affiliated with, endorsed by, or sponsored by** any SMPP protocol standards body. It is an independent open-source project.
 
 ### Option A: Pre-built Binary
 

@@ -6,6 +6,9 @@ The SMSGate supports the SMPP v3.4 protocol through a dedicated SMPP Server comp
 
 SMPP (Short Message Peer-to-Peer) is a telecommunications industry protocol for exchanging SMS messages between external messaging entities and SMS centers. The SMPP Server bridges SMPP clients with the SMSGate ecosystem, allowing you to use existing SMPP-based infrastructure with Android devices.
 
+!!! tip "Public SMPP Server Available"
+    A public SMPP server is available at **`smpp.sms-gate.app:2775`** (plain) and **`smpp.sms-gate.app:2776`** (TLS). No installation needed — connect directly with your SMSGate credentials. See the [SMPP Server service page](../services/smpp-server.md) for self-hosting options.
+
 <div class="grid cards" markdown>
 
 - **🔌 When to Use SMPP**  
@@ -21,6 +24,7 @@ SMPP (Short Message Peer-to-Peer) is a telecommunications industry protocol for 
 | Parameter  | Value               |
 | ---------- | ------------------- |
 | Protocol   | SMPP v3.4           |
+| Host       | `smpp.sms-gate.app` |
 | Plain port | 2775                |
 | TLS port   | 2776 (SMPPs)        |
 | Encoding   | GSM 7-bit (default) |
@@ -31,8 +35,8 @@ Authentication happens during the SMPP BIND sequence using your SMSGate credenti
 
 | Field       | Value                            |
 | ----------- | -------------------------------- |
-| `system_id` | Your SMS Gateway username        |
-| `password`  | Your SMS Gateway password        |
+| `system_id` | Your SMSGate username            |
+| `password`  | Your SMSGate password            |
 | Bind types  | `BIND_TX`, `BIND_RX`, `BIND_TRX` |
 
 ### Authentication Flow
