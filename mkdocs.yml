@@ -78,6 +78,7 @@ nav:
       - Use Cases: resources/use-cases.md
       - Third-Party: resources/3rdparty.md
   - Services:
+      - Email to SMS: services/email-to-sms.md
       - Twilio Fallback: services/twilio-fallback.md
       - SMPP Server: services/smpp-server.md
       - Certificate Authority: services/ca.md
