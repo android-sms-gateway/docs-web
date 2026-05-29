@@ -10,6 +10,9 @@ There are several ways to integrate the SMS Gateway for Android™ into your own
 - **📡 [SMPP](./smpp.md)**  
     Connect SMPP-compatible clients and SMS aggregators using the industry-standard SMPP v3.4 protocol.
 
+- **📧 [SMTP](./smtp.md)**  
+    Send SMS from any email-capable system — no REST API required.
+
 - **📚 [Clients](./client-libraries.md)**  
     Install client libraries in various programming languages to simplify integration and accelerate development.
 

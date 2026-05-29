@@ -40,6 +40,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS and MMS gatewa
 
 - 🪝 **Webhooks:** Set up [webhooks](./features/webhooks.md) to be triggered on specified events.
 - 📡 **SMPP Server:** Bridge SMPP-compatible clients and SMS aggregators with the SMSGate via the industry-standard SMPP v3.4 protocol. See [SMPP Server](./services/smpp-server.md).
+- 📧 **Email to SMS Bridge:** Send SMS from any email-capable system. See [Email to SMS Bridge](./services/email-to-sms.md).
 - 🚀 **Twilio Fallback Service:** Provides a fallback mechanism for Twilio SMS messages using SMSGate. See [Twilio Fallback Service](./services/twilio-fallback.md) for more information.
 
 ## Ideal For

@@ -42,12 +42,13 @@ nav:
       - Webhooks: getting-started/webhooks.md
   - Integration:
       - Overview: integration/index.md
-      - API: integration/api.md
-      - SMPP Protocol: integration/smpp.md
       - Authentication: integration/authentication.md
+      - API: integration/api.md
+      - Webhooks: features/webhooks.md
+      - SMPP: integration/smpp.md
+      - SMTP: integration/smtp.md
       - Libraries: integration/client-libraries.md
       - CLI: integration/cli.md
-      - Webhooks: features/webhooks.md
       - GET to POST: integration/get-to-post.md
       - Agent Systems: integration/agents.md
   - Features:
@@ -73,6 +74,7 @@ nav:
       - Authentication: faq/authentication.md
       - Private Server: faq/private-server.md
       - SMPP Server: faq/smpp-server.md
+      - SMTP Server: faq/smtp.md
   - Resources:
       - Examples: resources/examples.md
       - Use Cases: resources/use-cases.md
