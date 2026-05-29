@@ -45,6 +45,13 @@ The app requires the `android.permission.SEND_SMS` permission to send SMS messag
         - You only need to do this once (permissions persist after app updates)
         - If you uninstall and reinstall the app, you'll need to grant permissions again via ADB
 
+!!! tip "Xiaomi / MIUI Devices (Redmi, etc.)"
+    On Xiaomi devices with MIUI, a confirmation dialog may appear every time an SMS is sent, even with the `SEND_SMS` permission granted. This is a manufacturer-specific OS behavior.
+
+    1. :material-developer-board: Enable **Developer Options** (tap Build Number 7x in Settings → About Phone → MIUI Version)
+    2. :material-tune: Disable **MIUI optimization**
+    3. :material-restart: Reboot your device
+
 ## ⚠️ `RESULT_ERROR_GENERIC_FAILURE` Error
 
 The `RESULT_ERROR_GENERIC_FAILURE` error can occur for various reasons:
