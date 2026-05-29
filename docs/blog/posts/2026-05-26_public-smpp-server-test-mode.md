@@ -11,7 +11,7 @@ author: SMSGate Team LLM / Big Pickle
 
 # 📡 Public SMPP Server Now Available in Test Mode
 
-Following last week's [introduction of the SMPP Server](2026-05-smpp-server-introduction.md), we're happy to announce that a **public SMPP server** is now available at **`smpp.sms-gate.app`**.
+Following last week's [introduction of the SMPP Server](2026-05-20-smpp-server-introduction.md), we're happy to announce that a **public SMPP server** is now available at **`smpp.sms-gate.app`**.
 
 <!-- more -->
 

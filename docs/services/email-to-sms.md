@@ -48,6 +48,32 @@ The Email to SMS Bridge is a standalone Go service with no shared database. It u
 
 </div>
 
+## ☁️ Public Email to SMS Server
+
+A public Email to SMS server is available at **`smtp.sms-gate.app`** — no installation or self-hosting required. Connect directly using your SMSGate credentials.
+
+| Detail         | Value                                    |
+| -------------- | ---------------------------------------- |
+| Host           | `smtp.sms-gate.app`                      |
+| Plain port     | 587                                      |
+| TLS port       | 465 (Let's Encrypt)                      |
+| Authentication | SMSGate username / password (AUTH PLAIN) |
+| Email format   | `{phone}@smtp.sms-gate.app`              |
+| Gateway API    | `https://api.sms-gate.app/3rdparty/v1`   |
+
+### Comparison: Public vs Self-Hosted
+
+| Aspect        | Public Server (`smtp.sms-gate.app`) | Self-Hosted                      |
+| ------------- | ----------------------------------- | -------------------------------- |
+| Setup         | None — connect directly             | Requires Docker, VPS, or binary  |
+| TLS           | Automatic (Let's Encrypt)           | Manual certificate configuration |
+| Rate limiting | Shared instance limits              | Full control                     |
+| Configuration | Fixed (managed instance)            | Customizable via env vars        |
+| Metrics       | Not publicly exposed                | Full access (port 3000)          |
+
+!!! warning "Test Mode"
+    The public Email to SMS server is currently in **test mode**. It runs a shared instance with default configuration. Please [report issues](https://github.com/android-sms-gateway/email-to-sms/issues) on GitHub.
+
 ## ⚙️ How it Works
 
 ### Email Format
@@ -239,6 +265,7 @@ services:
 
 ## 📚 See Also
 
+- [SMTP Integration Guide](../integration/smtp.md)
 - [SMSGate API Reference](../integration/api.md)
 - [Authentication Guide](../integration/authentication.md)
 - [SMSGate GitHub Organization](https://github.com/android-sms-gateway)

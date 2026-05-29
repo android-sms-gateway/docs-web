@@ -1,4 +1,4 @@
-# Getting Started
+# 🚀 Getting Started
 
 The SMS Gateway for Android™ can operate in three distinct modes, all utilizing the same API:
 
@@ -10,10 +10,14 @@ To begin with any of these modes, you must first install the SMS Gateway for And
 
 For more details on how to use the API, please consult the [API](../integration/api.md) section.
 
-## SMPP Server Integration
+## 📡 SMPP Server Integration
 
 For organizations with existing SMPP-based infrastructure, the [SMPP Server](../services/smpp-server.md) provides a bridge between SMPP v3.4 clients and the SMSGate ecosystem. It operates as a separate service that translates SMPP protocol operations into REST API calls, enabling seamless integration with SMS aggregators and telecom-grade messaging platforms.
 
-## Building Your Own Gateway
+## 📧 SMTP / Email to SMS Integration
+
+For systems that already send email, the [Email to SMS Bridge](../services/email-to-sms.md) lets you send SMS by emailing `{phone}@smtp.sms-gate.app` — no REST API integration required. Any email-capable system (monitoring tools, booking platforms, CRMs) can send SMS without code changes. See the [SMTP Integration Guide](../integration/smtp.md) for examples.
+
+## 🏗️ Building Your Own Gateway
 
 Building your own gateway is an option that allows you to create an independent infrastructure without any connection to the public server at `api.sms-gate.app`. In most cases, this is not necessary, and you can use the [Private Server](./private-server.md) mode with all of its privacy features. However, if you require full control, please see [Custom Gateway Setup](./custom-gateway.md) section.
