@@ -489,6 +489,51 @@ When you specify a future timestamp in the `scheduleAt` field:
 - **Use appropriate scheduling**: For very short delays (< 5 minutes), consider sending immediately with high `priority` instead of scheduling
 - **Check device availability**: Ensure the target device will be online at the scheduled time
 
+## 🕐 Working Hours
+
+Control when messages are dispatched by defining an active time window. Messages queued outside this window are paused and automatically resume at the next window start.
+
+### How It Works
+
+When working hours are enabled:
+
+1. Messages are only sent when the current time falls within the configured window
+2. If the queue has pending messages when the window ends, delivery pauses
+3. Sending automatically resumes at the next window start time
+4. The check runs alongside rate limits — both must be satisfied before a message is sent
+
+### Configuration
+
+**Settings Path**: :gear: Settings → Messages → Working Hours
+
+| Setting              | Description                                 | Default |
+| -------------------- | ------------------------------------------- | ------- |
+| Enable working hours | Toggle to activate the feature              | Off     |
+| Start time           | Window opening time (HH:mm, 24-hour format) | 09:00   |
+| End time             | Window closing time (HH:mm, 24-hour format) | 19:00   |
+
+### Window Types
+
+| Type      | Condition   | Example     | Behavior                                           |
+| --------- | ----------- | ----------- | -------------------------------------------------- |
+| Normal    | Start < End | 09:00–19:00 | Send between 09:00 and 19:00, pause overnight      |
+| Overnight | Start > End | 22:00–06:00 | Send overnight (22:00–06:00), pause during the day |
+| Full day  | Start = End | 09:00–09:00 | Always in hours (feature effectively disabled)     |
+
+### Priority Bypass
+
+Expedited messages (priority ≥ 100) are **never blocked** by working hours and are sent immediately regardless of the time window.
+
+### Use Cases
+
+- **Large campaigns**: Send 3,000 messages paced over several days without late-night deliveries
+- **Compliance**: Meet regulatory requirements that restrict messaging to business hours
+
+### Best Practices
+
+- **Combine with rate limits** to pace delivery within the window (e.g., 59 SMS/hour between 09:00–19:00 → ~590/day)
+- **Use scheduled messages** (`scheduleAt`) for one-off future delivery; use working hours for recurring daily windows
+
 ## 📚 See Also
 
 - [API Documentation](https://api.sms-gate.app) - Complete API reference
