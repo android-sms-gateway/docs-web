@@ -90,6 +90,19 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
 
     The app provides a feature to rotate between [multiple SIM cards](../features/multi-sim.md#sim-card-rotation) automatically, avoiding reaching SIM limits.
 
+=== "🕐 Working Hours"
+
+    **Settings Path**:  
+    :gear: Settings → Messages → Working Hours
+
+    Working hours restrict message delivery to a configurable time window. Messages queued outside the window are paused and automatically resume at the next window start. This is particularly useful for large campaigns that span multiple days — you can avoid sending messages during late-night hours while the queue continues to drain during the day.
+
+    !!! tip "Overnight Windows"
+        The feature supports overnight windows (e.g., 22:00 to 06:00) by setting a start time later than the end time.
+
+    !!! warning "Caution"
+        Messages with priority ≥ 100 bypass working hours and are sent immediately regardless of the time window.
+
 ## 📶 How can I check the online status of the device?
 
 You can monitor the online status of your SMSGate device using multiple methods depending on your operational mode (Local, Cloud, or Private). Below is a visual overview of the available options:
