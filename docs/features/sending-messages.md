@@ -20,6 +20,40 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
 
 </div>
 
+## ❌ Cancelling Messages
+
+Cancelling allows you to abort a pending message before the device processes it. This is useful for scheduled messages or when you need to retract a message that hasn't been sent yet.
+
+### Cancellation Flow
+
+1. **Request cancellation**: `DELETE /3rdparty/v1/messages/{id}` with `messages:cancel` scope
+2. **Server transition**: Message state changes from `Pending` → `Cancelling`
+3. **Device notification**: Server sends a push/SSE event to the device
+4. **Device confirmation**: Device marks the message as `Cancelled` (or sends it if already processed)
+
+!!! note "Two-Phase Cancellation"
+    If the device has already started sending the message, it will transition to `Sent`/`Delivered`/`Failed` instead of `Cancelled`. The cancellation only takes effect while the message is still `Pending`.
+
+### Example
+
+```bash
+curl -X DELETE "https://api.sms-gate.app/3rdparty/v1/messages/zXDYfTmTVf3iMd16zzdBj" \
+  -u "username:password"
+```
+
+### Response
+
+If the message was successfully marked for cancellation:
+
+```json
+{
+  "id": "zXDYfTmTVf3iMd16zzdBj",
+  "state": "Cancelling"
+}
+```
+
+If the message was not in `Pending` state, the API returns `400 Bad Request` with an error message.
+
 ## 📤 API Request Structure
 
 === "Text Message"
