@@ -404,6 +404,7 @@ Trigger the event:
 - `mms:received`: Send an MMS message
 - `sms:sent`/`delivered`/`failed`: Send an SMS from the app
 - `system:ping`: Enable ping in **Settings > Ping**
+- `app:started`: Start the app
 
 ### Webhook Event Types
 
@@ -550,6 +551,31 @@ Triggered periodically when ping feature is enabled (health check).
       "status": "healthy",
       "timestamp": "2024-06-22T15:46:11.000+07:00"
     }
+  },
+  "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+}
+```
+
+#### app:started
+
+Triggered when the application is started (launched via home screen or by the system in response to a boot or other event). Provides the current SIM card configuration.
+
+**Payload:**
+```json
+{
+  "deviceId": "ffffffffceb0b1db0000018e937c815b",
+  "event": "app:started",
+  "id": "Ey6ECgOkVVFjz3CL48B8C",
+  "payload": {
+    "simCards": [
+      {
+        "slotIndex": 0,
+        "simNumber": 1,
+        "phoneNumber": "+79990001234",
+        "carrierName": "MTS",
+        "iccid": "897010112233445"
+      }
+    ]
   },
   "webhookId": "LreFUt-Z3sSq0JufY9uWB"
 }

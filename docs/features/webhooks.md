@@ -65,6 +65,9 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 - :ping_pong: **system:ping**
     - `health`: [Healthcheck status](./health.md)
 
+- :rocket: **app:started**
+    - `simCards`: Array of available SIM cards `[{ slotIndex, simNumber, phoneNumber, carrierName, iccid }]`
+
 </div>
 
 !!! note "`sender` and `recipient` May Be `null`"
@@ -170,6 +173,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 - `mms:received`: Send an MMS message to the device.
 - `sms:sent`/`delivered`/`failed`: Send an SMS *from* the app to trigger these events.
 - `system:ping`: Enable the ping feature in the app’s **Settings > Ping**.
+- `app:started`: Restart the app.
 
 ### Step 5: Receive the Payload 📤
 
@@ -280,6 +284,27 @@ Your server will receive a POST request with a payload like:
         "simNumber": 3,
         "failedAt": "2026-02-18T02:15:00.000+07:00",
         "reason": "Network error"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+    }
+    ```
+
+=== "app:started"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "app:started",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "simCards": [
+          {
+            "slotIndex": 0,
+            "simNumber": 1,
+            "phoneNumber": "+79990001234",
+            "carrierName": "MTS",
+            "iccid": "897010112233445"
+          }
+        ]
       },
       "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }
