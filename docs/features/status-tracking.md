@@ -54,6 +54,11 @@ The app allows you to track the status of messages using multiple methods.
 stateDiagram-v2
     direction LR
     [*] --> Pending
+    Pending --> Cancelling
+    Cancelling --> Cancelled
+    Cancelling --> Sent
+    Cancelling --> Failed
+    Cancelled --> [*]
     Pending --> Processed
     Processed --> Sent
     Sent --> Delivered
@@ -69,6 +74,10 @@ stateDiagram-v2
 
 - :hourglass: **Pending**  
   Message queued, awaiting device processing
+- :no_entry: **Cancelling**  
+  Server requested cancellation, awaiting device confirmation
+- :no_entry: **Cancelled**  
+  Message successfully cancelled before processing
 - :gear: **Processed**  
   Device prepared message, handed to Android SMS API
 - :outbox_tray: **Sent**  
@@ -94,6 +103,7 @@ stateDiagram-v2
     | ------------- | ---------------------- |
     | Any pending   | :hourglass: Pending    |
     | Any processed | :gear: Processed       |
+    | All cancelled | :no_entry: Cancelled   |
     | All delivered | :inbox_tray: Delivered |
     | All failed    | :x: Failed             |
     | Otherwise     | :outbox_tray: Sent     |
