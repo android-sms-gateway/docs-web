@@ -48,6 +48,9 @@ The settings parameters are represented as a JSON object. The structure includes
     "messages": {
         "limit_period": "Disabled",
         "limit_value": null,
+        "work_hours_enabled": false,
+        "work_hours_start": "09:00",
+        "work_hours_end": "19:00",
         "log_lifetime_days": null,
         "send_interval_max": null,
         "send_interval_min": null,
