@@ -53,6 +53,9 @@ The settings parameters are represented as a JSON object. The structure includes
         "send_interval_min": null,
         "sim_selection_mode": "OSDefault"
     },
+    "receiver": {
+        "content_provider_enabled": true
+    },
     "ping": {
         "interval_seconds": null
     },
@@ -89,6 +92,17 @@ When operating in Local mode, you can also configure the following Cloud/Private
     - `encryption.passphrase`
     - `webhooks.signing_key`
     - `gateway.private_token`
+
+### Receiver Settings 📡
+
+Controls how the app monitors for incoming SMS messages.
+
+| Setting                             | Type    | Default | Description                                                                                                                                                                                                                                                      |
+| ----------------------------------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `receiver.content_provider_enabled` | boolean | `true`  | When enabled, the app also monitors the SMS content provider for incoming messages as a fallback for carriers that intercept the `SMS_RECEIVED` broadcast. Disable if you experience duplicate webhook events and your carrier delivers the broadcast correctly. |
+
+!!! note "Restart Required"
+    Changes to receiver settings require an app restart to take effect.
 
 ### Push Notifications for Syncing Settings 📱
 
