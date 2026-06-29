@@ -544,6 +544,7 @@ The signing key is randomly generated at first request and can be changed in **S
 
 - [Flask webhook processor](https://github.com/android-sms-gateway/example-webhooks-flask): Demonstrates registration, HMAC validation, and payload handling with Flask.
 - [FastAPI webhook processor](https://github.com/android-sms-gateway/example-webhooks-fastapi): Demonstrates registration, HMAC validation, and payload handling with FastAPI.
+- [Discord Forwarder Function](https://github.com/android-sms-gateway/example-discord-forwarder-fn): Forwards SMS to Discord using a cloud function.
 - [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn): Forwards SMS to Telegram using a cloud function.
 - [Web Client](https://github.com/android-sms-gateway/web-client-ts): Node.js client for sending/receiving SMS via Socket.io.
 - [Google Sheets](https://github.com/android-sms-gateway/example-webhooks-google-sheets) - Google Apps Script integration to automatically log incoming SMS messages to Google Sheets.
