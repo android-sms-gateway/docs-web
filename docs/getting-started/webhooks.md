@@ -9,7 +9,7 @@ Webhooks provide real-time notifications about SMS events. Follow these steps to
 1. **HTTPS Endpoint**:
     - Webhook URLs must use HTTPS except for `http://127.0.0.1` (localhost)
     - For private IP addresses (like `192.168.x.x`), use our [Certificate Authority](../services/ca.md) to generate trusted certificates
-    - Testing services like [webhook.site](https://webhook.site) provide HTTPS endpoints
+    - Testing services like [webhook.site](https://webhook.site) or our [Webhook Tester](../features/webhooks.md#webhook-tester) provide HTTPS endpoints
 
 2. **Network Access**:
     - Device must have internet access to reach external endpoints

@@ -95,7 +95,7 @@ Before you begin, ensure the following:
 For your webhooks to work, you need an HTTP server capable of handling HTTPS POST requests. This server will be the endpoint for the incoming webhook data.
 
 - **Production**: Use a valid SSL certificate.
-- **Testing**: Tools like [webhook.site](https://webhook.site) provide temporary endpoints to capture payloads.
+- **Testing**: Tools like [webhook.site](https://webhook.site) or our [Webhook Tester](#webhook-tester) provide temporary endpoints to capture payloads.
 
 ### Step 2: Register Your Webhook Endpoint 📝
 
@@ -345,6 +345,40 @@ curl -X DELETE -u <username>:<password> \
   'https://api.sms-gate.app/3rdparty/v1/webhooks/LreFUt-Z3sSq0JufY9uWB'
 ```
 
+## Webhook Tester 🧪
+
+The Webhook Tester provides a convenient way to inspect webhook requests without setting up your own server. Powered by [webhook-tester](https://github.com/tarampampam/webhook-tester), it captures incoming HTTP requests and displays them in a web UI for real-time debugging. Available at `https://webhook.sms-gate.app` for all users.
+
+### Quick Start
+
+1. Visit the Webhook Tester URL in your browser
+2. A session is automatically created, generating a unique URL like `https://webhook.sms-gate.app/550e8400-e29b-41d4-a716-446655440000`
+3. Register this URL as your webhook endpoint:
+
+   ```sh
+   curl -X POST -u <username>:<password> \
+     -H "Content-Type: application/json" \
+     -d '{
+       "url": "https://webhook.sms-gate.app/550e8400-e29b-41d4-a716-446655440000",
+       "event": "sms:received"
+     }' \
+     https://api.sms-gate.app/3rdparty/v1/webhooks
+   ```
+4. Trigger the event (e.g., send an SMS to the device)
+5. The incoming webhook request — including headers, body, and timing — appears instantly in the browser
+
+### Constraints
+
+| Setting            | Value                         |
+| ------------------ | ----------------------------- |
+| Session TTL        | 24 hours                      |
+| Max request body   | 10 KB                         |
+| General rate limit | 10 requests/second (burst 20) |
+| Capture rate limit | 5 requests/second (burst 10)  |
+
+!!! tip
+    The Webhook Tester is ideal for development and debugging only. Do not send production or sensitive SMS traffic to it. For production, use your own HTTPS endpoint with [payload signature verification](`#payload-signing`).
+
 ## Local Network Solutions 🏠
 
 For webhooks within private networks:
@@ -493,7 +527,7 @@ The signing key is randomly generated at first request and can be changed in **S
     2. Ensure the device can reach your server
     3. Verify SSL certificate validity
     4. Check device and server logs
-    5. Test with [webhook.site](https://webhook.site) temporary endpoint
+    5. Test with [webhook.site](https://webhook.site) or our [Webhook Tester](#webhook-tester) temporary endpoint
 
 !!! bug "Signature Validation Issues"
     - Ensure timestamp is UTC Unix time in seconds
