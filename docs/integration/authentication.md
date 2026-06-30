@@ -164,11 +164,12 @@ All scopes follow the pattern: `resource:action`
 
 #### Messages Scopes
 
-| Scope           | Description                                   | Access Level |
-| --------------- | --------------------------------------------- | ------------ |
-| `messages:send` | Permission to send SMS messages               | Write        |
-| `messages:read` | Permission to read individual message details | Read         |
-| `messages:list` | Permission to list and view messages          | Read         |
+| Scope              | Description                                   | Access Level |
+| ------------------ | --------------------------------------------- | ------------ |
+| `messages:send`    | Permission to send SMS messages               | Write        |
+| `messages:read`    | Permission to read individual message details | Read         |
+| `messages:list`    | Permission to list and view messages          | Read         |
+| `messages:cancel`  | Permission to cancel pending messages         | Delete       |
 
 #### Devices Scopes
 
@@ -217,6 +218,7 @@ All scopes follow the pattern: `resource:action`
 | `/3rdparty/v1/messages`              | GET    | `messages:list`   | List messages       |
 | `/3rdparty/v1/messages`              | POST   | `messages:send`   | Send a new message  |
 | `/3rdparty/v1/messages/:id`          | GET    | `messages:read`   | Get message details |
+| `/3rdparty/v1/messages/:id`          | DELETE | `messages:cancel` | Cancel pending message |
 | `/3rdparty/v1/messages/inbox/export` | POST   | `messages:export` | Export messages     |
 
 #### Devices API

@@ -9,18 +9,16 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 - :incoming_envelope: **sms:received**
     - `messageId`: Content-based ID
     - `message`: SMS content
-    - `sender` ⭐: Sender's phone number (use instead of deprecated `phoneNumber`)
+    - `sender` ⭐: Sender's phone number
     - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
-    - `phoneNumber` ⚠️: Sender's number (deprecated, use `sender`)
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
 - :material-database: **sms:data-received**
     - `messageId`: Content-based ID
     - `data`: Base64-encoded data message
-    - `sender` ⭐: Sender's phone number (use instead of deprecated `phoneNumber`)
+    - `sender` ⭐: Sender's phone number
     - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
-    - `phoneNumber` ⚠️: Sender's number (deprecated, use `sender`)
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
@@ -30,17 +28,15 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `subject`: Message subject line (nullable)
     - `size`: Attachment size in bytes
     - `contentClass`: MMS content classification (nullable)
-    - `sender` ⭐: Sender's phone number (use instead of deprecated `phoneNumber`)
+    - `sender` ⭐: Sender's phone number
     - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
-    - `phoneNumber` ⚠️: Sender's number (deprecated, use `sender`)
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
 - :outbox_tray: **sms:sent**
     - `messageId`: Unique ID
     - `sender` ⭐: Device's phone number
-    - `recipient` 📍: Recipient's phone number (use instead of deprecated `phoneNumber`)
-    - `phoneNumber` ⚠️: Recipient (deprecated, use `recipient`)
+    - `recipient` 📍: Recipient's phone number
     - `simNumber`: SIM index (nullable)
     - `partsCount`: Number of message parts
     - `sentAt`: Local timestamp
@@ -48,19 +44,24 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 - :white_check_mark: **sms:delivered**
     - `messageId`: Unique ID
     - `sender` ⭐: Device's phone number
-    - `recipient` 📍: Recipient's phone number (use instead of deprecated `phoneNumber`)
-    - `phoneNumber` ⚠️: Recipient (deprecated, use `recipient`)
+    - `recipient` 📍: Recipient's phone number
     - `simNumber`: SIM index (nullable)
     - `deliveredAt`: Local timestamp
 
 - :x: **sms:failed**
     - `messageId`: Unique ID
     - `sender` ⭐: Device's phone number
-    - `recipient` 📍: Recipient's phone number (use instead of deprecated `phoneNumber`)
-    - `phoneNumber` ⚠️: Recipient (deprecated, use `recipient`)
+    - `recipient` 📍: Recipient's phone number
     - `simNumber`: SIM index (nullable)
     - `reason`: Error details
     - `failedAt`: Local timestamp
+
+- :no_entry: **sms:cancelled**
+    - `messageId`: Unique ID
+    - `sender` ⭐: Device's phone number
+    - `recipient` 📍: Recipient's phone number
+    - `simNumber`: SIM index (nullable)
+    - `cancelledAt`: Local timestamp
 
 - :ping_pong: **system:ping**
     - `health`: [Healthcheck status](./health.md)
@@ -172,6 +173,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 - `sms:data-received`: Send a data SMS to port 53739.
 - `mms:received`: Send an MMS message to the device.
 - `sms:sent`/`delivered`/`failed`: Send an SMS *from* the app to trigger these events.
+- `sms:cancelled`: Send an SMS via the cloud/private API, then cancel it via `DELETE /3rdparty/v1/messages/{id}` while the message is still pending.
 - `system:ping`: Enable the ping feature in the app’s **Settings > Ping**.
 - `app:started`: Restart the app.
 
@@ -289,6 +291,23 @@ Your server will receive a POST request with a payload like:
     }
     ```
 
+=== "sms:cancelled"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "sms:cancelled",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "msg-456",
+        "sender": "+1234567890",
+        "recipient": "+9998887777",
+        "simNumber": 1,
+        "cancelledAt": "2026-06-22T10:00:00.000+07:00"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+    }
+    ```
+
 === "app:started"
     ```json
     {
@@ -356,6 +375,7 @@ When sending SMS messages longer than the standard limits (160 characters for GS
 | `sms:sent`      | Triggered once when all parts of the outgoing message are successfully sent, the `partsCount` field is set to the number of parts |
 | `sms:delivered` | Triggered once **for each individual part** of the message                                                                        |
 | `sms:failed`    | Triggered once if any part of the message fails to send or deliver; other parts may still succeed                                 |
+| `sms:cancelled` | Triggered once when the pending message is cancelled before any part is sent                                                      |
 
 !!! tip "Handling Multipart Delivery Reports"
     To avoid processing duplicate deliveries in your webhook handler:
