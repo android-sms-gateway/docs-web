@@ -125,6 +125,12 @@ Use this build when:
     - Never expose insecure builds to public networks
     - This build bypasses Android's cleartext traffic restrictions
 
+## :material-webhook: How can I test webhooks without setting up my own server?
+
+We provide a public Webhook Tester at `https://webhook.sms-gate.app`. Create a session, use its unique URL as your webhook endpoint, and inspect incoming requests in real-time.
+
+See the [Webhook Tester guide](../features/webhooks.md#webhook-tester) for details.
+
 ## 📨 Why do I receive multiple delivery reports for a single message?
 
 When sending SMS messages longer than the standard character limits (160 characters for GSM/7-bit encoding or 70 characters for Unicode), the message is automatically split into multiple parts.
