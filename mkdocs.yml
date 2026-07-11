@@ -80,6 +80,7 @@ nav:
       - Use Cases: resources/use-cases.md
       - Third-Party: resources/3rdparty.md
   - Services:
+      - Overview: services/index.md
       - Email to SMS: services/email-to-sms.md
       - Twilio Fallback: services/twilio-fallback.md
       - SMPP Server: services/smpp-server.md
