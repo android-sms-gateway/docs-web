@@ -19,6 +19,10 @@ We offer client libraries in various programming languages to assist with integr
 - **🐍 Python**  
     Install the package via pip: `pip install android-sms-gateway`  
     [:material-github: GitHub Repo](https://github.com/android-sms-gateway/client-py)
+
+- **🦀 Rust**  
+    Add to `Cargo.toml`: `android-sms-gateway = "0.1"`  
+    [:material-github: GitHub Repo](https://github.com/android-sms-gateway/client-rs)
     
 </div>
 

@@ -290,3 +290,29 @@ While we recommend using the highest iteration count your use case can tolerate,
         def _parse_params(self, params: str) -> dict[str, str]:
             return {k: v for k, v in [p.split("=") for p in params.split(",")]}
     ```
+
+=== "Rust"
+    Based on the [`android-sms-gateway`](https://crates.io/crates/android-sms-gateway) crate (`encryption` feature required)
+
+    ```toml title="Cargo.toml"
+    [dependencies]
+    android-sms-gateway = { version = "0.1", features = ["encryption"] }
+    ```
+
+    ```rust
+    use android_sms_gateway::encryption::Encryptor;
+
+    let encryptor = Encryptor::new("my-passphrase");
+
+    let encrypted = encryptor.encrypt("Sensitive message");
+    println!("Encrypted: {encrypted}");
+
+    let decrypted = encryptor.decrypt(&encrypted).unwrap();
+    println!("Decrypted: {decrypted}");
+    ```
+
+    The default iteration count is 75,000. To use a custom value:
+
+    ```rust
+    let encryptor = Encryptor::with_iterations("my-passphrase", 300_000);
+    ```
