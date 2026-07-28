@@ -71,6 +71,56 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 
 </div>
 
+## 📦 Batch Webhooks
+
+Batch webhooks deliver multiple messages in a single payload, triggered during inbox refresh operations. They use the same fields as individual events, wrapped in a `messages` array. Messages are ordered chronologically inside the batch.
+
+Batch webhooks are available for:
+
+| Event                       | Description                         |
+| --------------------------- | ----------------------------------- |
+| **sms:batch:received**      | Batch of received SMS messages      |
+| **sms:batch:data-received** | Batch of received data SMS messages |
+| **mms:batch:received**      | Batch of received MMS messages      |
+| **mms:batch:downloaded**    | Batch of downloaded MMS messages    |
+
+!!! tip "Batch vs Individual"
+    Use batch webhooks when exporting historical messages to reduce HTTP overhead and ensure chronological ordering. Individual webhooks are better for real-time notifications of new messages.
+
+!!! note "Batch Size"
+    Each batch payload contains at most **100 messages**. If the export contains more messages, they will be split into multiple sequential batch webhooks.
+
+### Batch Payload Example
+
+```json title="sms:batch:received payload"
+{
+  "deviceId": "ffffffffceb0b1db0000018e937c815b",
+  "event": "sms:batch:received",
+  "id": "abc123",
+  "webhookId": "xyz789",
+  "payload": {
+    "messages": [
+      {
+        "messageId": "a1b2c3",
+        "message": "First message",
+        "sender": "+1234567890",
+        "recipient": "+0987654321",
+        "simNumber": 1,
+        "receivedAt": "2024-06-22T15:46:11.000+07:00"
+      },
+      {
+        "messageId": "d4e5f6",
+        "message": "Second message",
+        "sender": "+1234567890",
+        "recipient": "+0987654321",
+        "simNumber": 1,
+        "receivedAt": "2024-06-22T15:47:22.000+07:00"
+      }
+    ]
+  }
+}
+```
+
 !!! note "`sender` and `recipient` May Be `null`"
     For inbound events (`sms:received`, `sms:data-received`, `mms:received`), `recipient` represents the device's own phone number and can be `null` if the app lacks `READ_PHONE_STATE` permission or the carrier doesn't provide the number. For outbound events like `sms:delivered`, `recipient` is always the recipient's number. `sender` (the device's own number) may similarly be `null` for outbound events if the device number is unavailable.
 
