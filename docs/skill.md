@@ -123,7 +123,9 @@ Scopes define permissions. Use the principle of least privilege:
 | `messages:send` | Send SMS messages |
 | `messages:read` | Read individual message details |
 | `messages:list` | List and view messages |
-| `messages:export` | Export inbox messages |
+| `inbox:list`    | List incoming messages with filters |
+| `inbox:read`    | Read individual message details and attachments              |
+| `inbox:refresh` | Refresh inbox messages              |
 | `devices:list` | List registered devices |
 | `devices:delete` | Remove devices |
 | `webhooks:list` | List webhook configurations |

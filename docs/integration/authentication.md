@@ -173,7 +173,14 @@ All scopes follow the pattern: `resource:action`
 | `messages:read`   | Permission to read individual message details | Read         |
 | `messages:list`   | Permission to list and view messages          | Read         |
 | `messages:cancel` | Permission to cancel pending messages         | Delete       |
-| `messages:export` | Permission to export inbox messages          | Read         |
+
+#### Inbox Scopes
+
+| Scope           | Description                                                   | Access Level |
+| --------------- | ------------------------------------------------------------- | ------------ |
+| `inbox:list`    | Permission to list and view inbox messages                    | Read         |
+| `inbox:read`    | Permission to read individual message details and attachments | Read         |
+| `inbox:refresh` | Permission to refresh inbox messages                          | Read         |
 
 #### Devices Scopes
 
@@ -217,13 +224,20 @@ All scopes follow the pattern: `resource:action`
 
 #### Messages API
 
-| Endpoint                             | Method | Required Scope    | Description            |
-| ------------------------------------ | ------ | ----------------- | ---------------------- |
-| `/3rdparty/v1/messages`              | GET    | `messages:list`   | List messages          |
-| `/3rdparty/v1/messages`              | POST   | `messages:send`   | Send a new message     |
-| `/3rdparty/v1/messages/:id`          | GET    | `messages:read`   | Get message details    |
-| `/3rdparty/v1/messages/:id`          | DELETE | `messages:cancel` | Cancel pending message |
-| `/3rdparty/v1/messages/inbox/export` | POST   | `messages:export` | Export messages        |
+| Endpoint                    | Method | Required Scope    | Description            |
+| --------------------------- | ------ | ----------------- | ---------------------- |
+| `/3rdparty/v1/messages`     | GET    | `messages:list`   | List messages          |
+| `/3rdparty/v1/messages`     | POST   | `messages:send`   | Send a new message     |
+| `/3rdparty/v1/messages/:id` | GET    | `messages:read`   | Get message details    |
+| `/3rdparty/v1/messages/:id` | DELETE | `messages:cancel` | Cancel pending message |
+
+#### Inbox API
+
+| Endpoint                                     | Method | Required Scope  | Description    |
+| -------------------------------------------- | ------ | --------------- | -------------- |
+| `/3rdparty/v1/inbox`                         | GET    | `inbox:list`    | List inbox     |
+| `/3rdparty/v1/inbox/refresh`                 | POST   | `inbox:refresh` | Refresh inbox  |
+| `/3rdparty/v1/inbox/:id/attachments/:partId` | GET    | `inbox:read`    | Get attachment |
 
 #### Devices API
 
