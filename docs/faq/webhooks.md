@@ -180,7 +180,10 @@ If your MMS webhook isn't firing, check these potential issues:
 
 ## :material-attachment: Can I receive MMS attachments in webhooks?
 
-The webhook system provides MMS metadata but does **not** include actual attachment content.
+It depends on the event type:
+
+- **`mms:received`** (arrival notification) — metadata only, no attachment content.
+- **`mms:downloaded`** (full download) — includes base64-encoded attachment data in the `attachments` array, accessible via the `data` field (may be `null` if content is unavailable).
 
 ## :material-chat-question: Still Having Issues?
 

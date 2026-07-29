@@ -33,6 +33,21 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `simNumber`: SIM index (nullable)
     - `receivedAt`: Local timestamp
 
+- :material-file-download: **mms:downloaded**
+    - `messageId`: Content-based ID
+    - `body`: Aggregated text content of the MMS (nullable)
+    - `subject`: Message subject line (nullable)
+    - `attachments`: Array of `{ partId, contentType, name, size, data }`
+        - `partId`: Content provider part ID
+        - `contentType`: MIME type (e.g. `image/jpeg`)
+        - `name`: Filename (nullable)
+        - `size`: Size in bytes (nullable)
+        - `data`: Base64-encoded attachment content (nullable)
+    - `sender` ⭐: Sender's phone number
+    - `recipient` 📍: Device's phone number that received the message (may be `null` if unavailable)
+    - `simNumber`: SIM index (nullable)
+    - `receivedAt`: Local timestamp
+
 - :outbox_tray: **sms:sent**
     - `messageId`: Unique ID
     - `sender` ⭐: Device's phone number
@@ -72,7 +87,7 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
 </div>
 
 !!! note "`sender` and `recipient` May Be `null`"
-    For inbound events (`sms:received`, `sms:data-received`, `mms:received`), `recipient` represents the device's own phone number and can be `null` if the app lacks `READ_PHONE_STATE` permission or the carrier doesn't provide the number. For outbound events like `sms:delivered`, `recipient` is always the recipient's number. `sender` (the device's own number) may similarly be `null` for outbound events if the device number is unavailable.
+    For inbound events (`sms:received`, `sms:data-received`, `mms:received`, `mms:downloaded`), `recipient` represents the device's own phone number and can be `null` if the app lacks `READ_PHONE_STATE` permission or the carrier doesn't provide the number. For outbound events like `sms:delivered`, `recipient` is always the recipient's number. `sender` (the device's own number) may similarly be `null` for outbound events if the device number is unavailable.
 
 ## Prerequisites ✅
 
@@ -172,6 +187,7 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 - `sms:received`: Send an SMS to the device.
 - `sms:data-received`: Send a data SMS to port 53739.
 - `mms:received`: Send an MMS message to the device.
+- `mms:downloaded`: Wait for the MMS to fully download (fires automatically after `mms:received` when download completes).
 - `sms:sent`/`delivered`/`failed`: Send an SMS *from* the app to trigger these events.
 - `sms:cancelled`: Send an SMS via the cloud/private API, then cancel it via `DELETE /3rdparty/v1/messages/{id}` while the message is still pending.
 - `system:ping`: Enable the ping feature in the app’s **Settings > Ping**.
@@ -233,6 +249,34 @@ Your server will receive a POST request with a payload like:
         "size": 125684,
         "contentClass": "IMAGE_BASIC",
         "receivedAt": "2025-08-23T05:15:30.000+07:00"
+      },
+      "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+    }
+    ```
+
+=== "mms:downloaded"
+    ```json
+    {
+      "deviceId": "ffffffffceb0b1db0000018e937c815b",
+      "event": "mms:downloaded",
+      "id": "Ey6ECgOkVVFjz3CL48B8C",
+      "payload": {
+        "messageId": "mms_12345abcde",
+        "sender": "6505551212",
+        "recipient": "+1234567890",
+        "simNumber": 1,
+        "body": "Hello! Here is the photo.",
+        "subject": "Photo attachment",
+        "attachments": [
+          {
+            "partId": 1,
+            "contentType": "image/jpeg",
+            "name": "photo.jpg",
+            "size": 125684,
+            "data": "/9j/4AAQ..."
+          }
+        ],
+        "receivedAt": "2025-08-23T05:15:35.000+07:00"
       },
       "webhookId": "LreFUt-Z3sSq0JufY9uWB"
     }
