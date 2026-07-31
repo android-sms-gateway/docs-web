@@ -52,7 +52,7 @@ If the message was successfully marked for cancellation:
 }
 ```
 
-If the message was not in `Pending` state, the API returns `400 Bad Request` with an error message.
+If the message was not in `Pending` state, the API returns `409 Conflict` with an error message. A message that does not exist returns `404 Not Found`.
 
 ## 📤 API Request Structure
 

@@ -311,6 +311,66 @@ curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages" \
 
 ---
 
+## Cancelling SMS Messages
+
+Cancelling allows you to abort a **pending** message before the device processes it. This is useful for retracting scheduled messages or time-sensitive notifications (e.g., OTPs) that are no longer needed.
+
+### API Endpoint
+
+```http
+DELETE /3rdparty/v1/messages/{id}
+```
+
+Requires the `messages:cancel` scope (see JWT Authentication above).
+
+### Cancellation Flow
+
+1. Send `DELETE` request for the pending message
+2. Message state transitions from `Pending` → `Cancelling`
+3. Server notifies the device via push/SSE event
+4. Device confirms the cancellation and the message transitions to `Cancelled`
+
+> **Note:** Cancellation only takes effect while the message is still `Pending`. If the device has already started sending the message, it will transition to `Sent`, `Delivered`, or `Failed` instead of `Cancelled`.
+
+### Code Example
+
+```bash
+curl -X DELETE "https://api.sms-gate.app/3rdparty/v1/messages/abc123def456" \
+  -u "username:password"
+```
+
+### Response
+
+**Success (200 OK):**
+
+```json
+{
+  "id": "abc123def456",
+  "state": "Cancelling"
+}
+```
+
+**Error (404 Not Found):**
+
+Returned if the message does not exist:
+
+```json
+{
+  "message": "message not found"
+}
+```
+
+**Other errors:**
+
+- The message must be in `Pending` state. If it is not (e.g., already sent or cancelled), the cancellation is rejected with a `409 Conflict` response.
+- Requires the `messages:cancel` scope; returns `403 Forbidden` otherwise.
+
+### Webhook Notification
+
+The `sms:cancelled` webhook event is triggered once when a pending message is cancelled before any part is sent. See the Webhook Event Types section below for the payload structure.
+
+---
+
 ## Receiving SMS Messages
 
 Receiving SMS messages is accomplished through **webhook notifications**. When an SMS arrives at the device, the app sends an HTTP POST request to your registered webhook endpoint with the message details.
@@ -403,6 +463,7 @@ Trigger the event:
 - `sms:data-received`: Send a data SMS to port 53739
 - `mms:received`: Send an MMS message
 - `sms:sent`/`delivered`/`failed`: Send an SMS from the app
+- `sms:cancelled`: Send an SMS via the cloud/private API, then cancel it via `DELETE /3rdparty/v1/messages/{id}` while the message is still pending
 - `system:ping`: Enable ping in **Settings > Ping**
 - `app:started`: Start the app
 
@@ -531,6 +592,27 @@ Triggered when message sending or delivery fails.
     "simNumber": 1,
     "reason": "RESULT_ERROR_LIMIT_EXCEEDED",
     "failedAt": "2024-06-22T15:46:11.000+07:00"
+  },
+  "webhookId": "LreFUt-Z3sSq0JufY9uWB"
+}
+```
+
+#### sms:cancelled
+
+Triggered when a pending message is cancelled before any part is sent.
+
+**Payload:**
+```json
+{
+  "deviceId": "ffffffffceb0b1db0000018e937c815b",
+  "event": "sms:cancelled",
+  "id": "Ey6ECgOkVVFjz3CL48B8C",
+  "payload": {
+    "messageId": "abc123",
+    "sender": "+1234567890",
+    "recipient": "+9998887777",
+    "simNumber": 1,
+    "cancelledAt": "2026-06-22T10:00:00.000+07:00"
   },
   "webhookId": "LreFUt-Z3sSq0JufY9uWB"
 }
@@ -1056,6 +1138,10 @@ curl -X POST -u "username:password" \
 # List webhooks
 curl -X GET -u "username:password" \
   https://api.sms-gate.app/3rdparty/v1/webhooks
+
+# Cancel pending message
+curl -X DELETE -u "username:password" \
+  https://api.sms-gate.app/3rdparty/v1/messages/MESSAGE_ID
 
 # List devices
 curl -X GET -u "username:password" \
