@@ -211,8 +211,27 @@ curl -X POST "https://your-domain.com/api/3rdparty/v1/messages" \
 ---
 
 
+### Deploy the Web Dashboard (Optional)
+
+You can deploy the [Web Dashboard](../services/web-dashboard.md) alongside your private server for a graphical management interface:
+
+```bash title="Run Dashboard Container"
+docker run -d --name smsgate-dashboard \
+  -p 3001:3000 \
+  -e HTTP__ADDRESS=0.0.0.0:3000 \
+  -e GATEWAY__URL=https://private.example.com/api/3rdparty/v1 \
+  -e GATEWAY__WEBHOOK_URL=https://dashboard.example.com/api/webhooks/callback \
+  ghcr.io/android-sms-gateway/web-dashboard:latest
+```
+
+!!! note "Reverse Proxy"
+    Add a location block in your reverse proxy to route `dashboard.example.com` to the dashboard container on port 3001. The dashboard uses cookie-based sessions, so ensure `proxy_set_header` directives forward the original host and IP.
+
+---
+
 ## 📚 See Also
 
 - [Private Server Documentation](../features/private-server.md)
+- [Web Dashboard](../services/web-dashboard.md) — graphical management interface
 - [Ubuntu/Docker/Nginx Setup Guide](https://github.com/capcom6/android-sms-gateway/discussions/50)
 - [Docker Compose Quickstart](https://github.com/android-sms-gateway/server/tree/master/deployments/docker-compose-proxy)

@@ -36,5 +36,6 @@ The SMSGate API supports two authentication methods:
 ## See Also 🔗
 
 - [Authentication Guide](authentication.md) - Detailed information about JWT authentication
+- [Web Dashboard](../services/web-dashboard.md) - Graphical management interface
 - [Integration Guide](index.md) - Overview of integration options
 - [Client Libraries](client-libraries.md) - Pre-built libraries for various languages

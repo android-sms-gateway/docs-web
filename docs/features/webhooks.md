@@ -579,6 +579,7 @@ The signing key is randomly generated at first request and can be changed in **S
 
 ## See Also 📚
 
+- [Web Dashboard](../services/web-dashboard.md) — graphical webhook management UI
 - [FAQ](../faq/webhooks.md)
 - [Status Tracking](../features/status-tracking.md)
 - [Private Webhook Certificate Setup](../services/ca.md#private-webhook-certificate)

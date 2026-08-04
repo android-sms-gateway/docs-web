@@ -8,6 +8,8 @@ The SMS Gateway for Android™ can operate in three distinct modes, all utilizin
 
 To begin with any of these modes, you must first install the SMS Gateway for Android app on your device, as described in the [Installation](../installation.md) section.
 
+For a graphical approach, the [Web Dashboard](../services/web-dashboard.md) at `https://dashboard.sms-gate.app` provides a browser-based interface for managing messages, devices, webhooks, and settings.
+
 For more details on how to use the API, please consult the [API](../integration/api.md) section.
 
 ## 📡 SMPP Server Integration
