@@ -119,6 +119,9 @@ curl -X POST "https://api.sms-gate.app/3rdparty/v1/auth/token/refresh" \
 !!! tip "Token Rotation"
     Each refresh operation generates a new token pair and revokes the old one. Always use the latest refresh token.
 
+!!! tip "Visual Token Management"
+    You can generate, copy, and revoke JWT tokens visually through the [Web Dashboard](../services/web-dashboard.md) — no API calls required. The dashboard provides a UI with all available scopes and configurable TTL.
+
 ## Token Management 🔄
 
 ### Revoking Tokens
@@ -164,12 +167,13 @@ All scopes follow the pattern: `resource:action`
 
 #### Messages Scopes
 
-| Scope              | Description                                   | Access Level |
-| ------------------ | --------------------------------------------- | ------------ |
-| `messages:send`    | Permission to send SMS messages               | Write        |
-| `messages:read`    | Permission to read individual message details | Read         |
-| `messages:list`    | Permission to list and view messages          | Read         |
-| `messages:cancel`  | Permission to cancel pending messages         | Delete       |
+| Scope             | Description                                   | Access Level |
+| ----------------- | --------------------------------------------- | ------------ |
+| `messages:send`   | Permission to send SMS messages               | Write        |
+| `messages:read`   | Permission to read individual message details | Read         |
+| `messages:list`   | Permission to list and view messages          | Read         |
+| `messages:cancel` | Permission to cancel pending messages         | Delete       |
+| `messages:export` | Permission to export inbox messages          | Read         |
 
 #### Devices Scopes
 
@@ -213,13 +217,13 @@ All scopes follow the pattern: `resource:action`
 
 #### Messages API
 
-| Endpoint                             | Method | Required Scope    | Description         |
-| ------------------------------------ | ------ | ----------------- | ------------------- |
-| `/3rdparty/v1/messages`              | GET    | `messages:list`   | List messages       |
-| `/3rdparty/v1/messages`              | POST   | `messages:send`   | Send a new message  |
-| `/3rdparty/v1/messages/:id`          | GET    | `messages:read`   | Get message details |
+| Endpoint                             | Method | Required Scope    | Description            |
+| ------------------------------------ | ------ | ----------------- | ---------------------- |
+| `/3rdparty/v1/messages`              | GET    | `messages:list`   | List messages          |
+| `/3rdparty/v1/messages`              | POST   | `messages:send`   | Send a new message     |
+| `/3rdparty/v1/messages/:id`          | GET    | `messages:read`   | Get message details    |
 | `/3rdparty/v1/messages/:id`          | DELETE | `messages:cancel` | Cancel pending message |
-| `/3rdparty/v1/messages/inbox/export` | POST   | `messages:export` | Export messages     |
+| `/3rdparty/v1/messages/inbox/export` | POST   | `messages:export` | Export messages        |
 
 #### Devices API
 

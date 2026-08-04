@@ -14,6 +14,9 @@ Device settings can be managed through the app's user interface or programmatica
       <figcaption>Device settings interface</figcaption>
     </figure>
 
+=== ":material-monitor-dashboard: Dashboard UI"
+    The [Web Dashboard](../services/web-dashboard.md) at `https://dashboard.sms-gate.app` provides a browser-based tabbed form for managing device settings. Access settings for messages, ping intervals, log lifetimes, webhook signing keys, gateway URLs, and encryption passphrases — all through a graphical interface with no API calls required.
+
 === ":material-api: API Management"
     The app also provides API endpoints for managing device settings. This allows for programmatic access to device settings, making it easier to retrieve and apply configurations across multiple devices.
 
@@ -131,6 +134,7 @@ When device settings are changed via the API, the app will display a notificatio
 
 ## See Also 📚
 
+* [Web Dashboard](../services/web-dashboard.md) — browser-based settings management
 * [API Documentation](https://api.sms-gate.app/#/Settings)
 * [Cloud Server Setup](../getting-started/public-cloud-server.md)
 * [Private Server Setup](../getting-started/private-server.md)

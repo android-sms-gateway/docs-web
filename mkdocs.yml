@@ -85,6 +85,7 @@ nav:
       - Twilio Fallback: services/twilio-fallback.md
       - SMPP Server: services/smpp-server.md
       - Certificate Authority: services/ca.md
+      - Web Dashboard: services/web-dashboard.md
   - Blog: blog/index.md
   - Pricing: pricing.md
   - Privacy:

@@ -16,6 +16,9 @@ Standalone companion services that extend the SMSGate beyond its core REST API. 
 - **🔐 [Certificate Authority](./ca.md)**
     Project CA for generating SSL certificates for private IPs. Enables HTTPS encryption for private server and webhook endpoints.
 
+- **📊 [Web Dashboard](./web-dashboard.md)**
+    Graphical admin interface for managing messages, devices, webhooks, settings, and API tokens — available at `https://dashboard.sms-gate.app` or self-hosted alongside your private server.
+
 </div>
 
 ## 📚 See Also

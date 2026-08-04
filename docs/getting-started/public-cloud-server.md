@@ -132,10 +132,11 @@ Change the notification channel in the app settings:
    <center>
       <img src="/assets/cloud-server.png" alt="Cloud Server credentials screenshot"/>
    </center>
-    !!! info "Automatic Registration"
+!!! info "Automatic Registration"
         No manual registration step is required. Username and password are generated automatically on the first successful connection to the server.
 
-   
+!!! tip "Web Dashboard"
+        You can also log in at **`https://dashboard.sms-gate.app`** with these credentials to manage messages, devices, webhooks, and settings through a graphical web interface. See the [Web Dashboard](../services/web-dashboard.md) guide for details.
 
 4. **Send Message**  
    
