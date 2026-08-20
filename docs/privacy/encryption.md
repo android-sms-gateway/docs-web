@@ -2,6 +2,13 @@
 
 The application supports end-to-end encryption by encrypting sensitive fields before sending them to the API and decrypting them on the device. This ensures that no one – including us as the service provider, the hosting provider, or any third parties – can access the content and recipients of the messages.
 
+Two encryption modes are supported:
+
+- **Device-paired E2E encryption** (recommended): the device generates an RSA-2048 key pair; third-party clients encrypt messages with the device's public key, and only the device can decrypt them. No passphrase is shared between the sender and the device.
+- **Passphrase encryption** (legacy): both sides share a passphrase; messages are encrypted with AES-256-CBC derived from it via PBKDF2.
+
+The device automatically detects the format by its prefix, so both modes can be used in parallel.
+
 !!! important "Encryption Scope"
     Only specific fields should be encrypted:
 
@@ -13,7 +20,96 @@ The application supports end-to-end encryption by encrypting sensitive fields be
 
 Please note that using encryption will increase device battery usage.
 
-## Requirements ✅
+## Device-Paired E2E Encryption 🔑
+
+End-to-end encryption with device-paired keys removes the need to share a passphrase: the Android device generates an RSA-2048 key pair, keeps the private key on the device, and publishes only the public key to the server. Third-party clients fetch the public key from the device listing and encrypt each message for that device.
+
+### How it works
+
+1. The Android app generates an RSA-2048 key pair before registration.
+2. The private key never leaves the device: it is stored in the Android Keystore.
+3. The public key is uploaded to the server during registration or via a device update, together with the key version.
+4. Third-party clients list devices, read `publicKey` + `keyVersion`, and encrypt each message with the hybrid scheme below. On first use, verify the key out of band first (see [Trust model and key verification](#trust-model-and-key-verification)).
+5. The device decrypts the message with its private key before sending.
+
+### Encryption format
+
+Every encrypted value (message body and each phone number) is a single UTF-8 string with exactly 7 `$`-separated chunks:
+
+```
+$rsa-oaep-aes-256-gcm$v=1$k={keyVersion}${base64(encrypted_aes_key)}${base64(iv)}${base64(ciphertext || 16-byte tag)}
+```
+
+| Chunk | Content                     | Meaning                                             |
+| ----- | --------------------------- | --------------------------------------------------- |
+| 0     | (empty)                     | Leading `$`; MUST be present                        |
+| 1     | `rsa-oaep-aes-256-gcm`      | Format identifier (constant)                        |
+| 2     | `v=1`                       | Format version; only `1` is valid                   |
+| 3     | `k={keyVersion}`            | Key version (positive integer, device-sourced)      |
+| 4     | base64(encrypted AES key)   | 256-byte RSA-OAEP ciphertext of the 32-byte AES key |
+| 5     | base64(iv)                  | 12-byte GCM IV                                      |
+| 6     | base64(ciphertext \|\| tag) | AES-GCM ciphertext with the 16-byte tag appended    |
+
+### Algorithms
+
+- **RSA-OAEP** (asymmetric): RSA-2048, `RSA/ECB/OAEPWithSHA-256AndMGF1Padding`, SHA-256 hash, MGF1-SHA-256, empty label. Wraps the fresh 32-byte AES key. Randomized per RFC 8017 (the encrypted AES key differs on every encryption).
+- **AES-256-GCM** (symmetric): 32-byte key (never 12 bytes – 12 bytes is the IV length), 12-byte IV, 128-bit tag, empty AAD. Chunk 6 is `ciphertext || tag`.
+- **Base64**: standard RFC 4648 alphabet with padding (`=`), no line breaks (NO_WRAP).
+
+### Key management and keyVersion
+
+- The **device is the source of truth** for the key version. The server stores the version as-is; it never auto-assigns or increments it.
+- Versions start at `1` and increment on each rotation. Retired key material is kept on the device, so messages encrypted with previous versions stay decryptable until the retention window expires: a key is deleted 7 days after it was retired. The device does not cap the number of retained keys.
+- `k={keyVersion}` in chunk 3 MUST embed the value from the device listing (`keyVersion` field) exactly.
+- Public keys are stored as base64 (NO_WRAP) of the X.509 SPKI DER encoding of the RSA public key.
+
+### Trust model and key verification
+
+The API server is the sole distributor of device public keys: `publicKey` and `keyVersion` are only available from the device listing (`GET /3rdparty/v1/devices`). Transport between clients and the server is protected by TLS, and E2E encryption ensures the server cannot read message content. The server is trusted for key distribution, however: a compromised or malicious server can substitute an attacker-controlled public key, and messages encrypted to that substituted key are readable by the key's owner. **E2E encryption does not protect against server compromise or a malicious server operator.**
+
+!!! warning "Server is trusted for key distribution"
+    E2E encryption protects message content from the server only while the server distributes the genuine public key. A compromised or malicious server can replace `publicKey` with a key it controls, and all messages encrypted to the substituted key are readable by the key's owner.
+
+#### Out-of-band fingerprint verification (TOFU)
+
+Because the server (and anyone who compromises it) can replace the published public key, verify the device key fingerprint out of band on first use:
+
+1. Fetch the device listing and take the target device's `publicKey` value.
+2. Compute the fingerprint of that value (algorithm below) and ask the device owner to read the fingerprint from the app: Settings -> Device -> Device Key -> "Key fingerprint" (tap to copy). Compare the two fingerprints character by character.
+3. When they match, pin the fingerprint together with `keyVersion`: store both and treat any future change of either value as a security event. Fail closed - do not encrypt to the new key - until the change has been re-verified out of band.
+4. The fingerprint changes on every key rotation; this is expected and safe once the new key has been re-verified out of band.
+
+The fingerprint is the SHA-256 hash of the base64-decoded (NO_WRAP) X.509 SPKI DER encoding of `publicKey`, rendered as uppercase hexadecimal in 16 groups of 4 characters separated by `:` (64 characters total):
+
+```text title="Fingerprint format"
+A1B2:C3D4:E5F6:7890:ABCD:EF12:3456:7890:1111:2222:3333:4444:5555:6666:7777:8888
+```
+
+### Sending E2E-encrypted messages (third-party clients)
+
+1. Fetch the device list via `GET /3rdparty/v1/devices`; each device exposes `publicKey` (nullable) and `keyVersion` (nullable). On first use, verify the key fingerprint out of band (see [Trust model and key verification](#trust-model-and-key-verification)).
+2. Set `deviceId` in the message to the target device. This is **required** – the server routes by `deviceId`, and a missing value selects a random device, which would make the message undecryptable.
+3. Encrypt `textMessage.text` (or `dataMessage.data` – the base64 payload string) and **every** value in `phoneNumbers` with the format above, using a **fresh 12-byte IV per value** (never share an IV; GCM nonce reuse is catastrophic).
+4. Set `isEncrypted` to `true`. The server then skips phone-number validation and message hashing and stores the encrypted values verbatim.
+
+### Delivery status correlation
+
+There is no recipient identifier field: the encrypted phone string itself is the correlation key. When polling delivery status, echo the exact encrypted phone string (the full 7-chunk value) as `phoneNumber` in the recipient state; the server matches it byte-for-byte.
+
+### Data messages
+
+For `dataMessage`, encrypt the `dataMessage.data` string (the base64 payload) with the same scheme. The device decrypts the E2E value back to the base64 string and then decodes it. The `port` field is not encrypted.
+
+### Key rotation
+
+- The device generates a new key pair, uploads `publicKey` + `keyVersion` (the new version) to the server.
+- Old private keys are retained so messages encrypted with previous versions remain decryptable; a retired key is deleted 7 days after it was retired.
+- After rotation, SDKs must re-fetch the listing: encrypting with a key version that has been rotated out produces a message that remains decryptable only until that key's retention window expires (7 days after retirement).
+
+!!! warning "Retention vs. message lifetime"
+    The API allows messages with no expiration, long `ttl`/`validUntil` values, and future `scheduleAt` dates. A message that is still pending when the key it was encrypted to is deleted (7 days after retirement) can no longer be decrypted. Keep the message's lifetime inside the retention window, or re-encrypt it with the current key version from the listing.
+
+## Passphrase Encryption 🔒
 
 1. For text messages: encrypt the `textMessage.text` field
 2. For data messages: encrypt the `dataMessage.data` field
@@ -316,3 +412,20 @@ While we recommend using the highest iteration count your use case can tolerate,
     ```rust
     let encryptor = Encryptor::with_iterations("my-passphrase", 300_000);
     ```
+
+## Migrating from Passphrase Encryption 🚚
+
+Passphrase encryption remains fully supported, so existing setups keep working unchanged:
+
+- Existing passphrase-encrypted messages and settings are not affected; the device still decrypts the legacy `$aes-256-cbc/pbkdf2-sha1$` format.
+- Old Android app versions and old SDK versions keep using passphrase encryption as before.
+- Devices without a `publicKey` are simply not usable for E2E messages.
+
+To start using device-paired E2E:
+
+1. Update the Android app: on registration (or the next device update) it generates an RSA-2048 key pair and uploads the public key automatically. No configuration is needed.
+2. Update your code for E2E support.
+3. Keep the passphrase set during the transition; you can remove it after all devices have been updated and all pending messages are delivered.
+
+!!! warning "Key versioning"
+    `keyVersion` is managed by the device and stored by the server as-is. Never generate or guess key versions client-side – always read `keyVersion` from the device listing.

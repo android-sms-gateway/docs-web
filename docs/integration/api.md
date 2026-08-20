@@ -6,6 +6,9 @@ The SMSGate provides a robust API that allows you to send SMS messages programma
 
 You can find the OpenAPI specification for our API at the following link: [OpenAPI Specification](https://capcom6.github.io/android-sms-gateway/). This specification includes detailed information about the available endpoints, request/response structure, and more.
 
+!!! tip "End-to-End Encryption"
+    The device listing (`GET /3rdparty/v1/devices`) includes `publicKey` (base64 X.509 SPKI DER of the RSA-2048 public key) and `keyVersion` (device-sourced rotation version) for devices with E2E encryption enabled. Send `deviceId` to target a specific device and encrypt messages for it. See the [encryption guide](../privacy/encryption.md) for the wire format, key rotation, and migration details. The API server is the trusted distributor of device keys: on first use, verify the device key fingerprint out of band and pin it (see [Trust model and key verification](../privacy/encryption.md#trust-model-and-key-verification)).
+
 !!! note "Local vs Cloud API Access"
     While both API endpoints use the same authentication method and request format, there are critical differences in accessibility:
     
