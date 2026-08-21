@@ -13,7 +13,7 @@ SMS Gateway for Android turns your Android smartphone into an SMS and MMS gatewa
 
 📱 Core Functionality:
 
-- 🆓 **No registration required:** No registration or email is required to create an account. In local mode, you don't need an account at all!
+- 🆓 **Automatic account creation:** In Cloud or Private Server mode on an unregistered device, an account is created automatically by confirming the registration dialog when you start the service - no email or manual credentials needed. In local mode, you don't need an account at all!
 - 📨 **Send and Receive SMS via API:** Use [our API](./integration/api.md) to send messages directly from your applications or services.
 - 🤖 **Support for Android 5.0 and above:** Compatible with Android 5.0 and later versions. [See Android 15+ Note](./faq/general.md#does-the-app-support-android-15-and-higher)
 
@@ -59,7 +59,7 @@ The project is currently in the active development stage. We are actively workin
 
 ## Get Started
 
-Getting started with SMS Gateway for Android is easy and straightforward. No registration, email, or phone number is required to create an account and start using the app.
+Getting started with SMS Gateway for Android is easy and straightforward: on first start in Cloud or Private Server mode, confirm the default Sign Up tab in the registration dialog and an account is created automatically - no email, phone number, or manual credential entry is required.
 
 Check out our [Getting Started Guide](getting-started/index.md) to learn how to install and use SMS Gateway for Android.
 
