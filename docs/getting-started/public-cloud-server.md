@@ -2,7 +2,7 @@
 
 ## ☁️ Cloud Server
 
-Use Cloud Server mode when your device has dynamic or shared IP addresses. When you start the service, a registration dialog opens - confirm the default **Sign Up** tab and a new account is created automatically; no email, phone number, or manual credential entry is required.
+Use Cloud Server mode when your device has dynamic or shared IP addresses. If the device is not registered yet, starting the service opens a registration dialog - confirm the default **Sign Up** tab and a new account is created automatically; no email, phone number, or manual credential entry is required.
 
 ### Key Features ⚡
 
