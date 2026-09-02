@@ -52,9 +52,9 @@ If you find value in this project and would like to show your support, please co
 
 <div class="grid cards" markdown>
 
-- :simple-bitcoin: [**Bitcoin (BTC)**](bitcoin:33w9xBMQVQ8XbTSZfkYFArZ4W5KjAGcgrj)  
+- :simple-bitcoin: [**Bitcoin (BTC)**](bitcoin:bc1qfmwjpnfwvrxp3an47j026en8mpaxl5tj9l30gn)  
   ```text
-  33w9xBMQVQ8XbTSZfkYFArZ4W5KjAGcgrj
+  bc1qfmwjpnfwvrxp3an47j026en8mpaxl5tj9l30gn
   ```
   
 - :simple-ethereum: [**Ethereum (ERC20)**](ethereum:0x41C4A0aaCF205Dd62FffCD710f8CC8D69eF1d77B)  
@@ -67,7 +67,7 @@ If you find value in this project and would like to show your support, please co
   82f8vtNYWj27dcGmmZJvH8T8LFuPTFQfrTSRux998fBTg9TjUUqPo3BjnL2Q28ARaBBsXLLNG1CYL543d7e8cLiaDvSiW1G
   ```
 
-- :simple-ton: [**TON**](ton://transfer/UQD6dfzWZqgcfE10FLPeeaDdUTfXv1TEOau8iwHQJQ0pGT-h)
+- :simple-ton: [**GRAM (TON)**](ton://transfer/UQD6dfzWZqgcfE10FLPeeaDdUTfXv1TEOau8iwHQJQ0pGT-h)
   ```text
   UQD6dfzWZqgcfE10FLPeeaDdUTfXv1TEOau8iwHQJQ0pGT-h
   ```
