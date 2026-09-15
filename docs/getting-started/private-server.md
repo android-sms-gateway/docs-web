@@ -164,8 +164,8 @@ To run the server, you'll need:
 3. **Activate connection**  
     1. Switch to **Home** tab
     2. Activate **Cloud server** switch
-    3. **Tap the "Offline" button** to initiate the connection and registration process
-    4. Wait for the app to establish connection (button will change to "Online")
+    3. Tap **Start Service** - if the device is not registered yet, a registration dialog opens with three tabs: **Sign Up** (default), **Sign In**, and **By Code**; confirm to proceed
+    4. Wait for the app to establish connection (the button changes to **Stop Service**)
 
 !!! success "Successful Connection"
      After successful connection, credentials will be **automatically generated** and appear in the **Cloud Server** section:
@@ -175,7 +175,7 @@ To run the server, you'll need:
     ```
 
 !!! info "Automatic Registration"
-    No manual registration step is required. Username and password are generated automatically on the first successful connection to the server.
+    After configuring the API URL and private token, tapping **Start Service** opens the registration dialog. Confirming the default **Sign Up** tab completes registration automatically - username and password are generated on the first successful connection to the server.
 
 ### Using the API 📡
 
