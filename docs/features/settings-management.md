@@ -15,7 +15,7 @@ Device settings can be managed through the app's user interface or programmatica
     </figure>
 
 === ":material-monitor-dashboard: Dashboard UI"
-    The [Web Dashboard](../services/web-dashboard.md) at `https://dashboard.sms-gate.app` provides a browser-based tabbed form for managing device settings. Access settings for messages, ping intervals, log lifetimes, webhook signing keys, gateway URLs, and encryption passphrases — all through a graphical interface with no API calls required.
+    The [Web Dashboard](../services/web-dashboard.md) at `https://dashboard.sms-gate.app` provides a browser-based tabbed form for managing device settings. Access settings for messages, ping intervals, log lifetimes, and gateway URLs — all through a graphical interface with no API calls required. Sensitive settings such as `webhooks.signing_key`, `gateway.private_token`, and `encryption.passphrase` are device-local only and cannot be managed through the dashboard — use the device's local UI (:gear: Settings) or local API instead.
 
 === ":material-api: API Management"
     The app also provides API endpoints for managing device settings. This allows for programmatic access to device settings, making it easier to retrieve and apply configurations across multiple devices.
@@ -98,6 +98,8 @@ When operating in Local mode, you can also configure the following Cloud/Private
     - `encryption.passphrase`
     - `webhooks.signing_key`
     - `gateway.private_token`
+
+    **Why?** These values are sensitive secrets. They should never transit through cloud or private servers where they could be logged, intercepted, or exposed via API responses. To set or change them, use the device's local UI (:gear: Settings) or the local server API directly on the device.
 
 ### Receiver Settings 📡
 

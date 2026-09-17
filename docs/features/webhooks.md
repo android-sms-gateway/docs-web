@@ -34,7 +34,7 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `receivedAt`: Local timestamp
 
 - :material-file-download: **mms:downloaded**
-    - `messageId`: Content-based ID
+    - `messageId`: Device-local Android content-provider `_id` (differs from `mms:received` `messageId`)
     - `body`: Aggregated text content of the MMS (nullable)
     - `subject`: Message subject line (nullable)
     - `attachments`: Array of `{ partId, contentType, name, size, data }`
@@ -85,6 +85,16 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `simCards`: Array of available SIM cards `[{ slotIndex, simNumber, phoneNumber, carrierName, iccid }]`
 
 </div>
+
+!!! note "Outbound MMS Status Uses `sms:*` Events"
+    Sending MMS messages reuses the **existing outbound events** — there are no `mms:*` outbound events and no server-side webhook changes. When the device finishes an outgoing MMS it reports the outcome **directly** with the standard fixed payload of the existing events:
+    
+    - `sms:sent` — the MMS was handed to the carrier successfully. **This is the terminal success state for MMS**: Android provides no delivery receipts for MMS, so `sms:delivered` never fires for MMS messages.
+    - `sms:failed` — the MMS could not be sent (payload includes `reason`).
+    - `sms:cancelled` — the pending MMS was cancelled before sending (for example via `DELETE /3rdparty/v1/messages/{id}`).
+    
+    The payloads carry the same fields as for SMS (`messageId` refers to the outgoing message ID returned by `POST /3rdparty/v1/messages`). Incoming MMS events (`mms:received`, `mms:downloaded`) are unchanged. See [MMS Support](./mms.md#delivery-status-and-webhooks) for details.
+
 
 ## 📦 Batch Webhooks
 
@@ -238,8 +248,8 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
 - `sms:data-received`: Send a data SMS to port 53739.
 - `mms:received`: Send an MMS message to the device.
 - `mms:downloaded`: Wait for the MMS to fully download (fires automatically after `mms:received` when download completes).
-- `sms:sent`/`delivered`/`failed`: Send an SMS *from* the app to trigger these events.
-- `sms:cancelled`: Send an SMS via the cloud/private API, then cancel it via `DELETE /3rdparty/v1/messages/{id}` while the message is still pending.
+- `sms:sent`/`delivered`/`failed`: Send an SMS *or MMS* from the app to trigger these events (for MMS, `sms:delivered` never fires).
+- `sms:cancelled`: Send an SMS or MMS via the cloud/private API, then cancel it via `DELETE /3rdparty/v1/messages/{id}` while the message is still pending.
 - `system:ping`: Enable the ping feature in the app’s **Settings > Ping**.
 - `app:started`: Restart the app.
 

@@ -245,14 +245,14 @@ curl http://localhost:3000/health
 
 ## ⚠️ Known Limitations
 
-| Limitation            | Status          | Description                                     |
-| --------------------- | --------------- | ----------------------------------------------- |
-| Rate limiting         | Not implemented | No per-client rate limiting                     |
-| Multi-part SMS        | Not supported   | No message concatenation                        |
-| UCS2 encoding         | Not supported   | No binary/Unicode message support               |
-| SubmitMulti           | Not supported   | Single recipient only                           |
-| DELIVER_SM forwarding | WIP             | Webhook registered, forwarding not complete     |
-| Prometheus metrics    | Planned         | Metrics middleware configured but not finalized |
+| Limitation            | Status          | Description                                 |
+| --------------------- | --------------- | ------------------------------------------- |
+| Rate limiting         | Not implemented | No per-client rate limiting                 |
+| Multi-part SMS        | Not supported   | No message concatenation                    |
+| UCS2 encoding         | Not supported   | No binary/Unicode message support           |
+| SubmitMulti           | Not supported   | Single recipient only                       |
+| DELIVER_SM forwarding | WIP             | Webhook registered, forwarding not complete |
+| Prometheus metrics    | Available       | Exposed at `/metrics` on port 3000          |
 
 ## 📚 See Also
 
