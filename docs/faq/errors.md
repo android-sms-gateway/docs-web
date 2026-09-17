@@ -139,3 +139,12 @@ This error occurs when the app cannot detect any SIM cards on the device. There 
 
 !!! tip "Debugging"
     If the problem persists, try using the SIM card in another device to rule out hardware issues.
+
+## :telescope: Blank credentials panel after reboot with "Start on boot"
+
+When **Start on boot** is enabled, the credentials panel on the Home tab may appear blank after a device reboot. This is a **cosmetic display issue** — the service starts and operates correctly in the background.
+
+**Workaround**: Stop and restart the service from the app, or view credentials via :gear: Settings > Cloud Server > Credentials.
+
+!!! note "Known Issue"
+    This is a low-priority display bug and does not affect message delivery or webhook functionality.

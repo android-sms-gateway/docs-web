@@ -60,6 +60,7 @@ The main dashboard provides an aggregated view of your gateway:
 
 - **Device statistics**: online, active, and total device counts
 - **Message statistics**: sent, pending, and failed message counts
+- **Charts and trends**: visual charts showing message volume and delivery trends over time
 - **Real-time updates**: live toast notifications for incoming messages, state changes, and device status updates
 
 ### 💬 Message Management
@@ -83,7 +84,7 @@ View all registered devices with online/offline status badges and last-seen time
 
 ### 🌐 Webhook Management
 
-Create, list, and delete webhooks for events.
+Create, list, and delete webhooks for events. Supports both individual and batch webhook delivery modes — batch webhooks group multiple events into a single payload for high-throughput scenarios.
 
 ### 🔑 API Token Management
 
@@ -99,14 +100,17 @@ For details on available scopes, see the [Authentication Guide](../integration/a
 
 Manage device settings through a tabbed form interface:
 
-| Tab        | Settings                                                |
-| ---------- | ------------------------------------------------------- |
-| Messages   | Send interval, SIM selection mode, processing order     |
-| Ping       | Ping interval for device health checks                  |
-| Logs       | Log lifetime                                            |
-| Webhooks   | Signing key, retry count, internet requirement          |
-| Gateway    | Cloud URL, private token                                |
-| Encryption | Encryption passphrase for end-to-end encrypted messages |
+| Tab        | Settings                                            |
+| ---------- | --------------------------------------------------- |
+| Messages   | Send interval, SIM selection mode, processing order |
+| Ping       | Ping interval for device health checks              |
+| Logs       | Log lifetime                                        |
+| Webhooks   | Retry count, internet requirement                   |
+| Gateway    | Cloud URL                                           |
+| Encryption | End-to-end encryption settings                      |
+
+!!! warning "Sensitive Settings are Device-Local Only"
+    `webhooks.signing_key`, `gateway.private_token`, and `encryption.passphrase` are device-local only and cannot be managed through the dashboard. They never transit the cloud or a private server. Set them via the device's local UI (:gear: Settings) or the local API directly on the device.
 
 For a full reference of available settings, see the [Settings Management Guide](../features/settings-management.md).
 
@@ -165,12 +169,12 @@ The application is configured via environment variables or an optional YAML file
 
 ### Environment Variables
 
-| Variable               | Default                                       | Description                              |
-| ---------------------- | --------------------------------------------- | ---------------------------------------- |
-| `HTTP__ADDRESS`         | `127.0.0.1:3000`                              | HTTP server bind address                 |
-| `GATEWAY__URL`         | `https://api.sms-gate.app/3rdparty/v1`        | SMSGate 3rd Party API endpoint           |
+| Variable               | Default                                       | Description                                                                                                                                                  |
+| ---------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `HTTP__ADDRESS`        | `127.0.0.1:3000`                              | HTTP server bind address                                                                                                                                     |
+| `GATEWAY__URL`         | `https://api.sms-gate.app/3rdparty/v1`        | SMSGate 3rd Party API endpoint                                                                                                                               |
 | `GATEWAY__WEBHOOK_URL` | `http://localhost:3000/api/webhooks/callback` | Public callback URL for webhook events. The default is for local development only; external deployments must override it with a publicly reachable HTTPS URL |
-| `CONFIG_PATH`          | —                                             | Path to optional YAML configuration file |
+| `CONFIG_PATH`          | —                                             | Path to optional YAML configuration file                                                                                                                     |
 
 ### Example YAML Config
 
