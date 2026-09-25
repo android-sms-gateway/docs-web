@@ -10,6 +10,8 @@ To begin with any of these modes, you must first install the SMS Gateway for And
 
 For a graphical approach, the [Web Dashboard](../services/web-dashboard.md) at `https://dashboard.sms-gate.app` provides a browser-based interface for managing messages, devices, webhooks, and settings.
 
+Device settings (message limits, ping intervals, working hours, etc.) can also be configured programmatically via the [Settings Management API](../features/settings-management.md), enabling automated setup across multiple devices in Cloud/Private mode, or on a single device in Local mode, without manual UI interaction.
+
 For more details on how to use the API, please consult the [API](../integration/api.md) section.
 
 ## 📡 SMPP Server Integration

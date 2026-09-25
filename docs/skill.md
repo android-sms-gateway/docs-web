@@ -399,7 +399,7 @@ def receive_webhook():
 
     if data['event'] == 'sms:received':
         payload = data['payload']
-        print(f"SMS from {payload['phoneNumber']}: {payload['message']}")
+        print(f"SMS from {payload['sender']}: {payload['message']}")
 
         # Process the message...
         # Return 2xx to acknowledge receipt
@@ -484,7 +484,8 @@ Triggered when a text SMS is received.
   "payload": {
     "messageId": "abc123",
     "message": "Android is always a sweet treat!",
-    "phoneNumber": "6505551212",
+    "sender": "6505551212",
+    "recipient": "+1234567890",
     "simNumber": 1,
     "receivedAt": "2024-06-22T15:46:11.000+07:00"
   },
@@ -505,7 +506,8 @@ Triggered when a data SMS (binary) is received.
   "payload": {
     "messageId": "abc123",
     "data": "SGVsbG8gRGF0YSBXb3JsZCE=",
-    "phoneNumber": "6505551212",
+    "sender": "6505551212",
+    "recipient": "+1234567890",
     "simNumber": 1,
     "receivedAt": "2024-06-22T15:46:11.000+07:00"
   },
@@ -515,7 +517,7 @@ Triggered when a data SMS (binary) is received.
 
 #### mms:received
 
-Triggered when an MMS message is received (receive-only, no attachment content).
+Triggered when an MMS message is received (arrival notification, metadata only — no attachment content).
 
 **Payload:**
 ```json
@@ -525,7 +527,8 @@ Triggered when an MMS message is received (receive-only, no attachment content).
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
     "messageId": "mms_12345abcde",
-    "phoneNumber": "+1234567890",
+    "sender": "6505551212",
+    "recipient": "+1234567890",
     "simNumber": 1,
     "transactionId": "T1234567890ABC",
     "subject": "Photo attachment",
@@ -549,7 +552,8 @@ Triggered when an outgoing message is successfully sent from the device.
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
     "messageId": "abc123",
-    "phoneNumber": "+1234567890",
+    "sender": "+1234567890",
+    "recipient": "+9998887777",
     "simNumber": 1,
     "partsCount": 1,
     "sentAt": "2024-06-22T15:46:11.000+07:00"
@@ -570,7 +574,8 @@ Triggered when delivery confirmation is received from the carrier. **Note:** For
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
     "messageId": "abc123",
-    "phoneNumber": "+1234567890",
+    "sender": "+1234567890",
+    "recipient": "+9998887777",
     "simNumber": 1,
     "deliveredAt": "2024-06-22T15:46:11.000+07:00"
   },
@@ -590,7 +595,8 @@ Triggered when message sending or delivery fails.
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
     "messageId": "abc123",
-    "phoneNumber": "+1234567890",
+    "sender": "+1234567890",
+    "recipient": "+4445556666",
     "simNumber": 1,
     "reason": "RESULT_ERROR_LIMIT_EXCEEDED",
     "failedAt": "2024-06-22T15:46:11.000+07:00"
@@ -794,9 +800,30 @@ When `simNumber` is not specified, configure rotation in the app (**Settings > M
 
 All webhook events include `simNumber` field indicating which SIM was used (null if not applicable).
 
-### MMS Support (Receive-Only)
+### MMS Support
 
-The app can receive MMS messages and notify via webhooks. **Sending MMS is not supported.**
+The app can send MMS messages via the `mmsMessage` payload on `POST /3rdparty/v1/messages` and receive MMS messages notified via webhooks.
+
+**Send example:**
+```bash
+curl -X POST -u "username:password" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "phoneNumbers": ["+1234567890"],
+    "mmsMessage": {
+      "subject": "Hello",
+      "text": "World",
+      "attachments": [
+        {"contentType": "image/png", "name": "picture.png", "data": "BASE64DATA"}
+      ]
+    }
+  }' \
+  https://api.sms-gate.app/3rdparty/v1/messages
+```
+
+- A valid MMS requires a non-empty `text` or at least one attachment; `subject`/`text`/`name`/`attachments` are omitted when empty, `data` is base64.
+- No MIME allowlist or size limit is enforced server-side; carrier limits apply.
+- Outbound MMS status uses the EXISTING `sms:sent`/`sms:failed`/`sms:cancelled` events emitted directly by the app with the standard payloads — there are NO `mms:*` outbound events. `Sent` is terminal for MMS (`sms:delivered` never fires). Incoming `mms:received`/`mms:downloaded` events are unchanged.
 
 **Prerequisites:**
 - `RECEIVE_MMS` permission granted
@@ -811,7 +838,8 @@ The app can receive MMS messages and notify via webhooks. **Sending MMS is not s
   "event": "mms:received",
   "payload": {
     "messageId": "mms_12345abcde",
-    "phoneNumber": "+1234567890",
+    "sender": "6505551212",
+    "recipient": "+1234567890",
     "simNumber": 1,
     "transactionId": "T1234567890ABC",
     "subject": "Photo attachment",

@@ -108,6 +108,17 @@ stateDiagram-v2
     | All failed    | :x: Failed             |
     | Otherwise     | :outbox_tray: Sent     |
 
+## Message Status Fields
+
+The message status response (`GET /3rdparty/v1/messages/{id}`) includes the following fields:
+
+| Field        | Type   | Description                                                           |
+| ------------ | ------ | --------------------------------------------------------------------- |
+| `id`         | string | Unique message identifier                                             |
+| `state`      | string | Current state (`Pending`, `Processed`, `Sent`, `Delivered`, `Failed`) |
+| `states`     | object | History of previous message states (map of state name to timestamp)   |
+| `recipients` | array  | Per-recipient delivery states                                         |
+
 ## Delivery Reports 📋
 
 If the app receives an error code in the delivery report, the action depends on the type of the error:

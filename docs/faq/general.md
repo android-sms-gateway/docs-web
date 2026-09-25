@@ -169,7 +169,26 @@ The app uses your SIM card to send messages, so by default, it uses the same sen
  
 ## 📸 Can I send MMS messages?
 
-The SMSGate app focuses on core SMS functionality and does not support sending MMS (Multimedia Messaging Service) messages. This design choice aligns with the principle of "do one thing, do it well"—ensuring reliable SMS delivery without complicating the application with additional, less critical features.
+Yes. The SMSGate app supports sending MMS messages via the `POST /3rdparty/v1/messages` API endpoint using the `mmsMessage` field. You can include a text body, a subject line, and base64-encoded attachments (images, videos, audio).
+
+```json
+{
+  "phoneNumbers": ["+1234567890"],
+  "mmsMessage": {
+    "subject": "Update",
+    "text": "See attached file.",
+    "attachments": [
+      {
+        "contentType": "image/jpeg",
+        "name": "photo.jpg",
+        "data": "<base64>"
+      }
+    ]
+  }
+}
+```
+
+See [MMS Support](../features/mms.md#-sending-mms-messages) for full details and constraints.
 
 ## 🤖 Does the app support Android 15 and higher?
 

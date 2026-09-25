@@ -1,10 +1,10 @@
 # 🚀 Sending Messages
 
-The **Sending Messages** feature provides a comprehensive API for delivering both traditional text messages and binary data messages via SMS. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
+The **Sending Messages** feature provides a comprehensive API for delivering traditional text messages, binary data messages, and multimedia (MMS) messages. This guide covers the API structure, request parameters, message processing flow, and best practices for reliable message delivery across different scenarios and priorities.
 
 ## 📱 Message Types
 
- SMSGate supports two main message types: text messages and data messages, each with specific characteristics and use cases.
+ SMSGate supports three main message types: text messages, data messages, and MMS messages, each with specific characteristics and use cases.
 
 <div class="grid cards" style="width:100%" markdown>
 
@@ -17,6 +17,11 @@ The **Sending Messages** feature provides a comprehensive API for delivering bot
     - Binary data transmission
     - Base64 encoded content
     - Port-based delivery
+
+- :material-multimedia: **MMS Messages**
+    - Multimedia attachments (images, video, audio)
+    - Optional subject and text body
+    - See [MMS Support](./mms.md) for details and SDK examples
 
 </div>
 
@@ -92,6 +97,31 @@ If the message was not in `Pending` state, the API returns `409 Conflict` with a
     }
     ```
 
+=== "MMS Message"
+    ```http title="MMS Message Request Example"
+    POST /3rdparty/v1/messages?skipPhoneValidation=true&deviceActiveWithin=12
+    Content-Type: application/json
+    Authorization: Basic <credentials>
+
+    {
+        "mmsMessage": {
+            "subject": "Hello",
+            "text": "World",
+            "attachments": [
+                {
+                    "contentType": "image/png",
+                    "name": "picture.png",
+                    "data": "BASE64DATA"
+                }
+            ]
+        },
+        "phoneNumbers": ["+1234567890"],
+        "simNumber": 1,
+        "ttl": 3600,
+        "priority": 100
+    }
+    ```
+
 === "Legacy Text Message (Deprecated)"
     ```http title="Legacy Message Request Example"
     POST /3rdparty/v1/messages
@@ -119,26 +149,32 @@ If the message was not in `Pending` state, the API returns `409 Conflict` with a
 
 ### Request Fields
 
-| Parameter            | Type               | Description                                                      | Default                                      | Example                                 |
-| -------------------- | ------------------ | ---------------------------------------------------------------- | -------------------------------------------- | --------------------------------------- |
-| `id`                 | string             | :material-identifier: Optional unique message ID                 | auto-generated                               | "order-1234"                            |
-| `deviceId`           | string             | :material-target: Device ID                                      | `null`                                       | "dev_abc123"                            |
-| `textMessage`        | object             | Text message content                                             | `null`                                       | `{ "text": "Hello" }`                   |
-| `textMessage.text`   | string             | :material-message-text: Text content (auto-split if >160 chars)  | **required**                                 | "Hello World"                           |
-| `dataMessage`        | object             | Data message content                                             | `null`                                       | `{ "data": "SGVsbG8=", "port": 53739 }` |
-| `dataMessage.data`   | string             | :material-database: Base64-encoded data                          | **required**                                 | "SGVsbG8="                              |
-| `dataMessage.port`   | integer            | :material-usb-c-port: Destination port (0-65535)                 | **required**                                 | `53739`                                 |
-| `message`            | string             | ⚠️ Deprecated: Use `textMessage.text` instead                     | `null`                                       | "Hello World"                           |
-| `phoneNumbers`       | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                       |
-| `simNumber`          | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                     |
-| `ttl`/`validUntil`   | integer/RFC3339    | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2026-12-31T23:59:59Z"`      |
-| `scheduleAt`         | RFC3339            | :material-calendar-clock: Schedule message for future delivery   | `null` (send immediately)                    | `"2026-12-31T09:00:00Z"`                |
-| `withDeliveryReport` | boolean            | :material-checkbox-marked: Delivery confirmation                 | `true`                                       | `true`                                  |
-| `priority`           | integer (-128-127) | :material-priority-high: Send priority (-128 to 127)             | `0`                                          | `100`                                   |
-| `isEncrypted`        | boolean            | :material-lock: [Message is encrypted](../privacy/encryption.md) | `false`                                      | `true`                                  |
+| Parameter                              | Type               | Description                                                      | Default                                      | Example                                 |
+| -------------------------------------- | ------------------ | ---------------------------------------------------------------- | -------------------------------------------- | --------------------------------------- |
+| `id`                                   | string             | :material-identifier: Optional unique message ID                 | auto-generated                               | "order-1234"                            |
+| `deviceId`                             | string             | :material-target: Device ID                                      | `null`                                       | "dev_abc123"                            |
+| `textMessage`                          | object             | Text message content                                             | `null`                                       | `{ "text": "Hello" }`                   |
+| `textMessage.text`                     | string             | :material-message-text: Text content (auto-split if >160 chars)  | **required**                                 | "Hello World"                           |
+| `dataMessage`                          | object             | Data message content                                             | `null`                                       | `{ "data": "SGVsbG8=", "port": 53739 }` |
+| `dataMessage.data`                     | string             | :material-database: Base64-encoded data                          | **required**                                 | "SGVsbG8="                              |
+| `dataMessage.port`                     | integer            | :material-usb-c-port: Destination port (0-65535)                 | **required**                                 | `53739`                                 |
+| `mmsMessage`                           | object             | MMS message content (subject, text, attachments)                 | `null`                                       | see below                               |
+| `mmsMessage.subject`                   | string             | MMS subject line                                                 | `null`                                       | "Hello"                                 |
+| `mmsMessage.text`                      | string             | Text body (non-empty `text` or >= 1 attachment required)         | `null`                                       | "World"                                 |
+| `mmsMessage.attachments`               | array              | Base64 attachments; omitted from the wire when empty             | `null`                                       | see below                               |
+| `mmsMessage.attachments[].contentType` | string             | MIME type (no allowlist enforced)                                | **required**                                 | "image/png"                             |
+| `mmsMessage.attachments[].data`        | string             | Base64-encoded attachment content                                | **required**                                 | "BASE64DATA"                            |
+| `mmsMessage.attachments[].name`        | string             | Optional file name                                               | `null`                                       | "picture.png"                           |
+| `phoneNumbers`                         | array              | :material-phone: Recipient numbers                               | **required**                                 | `["+1234567890"]`                       |
+| `simNumber`                            | integer            | :material-sim: SIM card selection (1-3)                          | [see here](./multi-sim.md#sim-card-rotation) | `1`                                     |
+| `ttl`/`validUntil`                     | integer/RFC3339    | :material-clock-alert: Message expiration (mutually exclusive)   | never                                        | `3600` or `"2026-12-31T23:59:59Z"`      |
+| `scheduleAt`                           | RFC3339            | :material-calendar-clock: Schedule message for future delivery   | `null` (send immediately)                    | `"2026-12-31T09:00:00Z"`                |
+| `withDeliveryReport`                   | boolean            | :material-checkbox-marked: Delivery confirmation                 | `true`                                       | `true`                                  |
+| `priority`                             | integer (-128-127) | :material-priority-high: Send priority (-128 to 127)             | `0`                                          | `100`                                   |
+| `isEncrypted`                          | boolean            | :material-lock: [Message is encrypted](../privacy/encryption.md) | `false`                                      | `true`                                  |
 
 !!! warning "Mutual Exclusivity"
-    Only one of `textMessage`, `dataMessage`, or the deprecated `message` field may be specified per request
+    Only one of `textMessage`, `dataMessage`, `mmsMessage`, or the deprecated `message` field may be specified per request. Combining an MMS payload with a non-empty legacy `message`, `textMessage`, or `dataMessage` is rejected with HTTP 400.
 
 !!! info "Additional Notes"
     - Phone numbers must be **E.164-compatible**—except when **the message is encrypted** or `skipPhoneValidation=true`
@@ -148,6 +184,8 @@ If the message was not in `Pending` state, the API returns `409 Conflict` with a
     - Priorities ≥100 are expedited but may still be subject to delay
     - Data messages require app v1.40.0+ and server v1.24.0+
     - Scheduled messages require app v1.41.0+ and server v1.25.0+
+    - MMS messages require a non-empty `text` or at least one attachment; attachment `data` is base64-encoded
+    - MMS delivery status arrives via the existing `sms:sent`/`sms:failed`/`sms:cancelled` webhooks; there are no `mms:*` outbound events and no `Delivered` state for MMS
 
 ## 💻 Code Examples
 
@@ -322,6 +360,30 @@ Send `SGVsbG8gRGF0YSBXb3JsZCE=` (base64-encoded `Hello Data World!`) to `+123456
         headers,
         auth: { username: 'username', password: 'password' }
     })
+    ```
+
+### MMS Message
+
+Send a multimedia message with a subject, a text body, and one base64-encoded attachment to `+1234567890`. See [MMS Support](./mms.md) for the complete wire format and examples for all official SDKs (Go, TypeScript, Python, PHP, Rust).
+
+=== "cURL"
+    ```bash title="Send MMS Message using cURL"
+    curl -X POST "https://api.sms-gate.app/3rdparty/v1/messages" \
+      -u "username:password" \
+      --json '{
+        "mmsMessage": {
+          "subject": "Hello",
+          "text": "World",
+          "attachments": [
+            {
+              "contentType": "image/png",
+              "name": "picture.png",
+              "data": "BASE64DATA"
+            }
+          ]
+        },
+        "phoneNumbers": ["+1234567890"]
+      }'
     ```
 
 ## 🏗️ Message Processing Stages
@@ -572,6 +634,7 @@ Expedited messages (priority ≥ 100) are **never blocked** by working hours and
 
 - [API Documentation](https://api.sms-gate.app) - Complete API reference
 - [Data SMS Support](./data-sms.md) - Sending binary data via SMS
+- [MMS Support](./mms.md) - Sending multimedia messages with attachments
 - [Message Encryption](../privacy/encryption.md) - Securing message content
 - [Multi-SIM Support](./multi-sim.md) - Managing multiple SIM cards
 - [Settings Management](./settings-management.md) - Configure rate limits and delays
