@@ -87,6 +87,31 @@ stateDiagram-v2
 - :x: **Failed**  
   Terminal error at any stage
 
+!!! warning "Messages Stuck in `Processed`"
+    `Processed` is terminal-unless-confirmed, and there is no automatic recovery.
+
+    Once a message reaches `Processed`, the app never looks at it again. If the confirmation
+    for that one message gets lost somewhere, there is nothing that checks back on it later,
+    so it can sit there forever.
+
+    This is deliberate:
+
+    - The app will **not** auto-resend it, because the message could have been sent, and
+      resending it could mean a duplicate.
+    - The app will **not** mark it `Failed`, because we simply do not know what happened.
+
+    **What to do as an operator:**
+
+    - Treat a message still in `Processed` past your expected send window as
+      **indeterminate**, not as failed and not as sent.
+    - Do **not** blindly retry it. A retry can produce a duplicate delivery and a duplicate
+      charge from the carrier.
+    - Reconcile against your own outbound log or the recipient's delivery receipts to learn
+      what actually happened.
+
+    A message only leaves `Processed` when the Android SMS API confirmation arrives; there is
+    no re-scan, no sweeper, and no timeout that moves it on.
+
 ## Message Scenarios 📨
 
 === "📨 Multipart Messages"
