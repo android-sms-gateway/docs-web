@@ -122,11 +122,11 @@ The CLI tool uses exit codes to indicate the outcome of operations.
 
 ## 📝 Message Commands
 
-Message commands allow you to send SMS messages and check their status. The following subsections detail each message-related command.
+Message commands allow you to send SMS, MMS, and data messages and check their status. The following subsections detail each message-related command.
 
 ### Send a Message
 
-The `send` command allows you to send SMS messages to one or more recipients with full control over delivery options.
+The `send` command allows you to send SMS messages to one or more recipients with full control over delivery options. Add `--data` for [data messages](../features/data-sms.md) or `--mms` for [multimedia messages](../features/mms.md#sending-mms-messages).
 
 **Syntax:**
 ```bash title="Basic Usage"
@@ -169,6 +169,20 @@ smsgate send --phones '+12025550123' --device-active-within 12 'Message'
 # Send data message (base64 encoded)
 echo -n 'hello world' | base64
 smsgate send --phones '+12025550123' --data --data-port 12345 'aGVsbG8gd29ybGQ='
+
+# Send MMS with subject and multiple attachments
+smsgate send --mms --subject 'Project update' --phones '+12025550123' \
+  --attachment ./report.pdf \
+  --attachment ./chart.png \
+  'Here are the latest documents'
+
+# Send MMS with attachments only (no text)
+smsgate send --mms --phones '+12025550123' --attachment ./photo.jpg
+
+# Send MMS to multiple recipients
+smsgate send --mms --phones '+12025550123' --phones '+12025550124' \
+  --subject 'Team update' --attachment ./screenshot.png \
+  'Please review'
 ```
 
 **Options:**
@@ -185,6 +199,9 @@ smsgate send --phones '+12025550123' --data --data-port 12345 'aGVsbG8gd29ybGQ='
 | `--valid-until`             | The expiration date and time for the message. RFC3339 format (e.g., `2006-01-02T15:04:05Z07:00`).<br>**Conflicts with `--ttl`.**                          | empty         | `2027-12-31T23:59:59Z`  |
 | `--data`                    | Send data message instead of text (content in base64).                                                                                                    | `false`       | `true`                  |
 | `--data-port`               | Destination port for data message (1 to 65535).                                                                                                           | `53739`       | `12345`                 |
+| `--mms`                     | Send MMS message instead of text. Requires text or at least one `--attachment`. **Conflicts with `--data`.**                                              | `false`       | `true`                  |
+| `--subject`                 | MMS subject line. **Requires `--mms`.**                                                                                                                   | empty         | `Photo update`          |
+| `--attachment`              | Path to an attachment file, repeatable. MIME type is detected from the file extension, falling back to `application/octet-stream`. **Requires `--mms`.**  | empty         | `./image.jpg`           |
 | `--skip-phone-validation`   | Skip phone number validation.                                                                                                                             | `false`       | `true`                  |
 | `--device-active-within`    | Time window in hours for device activity filtering. `0` means no filtering.                                                                               | `0`           | `12`                    |
 
