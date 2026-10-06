@@ -55,6 +55,11 @@ Webhooks provide real-time notifications about SMS events. Follow these steps to
      http://<device_ip>:8080/webhooks/unique-id
    ```
 
+<figure markdown>
+  ![Webhooks List](../assets/webhooks-list.png){ width="480" align=center }
+  <figcaption>Registered webhooks listed in the app</figcaption>
+</figure>
+
 ### Local Network Tips 🌍
 
 - Use `127.0.0.1` with ADB reverse port forwarding for local testing

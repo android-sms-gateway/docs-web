@@ -25,6 +25,11 @@ There are three ways to access logs:
 2.  **Local Mode API**: In Local mode, the app exposes the [`/logs` endpoint](https://capcom6.github.io/android-sms-gateway/#/System/get-logs), which returns a list of log entries with a filter by period.
 3.  **CLI**: Use the SMSGate CLI tool to retrieve logs for a specific time range. The CLI supports filtering by date and multiple output formats.
 
+<figure markdown>
+  ![Logs List](../assets/app-logs-list.png){ width="400" align=center }
+  <figcaption>Recent log entries listed after opening View</figcaption>
+</figure>
+
 !!! tip
     **CLI Examples**
     
@@ -45,6 +50,11 @@ There are three ways to access logs:
 ## ⚙️ Log Settings
 
 Log settings are located on the Settings tab of the app in the "Logs" section. The only available option is "Delete after, days," which sets the log entries' lifetime. You can set the number of days after which log entries will be deleted.
+
+<figure markdown>
+  ![Logs Settings](../assets/app-settings-logs.png){ width="400" align=center }
+  <figcaption>Logs section with the View and Delete after, days entries</figcaption>
+</figure>
 
 !!! important
     It is strongly recommended to enable this option to avoid device memory exhaustion.
