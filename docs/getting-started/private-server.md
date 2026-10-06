@@ -220,7 +220,7 @@ docker run -d --name smsgate-dashboard \
   -p 3001:3000 \
   -e HTTP__ADDRESS=0.0.0.0:3000 \
   -e GATEWAY__URL=https://private.example.com/api/3rdparty/v1 \
-  -e GATEWAY__WEBHOOK_URL=https://dashboard.example.com/api/webhooks/callback \
+  -e WEBHOOKS__URL=https://dashboard.example.com/api/webhooks/callback \
   ghcr.io/android-sms-gateway/web-dashboard:latest
 ```
 
