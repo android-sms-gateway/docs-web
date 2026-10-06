@@ -134,12 +134,12 @@ docker run -d --name smsgate-dashboard \
   -p 3000:3000 \
   -e HTTP__ADDRESS=0.0.0.0:3000 \
   -e GATEWAY__URL=https://api.sms-gate.app/3rdparty/v1 \
-  -e GATEWAY__WEBHOOK_URL=https://your-public-url/api/webhooks/callback \
+  -e WEBHOOKS__URL=https://your-public-url/api/webhooks/callback \
   ghcr.io/android-sms-gateway/web-dashboard:latest
 ```
 
 !!! note "Webhook URL"
-    The `GATEWAY__WEBHOOK_URL` must be a publicly accessible HTTPS endpoint so the SMSGate server can deliver webhook callbacks to the dashboard. This enables real-time SSE updates.
+    The `WEBHOOKS__URL` must be a publicly accessible HTTPS endpoint so the SMSGate server can deliver webhook callbacks to the dashboard. This enables real-time SSE updates.
 
 ### GitHub Releases
 
@@ -173,7 +173,7 @@ The application is configured via environment variables or an optional YAML file
 | ---------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `HTTP__ADDRESS`        | `127.0.0.1:3000`                              | HTTP server bind address                                                                                                                                     |
 | `GATEWAY__URL`         | `https://api.sms-gate.app/3rdparty/v1`        | SMSGate 3rd Party API endpoint                                                                                                                               |
-| `GATEWAY__WEBHOOK_URL` | `http://localhost:3000/api/webhooks/callback` | Public callback URL for webhook events. The default is for local development only; external deployments must override it with a publicly reachable HTTPS URL |
+| `WEBHOOKS__URL` | `http://localhost:3000/api/webhooks/callback` | Public callback URL for webhook events. The default is for local development only; external deployments must override it with a publicly reachable HTTPS URL |
 | `CONFIG_PATH`          | —                                             | Path to optional YAML configuration file                                                                                                                     |
 
 ### Example YAML Config
@@ -183,7 +183,8 @@ http:
   address: 0.0.0.0:3000
 gateway:
   url: https://api.sms-gate.app/3rdparty/v1
-  webhook_url: https://your-domain.com/api/webhooks/callback
+webhooks:
+  url: https://your-domain.com/api/webhooks/callback
 ```
 
 ## 📚 See Also
