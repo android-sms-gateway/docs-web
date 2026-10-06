@@ -49,6 +49,11 @@ A hosted instance is available at **`https://dashboard.sms-gate.app`** — no in
 2. Enter your SMSGate **username** and **password** (found in the Android app under Cloud Server settings)
 3. You will be taken to the **Dashboard** with an overview of your gateway activity
 
+<figure markdown>
+  ![Dashboard Login](../assets/dashboard/dashboard-login.png){ width="800" align=center }
+  <figcaption>Sign in with your SMSGate credentials</figcaption>
+</figure>
+
 !!! warning "Self-Hosted Users"
     If you run a [Private Server](../getting-started/private-server.md), deploy your own instance of the dashboard alongside it — see the [Self-Hosted Deployment](#self-hosted-deployment) section below.
 
@@ -62,6 +67,11 @@ The main dashboard provides an aggregated view of your gateway:
 - **Message statistics**: sent, pending, and failed message counts
 - **Charts and trends**: visual charts showing message volume and delivery trends over time
 - **Real-time updates**: live toast notifications for incoming messages, state changes, and device status updates
+
+<figure markdown>
+  ![Dashboard Overview](../assets/dashboard/dashboard-home.png){ width="800" align=center }
+  <figcaption>Gateway statistics, message volume trend, and live activity feed</figcaption>
+</figure>
 
 ### 💬 Message Management
 
@@ -78,13 +88,38 @@ The main dashboard provides an aggregated view of your gateway:
 
 </div>
 
+<figure markdown>
+  ![Message List](../assets/dashboard/dashboard-messages.png){ width="800" align=center }
+  <figcaption>Message list with state, device, and date filters</figcaption>
+</figure>
+
+<figure markdown>
+  ![Message Compose Form](../assets/dashboard/dashboard-compose-sms.png){ width="800" align=center }
+  <figcaption>Compose form for sending an SMS from the browser</figcaption>
+</figure>
+
+<figure markdown>
+  ![Message Detail View](../assets/dashboard/dashboard-messages-detail.png){ width="800" align=center }
+  <figcaption>Message detail with per-recipient states and transition timeline</figcaption>
+</figure>
+
 ### 📱 Device Management
 
 View all registered devices with online/offline status badges and last-seen timestamps. Remove devices with a confirmation dialog.
 
+<figure markdown>
+  ![Devices Management](../assets/dashboard/dashboard-devices.png){ width="800" align=center }
+  <figcaption>Registered devices with status and last-seen timestamps</figcaption>
+</figure>
+
 ### 🌐 Webhook Management
 
 Create, list, and delete webhooks for events. Supports both individual and batch webhook delivery modes — batch webhooks group multiple events into a single payload for high-throughput scenarios.
+
+<figure markdown>
+  ![Webhooks Management](../assets/dashboard/dashboard-webhooks.png){ width="800" align=center }
+  <figcaption>Registered webhooks and their event types</figcaption>
+</figure>
 
 ### 🔑 API Token Management
 
@@ -93,6 +128,11 @@ Generate JWT tokens with fine-grained scope selection directly from the UI:
 - **Permission scopes** across messages, devices, webhooks, settings, logs, and tokens
 - **Configurable TTL** (time-to-live)
 - **Copy to clipboard** and **revoke** by token ID (JTI)
+
+<figure markdown>
+  ![API Token Generator](../assets/dashboard/dashboard-tokens.png){ width="800" align=center }
+  <figcaption>API token generator with scope selection</figcaption>
+</figure>
 
 For details on available scopes, see the [Authentication Guide](../integration/authentication.md#available-scopes).
 
@@ -108,6 +148,11 @@ Manage device settings through a tabbed form interface:
 | Webhooks   | Retry count, internet requirement                   |
 | Gateway    | Cloud URL                                           |
 | Encryption | End-to-end encryption settings                      |
+
+<figure markdown>
+  ![Device Settings Form](../assets/dashboard/dashboard-settings.png){ width="800" align=center }
+  <figcaption>Tabbed device settings interface</figcaption>
+</figure>
 
 !!! warning "Sensitive Settings are Device-Local Only"
     `webhooks.signing_key`, `gateway.private_token`, and `encryption.passphrase` are device-local only and cannot be managed through the dashboard. They never transit the cloud or a private server. Set them via the device's local UI (:gear: Settings) or the local API directly on the device.
@@ -169,12 +214,12 @@ The application is configured via environment variables or an optional YAML file
 
 ### Environment Variables
 
-| Variable               | Default                                       | Description                                                                                                                                                  |
-| ---------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `HTTP__ADDRESS`        | `127.0.0.1:3000`                              | HTTP server bind address                                                                                                                                     |
-| `GATEWAY__URL`         | `https://api.sms-gate.app/3rdparty/v1`        | SMSGate 3rd Party API endpoint                                                                                                                               |
+| Variable        | Default                                       | Description                                                                                                                                                  |
+| --------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `HTTP__ADDRESS` | `127.0.0.1:3000`                              | HTTP server bind address                                                                                                                                     |
+| `GATEWAY__URL`  | `https://api.sms-gate.app/3rdparty/v1`        | SMSGate 3rd Party API endpoint                                                                                                                               |
 | `WEBHOOKS__URL` | `http://localhost:3000/api/webhooks/callback` | Public callback URL for webhook events. The default is for local development only; external deployments must override it with a publicly reachable HTTPS URL |
-| `CONFIG_PATH`          | —                                             | Path to optional YAML configuration file                                                                                                                     |
+| `CONFIG_PATH`   | —                                             | Path to optional YAML configuration file                                                                                                                     |
 
 ### Example YAML Config
 

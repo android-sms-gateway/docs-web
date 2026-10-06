@@ -82,6 +82,11 @@ By default, webhooks require internet access and will wait until it's available 
 1. Open app → **Settings** tab
 2. Navigate to **Webhooks** section
 3. Toggle off "Require Internet connection"
+
+<figure markdown>
+  ![Webhooks Settings](../assets/app-settings-webhooks.png){ width="400" align=center }
+  <figcaption>Webhooks settings with the internet connection toggle, retries and signing key</figcaption>
+</figure>
     
 !!! warning "Tradeoff"    
     Disabling internet access requirement may affect the reliability of webhook delivery for external endpoints
@@ -98,6 +103,11 @@ By default, webhooks require internet access and will wait until it's available 
    }
    ```
 3. Webhooks without `device_id` will apply to all devices
+
+<figure markdown>
+  ![Webhooks List](../assets/webhooks-list.png){ width="480" align=center }
+  <figcaption>Registered webhooks listed in the app</figcaption>
+</figure>
 
 ## :material-test-tube: Using HTTP Webhooks in Local Development
 

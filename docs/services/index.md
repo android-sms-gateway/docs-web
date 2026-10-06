@@ -21,6 +21,11 @@ Standalone companion services that extend the SMSGate beyond its core REST API. 
 
 </div>
 
+<figure markdown>
+  ![Devices Management](../assets/dashboard/dashboard-devices.png){ width="800" align=center }
+  <figcaption>Device registry managed from the Web Dashboard</figcaption>
+</figure>
+
 ## 📚 See Also
 
 - [Integration Overview](../integration/index.md) — core API and protocol integrations

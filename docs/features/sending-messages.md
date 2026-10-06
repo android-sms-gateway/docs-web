@@ -442,6 +442,11 @@ The primary way to manage rate-limiting and delays is through the app's user int
         - Specify the maximum number of messages that can be sent within a specified period (minute, hour, or day).
         - When the limit is reached, the app will pause sending messages until the limit period resets.
 
+<figure markdown>
+  ![Message Delays And Limits Settings](../assets/app-settings-messages-delays-limits.png){ width="400" align=center }
+  <figcaption>Delays, seconds and Limits, period and messages count</figcaption>
+</figure>
+
 !!! note "Multiple Recipients"
     When a request includes multiple `phoneNumbers`, it is treated as a single logical message. Delay and rate‑limit evaluations occur once per request, not per recipient. On a single device, the SMS for all recipients are sent back‑to‑back within the same processing slot (not truly simultaneous).
 
@@ -607,6 +612,11 @@ When working hours are enabled:
 | Enable working hours | Toggle to activate the feature              | Off     |
 | Start time           | Window opening time (HH:mm, 24-hour format) | 09:00   |
 | End time             | Window closing time (HH:mm, 24-hour format) | 19:00   |
+
+<figure markdown>
+  ![Working Hours Settings](../assets/app-settings-working-hours.png){ width="400" align=center }
+  <figcaption>Working Hours toggle with the start and end time window</figcaption>
+</figure>
 
 ### Window Types
 

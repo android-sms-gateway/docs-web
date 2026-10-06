@@ -150,6 +150,11 @@ location / {
     
     This differs from the cloud server (`api.sms-gate.app`) where the `api` part is in the domain name. See [Getting Started with Private Server](../getting-started/private-server.md#using-the-api) for details.
 
+<figure markdown>
+  ![Private Server Settings](../assets/private-server.png){ width="400" align=center }
+  <figcaption>Android app configured for a private server</figcaption>
+</figure>
+
 ### Advanced Configuration
 
 For SSL termination and advanced routing scenarios, consider:

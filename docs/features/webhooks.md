@@ -239,6 +239,11 @@ In Cloud and Private modes, please allow some time for the webhooks list to sync
     </center>
     You can copy the webhook ID by clicking on the row.
 
+    <figure markdown>
+      ![Registered Webhooks Empty State](../assets/app-webhooks-registered-empty.png){ width="400" align=center }
+      <figcaption>Registered Webhooks list before any webhook is added</figcaption>
+    </figure>
+
 !!! note "Webhook Registration Notification"
     When a new `sms:received` webhook is registered, the app displays a notification on the device, ensuring immediate awareness of active webhooks and facilitating quick security reviews.
 
@@ -439,6 +444,16 @@ Your server will receive a POST request with a payload like:
 #### Retry Policy
 
 The app implements an exponential backoff retry strategy: it waits 10 seconds before the first retry, then 20 seconds, 40 seconds, and so on, doubling the interval each time. By default, the app will retry 14 times (approximately 2 days) before giving up. You can specify a custom retry count in the app's **Settings > Webhooks**.
+
+<figure markdown>
+  ![Webhooks Settings](../assets/app-settings-webhooks.png){ width="400" align=center }
+  <figcaption>Webhooks settings with the retry count and signing key</figcaption>
+</figure>
+
+<figure markdown>
+  ![Webhook Queue Empty State](../assets/app-webhook-queue-empty.png){ width="400" align=center }
+  <figcaption>Webhook Queue when no entries are pending</figcaption>
+</figure>
 
 ### Step 6: Deregister a Webhook 🗑️
 

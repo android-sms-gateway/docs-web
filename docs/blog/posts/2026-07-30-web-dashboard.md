@@ -58,7 +58,17 @@ For real-time updates, the dashboard registers webhooks on the SMSGate server fo
 2. Log in with your SMSGate credentials (from the Android app under Cloud Server settings)
 3. Start managing your gateway from the browser
 
+<figure align="center">
+  <img src="/assets/dashboard/dashboard-login.png" alt="Dashboard Login" width="800">
+  <figcaption>Sign in with your SMSGate credentials</figcaption>
+</figure>
+
 No registration, no installation — just your existing credentials.
+
+<figure align="center">
+  <img src="/assets/dashboard/dashboard-home.png" alt="Dashboard Overview" width="800">
+  <figcaption>Gateway statistics, message volume trend, and live activity feed</figcaption>
+</figure>
 
 ## 🖥️ Self-Hosting
 

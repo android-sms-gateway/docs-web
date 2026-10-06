@@ -86,7 +86,7 @@ sequenceDiagram
 
 === ":ping_pong: Custom Ping"
     <center>
-    <img src="/assets/features-ping-settings.png" alt="Custom Ping settings interface">
+    <img src="/assets/features-ping-settings.png" alt="Custom Ping settings interface" width="400">
     </center>
 
     - Configurable check interval
