@@ -13,6 +13,11 @@ To prevent this:
 
 Additionally, check if the SMS Gate notification icon is still visible in the status bar (a persistent notification is shown while the Local Server is running). If it's missing, the app was likely killed by the OS.
 
+<figure markdown>
+  ![Local Server Settings](../assets/local-server.png){ width="400" align=center }
+  <figcaption>Local Server card with addresses and credentials</figcaption>
+</figure>
+
 ## 📶 How can I check the online status of the device in Local mode?
 
 You can verify the device's online status with two quick checks:

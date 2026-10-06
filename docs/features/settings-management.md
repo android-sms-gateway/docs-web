@@ -10,8 +10,8 @@ Device settings can be managed through the app's user interface or programmatica
     The primary way to manage device settings is through the Settings tab within the app. This provides a user-friendly interface for configuring various parameters.
 
     <figure markdown>
-      ![Settings UI](../assets/settings-ui.png)
-      <figcaption>Device settings interface</figcaption>
+      ![Settings UI](../assets/app-settings-root.png){ width="400" align=center }
+      <figcaption>Settings tab with the per-section sub-screens</figcaption>
     </figure>
 
 === ":material-monitor-dashboard: Dashboard UI"
@@ -108,6 +108,11 @@ Controls how the app monitors for incoming SMS messages.
 | Setting                             | Type    | Default | Description                                                                                                                                                                                                                                                      |
 | ----------------------------------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `receiver.content_provider_enabled` | boolean | `true`  | When enabled, the app also monitors the SMS content provider for incoming messages as a fallback for carriers that intercept the `SMS_RECEIVED` broadcast. Disable if you experience duplicate webhook events and your carrier delivers the broadcast correctly. |
+
+<figure markdown>
+  ![Inbox Settings](../assets/app-settings-inbox.png){ width="400" align=center }
+  <figcaption>Inbox settings with Content Provider Monitoring and message retention</figcaption>
+</figure>
 
 !!! note "Restart Required"
     Changes to receiver settings require an app restart to take effect.

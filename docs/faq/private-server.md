@@ -16,6 +16,11 @@ The API URL **must** include the full path `/api/mobile/v1`. Using just the base
 !!! danger "Common Mistake"
     The cloud server uses URL rewriting where `api.sms-gate.app` already contains the `api` part. With a private server, you must include `/api` in the path.
 
+<figure markdown>
+  ![Private Server Settings](../assets/private-server.png){ width="400" align=center }
+  <figcaption>Android app configuration for private server mode</figcaption>
+</figure>
+
 ### 2. HTTPS Requirement
 
 The Android app **requires HTTPS** for all communications with your private server unless you use an insecure build variant. Using HTTP will result in connection failures.

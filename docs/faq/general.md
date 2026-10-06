@@ -73,6 +73,11 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
 
     The random delay can be introduced between messages by specifying a minimum and maximum time. This helps to reduce the likelihood of messages being flagged as spam by simulating a more human-like sending pattern.
 
+    <figure markdown>
+      ![Message Delays And Limits Settings](../assets/app-settings-messages-delays-limits.png){ width="400" align=center }
+      <figcaption>Delays, seconds and Limits, period and messages count</figcaption>
+    </figure>
+
 === "📉 Message Limits"
 
     **Settings Path**:  
@@ -89,6 +94,11 @@ curl -X POST "https://api.sms-gate.app/messages?skipPhoneValidation=true"
     :gear: Settings → Messages → "If SIM number is not specified"
 
     The app provides a feature to rotate between [multiple SIM cards](../features/multi-sim.md#sim-card-rotation) automatically, avoiding reaching SIM limits.
+
+    <figure markdown>
+      ![Messages Settings](../assets/app-settings-messages.png){ width="400" align=center }
+      <figcaption>Messages section with the SIM selection, retention and delays</figcaption>
+    </figure>
 
 === "🕐 Working Hours"
 
@@ -129,6 +139,11 @@ graph TD
 === "Any mode"
 
     Irrespective of the mode, you can register a `system:ping` webhook to monitor the device's online status. This webhook will notify your server about the status of the app at user-defined intervals, set within the app's Settings on the device. This feature offers a proactive approach to track connectivity and ensure the device is functioning as expected across any operational mode.
+
+    <figure markdown>
+      ![Ping Settings](../assets/app-settings-ping.png){ width="400" align=center }
+      <figcaption>Ping interval set in the app Settings</figcaption>
+    </figure>
 
     !!! warning "Caution"
         Using the ping feature will increase battery usage. It's important to balance the need for frequent status updates with the impact on device battery life, especially if the device is expected to operate for extended periods without charging.
