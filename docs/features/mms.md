@@ -166,7 +166,7 @@ Outbound MMS is supported by all five official SDKs. Each example below produces
     $state = $client->SendMessage($message);
     ```
 
-    `MessageBuilder` accepts either a `string` or an `MmsMessage` as its message argument; a mixed payload is rejected with an `InvalidArgumentException`.
+    `MessageBuilder` accepts either a `string` or an `MmsMessage` as its message argument. Calling `setMessage()` again replaces the previous value. `build()` raises an `InvalidArgumentException` when both `ttl` and `validUntil` are set.
 
 === "Python"
 
@@ -279,7 +279,7 @@ Triggered when the MMS content has been fully downloaded to the device content p
   "event": "mms:downloaded",
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
-    "messageId": "mms_12345abcde",
+    "messageId": "mms_67890fghij",
     "sender": "+1234567891",
     "recipient": "+1234567890",
     "simNumber": 1,
@@ -316,7 +316,7 @@ Always namespace the key by `deviceId`, which is present in every webhook payloa
 
 ```python title="Deduplication key"
 def dedup_key(envelope: dict) -> str:
-    """Stable across retries and across device swaps."""
+    """Stable across retries; deviceId avoids collisions after a device swap."""
     payload = envelope["payload"]
     return f'{envelope["deviceId"]}:{envelope["event"]}:{payload["messageId"]}'
 ```

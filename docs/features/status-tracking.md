@@ -90,9 +90,9 @@ stateDiagram-v2
 !!! warning "Messages Stuck in `Processed`"
     `Processed` is terminal-unless-confirmed, and there is no automatic recovery.
 
-    Once a message reaches `Processed`, the app never looks at it again. If the confirmation
-    for that one message gets lost somewhere, there is nothing that checks back on it later,
-    so it can sit there forever.
+    The app does not periodically re-scan a message that remains in `Processed`. If its
+    confirmation is lost, no later check advances the message, so it can remain there
+    indefinitely.
 
     This is deliberate:
 

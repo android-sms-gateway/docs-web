@@ -111,7 +111,8 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
       once and reused verbatim across retries, so a retried delivery repeats the identical
       pair - retry deduplication keeps working while the key also survives device swaps.
 
-    Deduplicating on `messageId` alone silently drops every MMS after a handset swap. See
+    Deduplicating on `messageId` alone silently drops any MMS whose reused ID collides
+    with a key already stored after a handset swap. See
     [Deduplicating Incoming MMS](./mms.md#deduplicating-incoming-mms) for a worked example.
 
 
@@ -677,8 +678,8 @@ Tapping an entry opens its detail view, which shows the target **URL**, current 
     2. Ensure the device can reach your server
     3. Verify SSL certificate validity
     4. Check device and server logs
-    5. Inspect the in-app [delivery queue](#inspecting-the-delivery-queue) to see whether the event was queued at all
-    6. Test with [webhook.site](https://webhook.site) or our [Webhook Tester](#webhook-tester) temporary endpoint
+    5. Inspect the in-app [delivery queue](#inspecting-the-delivery-queue-) to see whether the event was queued at all
+    6. Test with [webhook.site](https://webhook.site) or our [Webhook Tester](#webhook-tester-) temporary endpoint
 
 !!! bug "Signature Validation Issues"
     - Ensure timestamp is UTC Unix time in seconds

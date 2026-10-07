@@ -126,7 +126,7 @@ Message commands allow you to send SMS, MMS, and data messages and check their s
 
 ### Send a Message
 
-The `send` command allows you to send SMS messages to one or more recipients with full control over delivery options. Add `--data` for [data messages](../features/data-sms.md) or `--mms` for [multimedia messages](#sending-mms).
+The `send` command allows you to send SMS messages to one or more recipients with full control over delivery options. Add `--data` for [data messages](../features/data-sms.md) or `--mms` for [multimedia messages](../features/mms.md#sending-mms-messages).
 
 **Syntax:**
 ```bash title="Basic Usage"
