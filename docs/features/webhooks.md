@@ -34,7 +34,7 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `receivedAt`: Local timestamp
 
 - :material-file-download: **mms:downloaded**
-    - `messageId`: Device-local Android content-provider `_id` (differs from `mms:received` `messageId`)
+    - `messageId`: Device-local Android content-provider `_id` - **not a global ID, do not dedup on it alone**
     - `body`: Aggregated text content of the MMS (nullable)
     - `subject`: Message subject line (nullable)
     - `attachments`: Array of `{ partId, contentType, name, size, data }`
@@ -94,6 +94,26 @@ Webhooks offer a powerful mechanism to receive real-time notifications of events
     - `sms:cancelled` — the pending MMS was cancelled before sending (for example via `DELETE /3rdparty/v1/messages/{id}`).
     
     The payloads carry the same fields as for SMS (`messageId` refers to the outgoing message ID returned by `POST /3rdparty/v1/messages`). Incoming MMS events (`mms:received`, `mms:downloaded`) are unchanged. See [MMS Support](./mms.md#delivery-status-and-webhooks) for details.
+
+!!! warning "MMS `messageId` Is Device-Local, Not a Global Identity"
+    Do **not** deduplicate MMS webhooks on `messageId` alone. Read this first:
+
+    - **`mms:downloaded` `messageId` is a per-device counter.** It is the Android content
+      provider row `_id` from `content://mms`, allocated by the handset itself. It restarts
+      from scratch after handset replacement, so the same ID names
+      different messages on different devices and reappears after a device swap.
+    - **The two MMS events carry different IDs for the same message.** `mms:received` and
+      `mms:downloaded` do **not** share a `messageId` value, so you cannot pair the arrival
+      notification with the download by ID.
+    - **Build the dedup key from `deviceId`.** Every webhook payload carries a top-level
+      `deviceId` field, so the recommended key is `deviceId` + `messageId` (or `deviceId` +
+      the envelope `id` when you only need to suppress exact retries). The envelope is built
+      once and reused verbatim across retries, so a retried delivery repeats the identical
+      pair - retry deduplication keeps working while the key also survives device swaps.
+
+    Deduplicating on `messageId` alone silently drops any MMS whose reused ID collides
+    with a key already stored after a handset swap. See
+    [Deduplicating Incoming MMS](./mms.md#deduplicating-incoming-mms) for a worked example.
 
 
 ## 📦 Batch Webhooks
@@ -624,6 +644,33 @@ The signing key is randomly generated at first request and can be changed in **S
     - Validate timestamps (e.g., accept only timestamps within ±5 minutes) to prevent replay attacks.
     - Store secret keys securely (e.g., environment variables, secure vaults).
 
+## Inspecting the Delivery Queue 🔍
+
+Pending and failed webhook deliveries are inspectable **inside the app**, without attaching a debugger or reading logcat:
+
+1. Open app → **Settings** tab → **Webhooks**
+2. Tap **Webhook Queue** ("View recent webhook queue entries")
+
+The queue screen lists the most recent entries with filter chips for each state - **All**, **Pending**, **Processing**, **Completed**, **Failed**, **Permanently Failed** - each showing a live count. Filter chips with a count of zero are hidden, so the screen tells you at a glance whether anything is stuck.
+
+Tapping an entry opens its detail view, which shows the target **URL**, current **status**, **retry count**, **last error**, **created** and **next attempt** timestamps, and the exact **payload** that was queued.
+
+!!! tip "Diagnosing 'webhook not firing'"
+    This is the first place to look, because it separates the two failure modes:
+
+    - **Nothing in the queue** - the event was never emitted. Check that the event type is
+      registered on the webhook, that the webhook matches the device, and that the
+      corresponding feature (permissions, Content Provider Monitoring) is active.
+    - **Entry stuck in `Pending` / `Processing` / `Failed`** - the event *was* queued and the
+      problem is on the delivery side. Read `Last error` and check the `URL`, your TLS
+      certificate, and the [Retry Policy](#retry-policy) counter.
+
+!!! note "This Is a Recent-History View"
+    Entries that reached a terminal state (`Completed` or `Permanently Failed`) are purged
+    after a retention window (7 days by default), and the stored payload is deleted with the
+    entry. Treat the queue screen as short-term diagnostics, not as a delivery archive - the
+    payload for an older entry may be gone by the time you open it.
+
 ## Troubleshooting 🛠️
 
 !!! failure "No Webhooks Received?"
@@ -631,7 +678,8 @@ The signing key is randomly generated at first request and can be changed in **S
     2. Ensure the device can reach your server
     3. Verify SSL certificate validity
     4. Check device and server logs
-    5. Test with [webhook.site](https://webhook.site) or our [Webhook Tester](#webhook-tester) temporary endpoint
+    5. Inspect the in-app [delivery queue](#inspecting-the-delivery-queue-) to see whether the event was queued at all
+    6. Test with [webhook.site](https://webhook.site) or our [Webhook Tester](#webhook-tester-) temporary endpoint
 
 !!! bug "Signature Validation Issues"
     - Ensure timestamp is UTC Unix time in seconds

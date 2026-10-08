@@ -93,7 +93,7 @@ curl -X POST -u <username>:<password> \
 
 ## 💻 SDK Examples
 
-Outbound MMS is officially supported by the Go and Rust SDKs. Each example below produces the same wire payload as the [request structure above](#request-structure).
+Outbound MMS is supported by all five official SDKs. Each example below produces the same wire payload as the [request structure above](#request-structure).
 
 === "Go"
 
@@ -122,6 +122,75 @@ Outbound MMS is officially supported by the Go and Rust SDKs. Each example below
     ```
 
     JSON marshaling omits `subject`, `text`, `name`, and `attachments` when they are unset, mirroring the wire rules above.
+
+=== "TypeScript"
+
+    ```typescript
+    import Client, { MmsMessagePayload, MmsAttachment } from 'android-sms-gateway';
+
+    const client = new Client('username', 'password');
+
+    const attachment: MmsAttachment = {
+        contentType: 'image/png',
+        name: 'picture.png',
+        data: 'BASE64DATA',
+    };
+
+    const mms: MmsMessagePayload = {
+        subject: 'Hello',
+        text: 'World',
+        attachments: [attachment],
+    };
+
+    const state = await client.send({ phoneNumbers: ['+1234567890'], mmsMessage: mms });
+    ```
+
+    The `Message` type is a discriminated union: exactly one of `message`, `textMessage`, `dataMessage`, or `mmsMessage` is accepted, and mixing them is a compile-time error.
+
+=== "PHP"
+
+    ```php
+    use AndroidSmsGateway\Client;
+    use AndroidSmsGateway\Domain\MessageBuilder;
+    use AndroidSmsGateway\Domain\MmsAttachment;
+    use AndroidSmsGateway\Domain\MmsMessage;
+
+    $client = new Client('username', 'password');
+
+    $mms = new MmsMessage('Hello', 'World', [
+        new MmsAttachment('image/png', 'BASE64DATA', 'picture.png'),
+    ]);
+
+    $message = (new MessageBuilder($mms, ['+1234567890']))->build();
+
+    $state = $client->SendMessage($message);
+    ```
+
+    `MessageBuilder` accepts either a `string` or an `MmsMessage` as its message argument. Calling `setMessage()` again replaces the previous value. `build()` raises an `InvalidArgumentException` when both `ttl` and `validUntil` are set.
+
+=== "Python"
+
+    ```python
+    from android_sms_gateway import APIClient
+    from android_sms_gateway.domain import Message, MmsAttachment, MmsMessage
+
+    with APIClient("username", "password") as client:
+        message = Message(
+            phone_numbers=["+1234567890"],
+            mms_message=MmsMessage(
+                subject="Hello",
+                text="World",
+                attachments=[
+                    MmsAttachment(
+                        content_type="image/png",
+                        data="BASE64DATA",
+                        name="picture.png",
+                    ),
+                ],
+            ),
+        )
+        state = client.send(message)
+    ```
 
 === "Rust"
 
@@ -210,7 +279,7 @@ Triggered when the MMS content has been fully downloaded to the device content p
   "event": "mms:downloaded",
   "id": "Ey6ECgOkVVFjz3CL48B8C",
   "payload": {
-    "messageId": "mms_12345abcde",
+    "messageId": "mms_67890fghij",
     "sender": "+1234567891",
     "recipient": "+1234567890",
     "simNumber": 1,
@@ -235,6 +304,29 @@ Field descriptions can be found in the [Webhook Supported Events](./webhooks.md#
 
 !!! tip "Attachment Data"
     The `data` field in each attachment contains the raw content encoded in Base64 when available and may be `null` if the content is unavailable. This enables programmatic processing — for example, decoding and saving images, or forwarding attachments to other services.
+
+### Deduplicating Incoming MMS
+
+Neither MMS event carries a globally unique `messageId`, so `messageId` on its own is not a safe deduplication key:
+
+- `mms:downloaded` uses the Android content provider row `_id` from `content://mms`, a per-device counter that restarts after a handset replacement.
+- `mms:received` and `mms:downloaded` report **different** `messageId` values for the same message, so you cannot correlate the two events by ID.
+
+Always namespace the key by `deviceId`, which is present in every webhook payload:
+
+```python title="Deduplication key"
+def dedup_key(envelope: dict) -> str:
+    """Stable across retries; deviceId avoids collisions after a device swap."""
+    payload = envelope["payload"]
+    return f'{envelope["deviceId"]}:{envelope["event"]}:{payload["messageId"]}'
+```
+
+The webhook envelope (including `deviceId` and the envelope `id`) is built once and reused verbatim for every delivery attempt, so this key suppresses retries while remaining valid if the handset is replaced.
+
+!!! warning "Deduplicating on `messageId` Alone"
+    Consumers that key on `messageId` silently drop every MMS after a handset swap, because the replacement device starts reissuing the same low `content://mms` row IDs.
+
+See also the [MMS `messageId` warning in the webhook events reference](./webhooks.md#supported-events).
 
 ## 🚫 Limitations
 
