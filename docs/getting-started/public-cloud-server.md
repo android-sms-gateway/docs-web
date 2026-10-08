@@ -2,11 +2,11 @@
 
 ## ☁️ Cloud Server
 
-Use Cloud Server mode when your device has dynamic or shared IP addresses. Start immediately—no registration, email, or phone number required.
+Use Cloud Server mode when your device has dynamic or shared IP addresses. If the device is not registered yet, starting the service opens a registration dialog - confirm the default **Sign Up** tab and a new account is created automatically; no email, phone number, or manual credential entry is required.
 
 ### Key Features ⚡
 
-- 🌐 No registration required
+- 🌐 Automatic account creation via the Sign Up tab of the registration dialog
 - 🔄 Hybrid push-pull architecture
 - ⏱️ Dynamic and shared device IP support
 - 🔒 Basic authentication
@@ -124,16 +124,16 @@ Change the notification channel in the app settings:
 1. **Activate Cloud Mode**  
    Launch app → Toggle "Cloud Server"
 
-2. **Go Online**  
-   Tap the "Offline" button to initiate connection and registration process → Button will change to "Online" when connected
-    
+2. **Start the Service**  
+   Tap **Start Service** on the Home tab. If the device is not registered yet, a registration dialog opens with three tabs: **Sign Up** (default), **Sign In**, and **By Code**. Keep the default **Sign Up** tab and confirm - a new anonymous account is created automatically. Once connected, the button changes to **Stop Service**.
+   
 3. **Get Credentials**  
     Credentials will be **automatically generated** and appear in the **Cloud Server** section after successful connection:
    <center>
       <img src="/assets/cloud-server.png" alt="Cloud Server credentials screenshot"/>
    </center>
 !!! info "Automatic Registration"
-        No manual registration step is required. Username and password are generated automatically on the first successful connection to the server.
+        After you confirm the default **Sign Up** tab in the registration dialog (see step 2), username and password are generated automatically - no manual credential entry is required.
 
 !!! tip "Web Dashboard"
         You can also log in at **`https://dashboard.sms-gate.app`** with these credentials to manage messages, devices, webhooks, and settings through a graphical web interface. See the [Web Dashboard](../services/web-dashboard.md) guide for details.

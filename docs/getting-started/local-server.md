@@ -9,8 +9,8 @@
 This mode is ideal for sending messages from a local network, enabling direct communication between the device and your app on the same Wi‑Fi or Ethernet network without requiring internet access.
 
 1. Launch the app on your device.
-2. Toggle the `Local Server` switch to the "on" position.
-3. Tap the status button (labeled `Offline`) at the bottom of the screen to start the server; it will switch to `Online` when running.
+2. On the Home tab, toggle the `Local Server` card to the "on" position.
+3. Tap **Start Service** to start the server; while it is running, the button becomes **Stop Service**.
 4. The `Local Server` section will display your device's local and public IP addresses, as well as the credentials for basic authentication.
 
     !!! warning "Authentication Method"
