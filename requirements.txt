@@ -2,7 +2,7 @@
 babel==2.18.0; python_version >= '3.8'
 cachecontrol[filecache]==0.14.4; python_version >= '3.10'
 cairocffi==1.7.1; python_version >= '3.8'
-cairosvg==2.9.0
+cairosvg==2.9.1
 certifi==2026.4.22; python_version >= '3.7'
 cffi==2.0.0; python_version >= '3.9'
 charset-normalizer==3.4.7; python_version >= '3.7'
