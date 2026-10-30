@@ -52,9 +52,9 @@ If you find value in this project and would like to show your support, please co
 
 <div class="grid cards" markdown>
 
-- :simple-bitcoin: [**Bitcoin (BTC)**](bitcoin:bc1qfmwjpnfwvrxp3an47j026en8mpaxl5tj9l30gn)  
+- :simple-bitcoin: [**Bitcoin (BTC)**](bitcoin:bc1q58cy5zm2dzwcqwcumnz7qgm4yn48keuc8rthxd)  
   ```text
-  bc1qfmwjpnfwvrxp3an47j026en8mpaxl5tj9l30gn
+  bc1q58cy5zm2dzwcqwcumnz7qgm4yn48keuc8rthxd
   ```
   
 - :simple-ethereum: [**Ethereum (ERC20)**](ethereum:0x41C4A0aaCF205Dd62FffCD710f8CC8D69eF1d77B)  
