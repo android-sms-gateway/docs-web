@@ -22,6 +22,10 @@ For organizations with existing SMPP-based infrastructure, the [SMPP Server](../
 
 For systems that already send email, the [Email to SMS Bridge](../services/email-to-sms.md) lets you send SMS by emailing `{phone}@smtp.sms-gate.app` — no REST API integration required. Any email-capable system (monitoring tools, booking platforms, CRMs) can send SMS without code changes. See the [SMTP Integration Guide](../integration/smtp.md) for examples.
 
+## 🤖 SMS to Telegram Integration
+
+To receive incoming SMS in Telegram, the [Telegram Bridge](../services/telegram-bridge.md) verifies SMSGate webhooks and forwards each `sms:received` message to a chat you choose. It runs as a separate self-hosted service and requires a Telegram bot token and chat ID. See the [Telegram Bridge service page](../services/telegram-bridge.md) for setup, configuration, and deployment.
+
 ## 🏗️ Building Your Own Gateway
 
 Building your own gateway is an option that allows you to create an independent infrastructure without any connection to the public server at `api.sms-gate.app`. In most cases, this is not necessary, and you can use the [Private Server](./private-server.md) mode with all of its privacy features. However, if you require full control, please see [Custom Gateway Setup](./custom-gateway.md) section.

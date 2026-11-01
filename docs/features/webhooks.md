@@ -688,6 +688,7 @@ Tapping an entry opens its detail view, which shows the target **URL**, current 
 ## See Also 📚
 
 - [Web Dashboard](../services/web-dashboard.md) — graphical webhook management UI
+- [Telegram Bridge](../services/telegram-bridge.md) — self-hosted relay for incoming SMS to Telegram
 - [FAQ](../faq/webhooks.md)
 - [Status Tracking](../features/status-tracking.md)
 - [Private Webhook Certificate Setup](../services/ca.md#private-webhook-certificate)
@@ -699,5 +700,6 @@ Tapping an entry opens its detail view, which shows the target **URL**, current 
 - [FastAPI webhook processor](https://github.com/android-sms-gateway/example-webhooks-fastapi): Demonstrates registration, HMAC validation, and payload handling with FastAPI.
 - [Discord Forwarder Function](https://github.com/android-sms-gateway/example-discord-forwarder-fn): Forwards SMS to Discord using a cloud function.
 - [Telegram Forwarder Function](https://github.com/android-sms-gateway/example-telegram-forwarder-fn): Forwards SMS to Telegram using a cloud function.
+- [Telegram Bridge](../services/telegram-bridge.md): Self-hosted service alternative to the cloud function for forwarding SMS to Telegram.
 - [Web Client](https://github.com/android-sms-gateway/web-client-ts): Node.js client for sending/receiving SMS via Socket.io.
 - [Google Sheets](https://github.com/android-sms-gateway/example-webhooks-google-sheets) - Google Apps Script integration to automatically log incoming SMS messages to Google Sheets.
