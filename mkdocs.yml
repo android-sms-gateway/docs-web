@@ -82,6 +82,7 @@ nav:
   - Services:
       - Overview: services/index.md
       - Email to SMS: services/email-to-sms.md
+      - Telegram Bridge: services/telegram-bridge.md
       - Twilio Fallback: services/twilio-fallback.md
       - SMPP Server: services/smpp-server.md
       - Certificate Authority: services/ca.md

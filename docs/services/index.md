@@ -1,11 +1,14 @@
 # ⚙️ Services
 
-Standalone companion services that extend the SMSGate beyond its core REST API. Each service runs independently and connects to the SMSGate API to provide additional integration options.
+Standalone companion services that extend the SMSGate beyond its core REST API. Each service runs independently and integrates with SMSGate in its own way — through the API, webhooks, or another protocol.
 
 <div class="grid cards" markdown>
 
 - **📧 [Email to SMS Bridge](./email-to-sms.md)**
     Send SMS by emailing `{phone}@smtp.sms-gate.app` — no API integration required. Ideal for monitoring tools, booking platforms, and any email-capable system.
+
+- **🤖 [Telegram Bridge](./telegram-bridge.md)**
+    Self-hosted service that forwards incoming SMS to a Telegram chat through signed webhooks — no mailbox polling or custom integration code required.
 
 - **🚀 [Twilio Fallback Service](./twilio-fallback.md)**
     Automatic fallback for failed Twilio messages. Resends delivery failures via the SMSGate API with zero changes to existing Twilio-based code.
