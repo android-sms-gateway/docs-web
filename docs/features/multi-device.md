@@ -24,6 +24,11 @@ The dialog cannot be dismissed by tapping outside; tap **Cancel** to abort witho
     4. Confirm to join the account
     5. Wait for Cloud Server information in the Home tab
 
+    <figure markdown>
+      ![Home Tab Server Configuration](../assets/app-home-unconfigured.png){ width="400" align=center }
+      <figcaption>Home tab with Cloud server enabled and the credentials still empty</figcaption>
+    </figure>
+
 === ":material-lock-reset: One-Time Code"
     !!! tip
         Use this method for untrusted devices, which will only have limited access to the account.
@@ -35,6 +40,11 @@ The dialog cannot be dismissed by tapping outside; tap **Cancel** to abort witho
        The generator is visible only while the device is registered.
     2. Wait for code to appear
     3. Long press to copy
+
+    <figure markdown>
+      ![Cloud Server Settings](../assets/app-settings-cloud-server.png){ width="400" align=center }
+      <figcaption>Login Code control used to sign in on another device</figcaption>
+    </figure>
 
     **Apply Code 📲**
 

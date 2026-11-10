@@ -2,6 +2,11 @@
 
 The app not only allows receiving incoming messages in real-time via webhooks but also enables reading previously received messages using the API or exporting them via webhooks.
 
+<figure markdown>
+  ![Messages Tab Incoming Queue](../assets/app-messages-tab.png){ width="400" align=center }
+  <figcaption>Messages tab showing the incoming queue and its per-status counters</figcaption>
+</figure>
+
 ## 📋 API Endpoints
 
 The app provides three endpoints for reading messages:

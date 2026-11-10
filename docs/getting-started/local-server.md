@@ -3,7 +3,7 @@
 ## ⚙️ Local Server Mode
 
 <div align="center">
-    <img src="/assets/local-server-arch.png" alt="Architecture of the Local Server mode">
+    <img src="/assets/local-server-arch.png" alt="Architecture of the Local Server mode" width="600">
 </div>
 
 This mode is ideal for sending messages from a local network, enabling direct communication between the device and your app on the same Wi‑Fi or Ethernet network without requiring internet access.
@@ -18,6 +18,11 @@ This mode is ideal for sending messages from a local network, enabling direct co
 
     !!! note "Public IP Accessibility"
         The displayed public IP address is only accessible from the internet if your device has a public IP assigned by your ISP and your firewall/router allows connections to the specified port (with port forwarding configured). Many ISPs use Carrier-Grade NAT (CG‑NAT), which prevents direct internet access to devices behind shared addresses. See also: [FAQ — Local Server](../faq/local-server.md).
+
+    <figure markdown>
+      ![Local Server Settings](../assets/app-settings-local-server.png){ width="400" align=center }
+      <figcaption>Local Server settings with the port, credentials and JWT options</figcaption>
+    </figure>
 
 5. To send a message from within the local network, execute a `curl` command like the following. Be sure to replace `<username>`, `<password>`, and `<device_local_ip>` with the actual values provided in the previous step:
 

@@ -58,7 +58,17 @@ For real-time updates, the dashboard registers webhooks on the SMSGate server fo
 2. Log in with your SMSGate credentials (from the Android app under Cloud Server settings)
 3. Start managing your gateway from the browser
 
+<figure align="center">
+  <img src="/assets/dashboard/dashboard-login.png" alt="Dashboard Login" width="800">
+  <figcaption>Sign in with your SMSGate credentials</figcaption>
+</figure>
+
 No registration, no installation — just your existing credentials.
+
+<figure align="center">
+  <img src="/assets/dashboard/dashboard-home.png" alt="Dashboard Overview" width="800">
+  <figcaption>Gateway statistics, message volume trend, and live activity feed</figcaption>
+</figure>
 
 ## 🖥️ Self-Hosting
 
@@ -69,7 +79,7 @@ docker run -d --name smsgate-dashboard \
   -p 3000:3000 \
   -e HTTP__ADDRESS=0.0.0.0:3000 \
   -e GATEWAY__URL=https://your-server.com/api/3rdparty/v1 \
-  -e GATEWAY__WEBHOOK_URL=https://your-server.com/api/webhooks/callback \
+  -e WEBHOOKS__URL=https://your-server.com/api/webhooks/callback \
   ghcr.io/android-sms-gateway/web-dashboard:latest
 ```
 
