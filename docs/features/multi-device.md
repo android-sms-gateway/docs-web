@@ -43,6 +43,13 @@ The dialog cannot be dismissed by tapping outside; tap **Cancel** to abort witho
     3. Enter the code
     4. Confirm with "Continue"
 
+## 🗑️ Unregistering a Device
+
+On a registered device, :gear: **Settings → Cloud Server → Credentials** offers an **Unregister device** action. It clears the registration on the device and stops the cloud session; the device must sign up or sign in again before the cloud server can be used.
+
+!!! note
+    This only clears the registration on the device — the cloud server keeps its own record, so commands for the previous registration can still be pushed to the device. The app ignores them while the device is unregistered. To remove a device from the account entirely (and delete its messages), use the **Remove Device** API under [Device Management](#api-endpoints) below.
+
 ## 📨 Message Distribution
 
 === ":fontawesome-solid-dice: Random Selection (Default)"

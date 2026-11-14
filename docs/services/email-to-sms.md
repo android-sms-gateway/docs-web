@@ -193,6 +193,9 @@ docker run \
 !!! tip "TLS Certificates"
     You can use the [Certificate Authority service](./ca.md) to generate SSL certificates for private IP addresses.
 
+!!! warning "Authentication and TLS"
+    When both `SMTP__TLS_CERT` and `SMTP__TLS_KEY` are set, STARTTLS is advertised and `AUTH PLAIN` is only accepted after the connection is upgraded. When both are unset, cleartext `AUTH PLAIN` is accepted - use only on trusted or local networks. The certificate and key must be configured together; the bridge refuses to start if only one of the pair is set.
+
 ## 🔐 Authentication
 
 The bridge uses SMTP AUTH PLAIN with credentials that are passed through to the SMSGate API:
@@ -205,7 +208,7 @@ The bridge uses SMTP AUTH PLAIN with credentials that are passed through to the 
 | **4. Auth failure**       | On 401/403, bridge returns SMTP code 535 to the client       |
 
 !!! important "TLS Recommended for Production"
-    The bridge allows AUTH PLAIN without TLS. For production use, configure TLS to protect credentials in transit.
+    Without TLS configured, the bridge accepts `AUTH PLAIN` in cleartext. For production use, configure TLS to protect credentials in transit - when certificate and key are set, credentials are only accepted over the STARTTLS-upgraded connection.
 
 ## 📊 Monitoring
 

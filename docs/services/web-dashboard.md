@@ -71,7 +71,7 @@ The main dashboard provides an aggregated view of your gateway:
     Paginated table with filtering by state, device, and date range. Columns show preview, recipient count, state badge, and timestamp.
 
 - **✉️ Compose**
-    Send SMS from the browser. Enter phone numbers (multi-line or comma-separated), message text, optional device and SIM selection.
+    Send SMS or MMS from the browser. Pick the message type, enter phone numbers (multi-line or comma-separated) and message text, optionally add an MMS subject and attachments, and select device and SIM.
 
 - **🔍 Message Detail**
     Full message content (text, data, or hashed), recipient table with per-recipient delivery states, and a timeline of state transitions.
@@ -80,7 +80,7 @@ The main dashboard provides an aggregated view of your gateway:
 
 ### 📱 Device Management
 
-View all registered devices with online/offline status badges and last-seen timestamps. Remove devices with a confirmation dialog.
+View all registered devices with online/offline status badges and last-seen timestamps. Devices with a public key show an **E2E** badge and, when available, their key version. The badge indicates key availability; messages composed in the dashboard are not end-to-end encrypted. Remove devices with a confirmation dialog.
 
 ### 🌐 Webhook Management
 

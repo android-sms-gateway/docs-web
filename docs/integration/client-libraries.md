@@ -30,19 +30,20 @@ We offer client libraries in various programming languages to assist with integr
 
 The following table shows which capabilities are available in each SDK. All SDKs support the core messaging API (send, status, cancel).
 
-| Feature              | Go                 | TypeScript         | PHP                | Python             | Rust               |
-| -------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| Send SMS             | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Send MMS             | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Message Status       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Message Cancellation | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| List Messages        | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| List Devices         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Inbox Refresh        | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Batch Webhooks       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Webhook Event Types  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Feature                        | Go                 | TypeScript         | PHP                | Python             | Rust               |
+| ------------------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| Send SMS                       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Send MMS                       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Message Status                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Message Cancellation           | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| List Messages                  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| List Devices                   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Inbox Refresh                  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Batch Webhooks                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Webhook Event Types            | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Webhook Signature Verification | :white_check_mark: | -                  | -                  | -                  | :white_check_mark: |
 
 !!! note "Feature Availability"
-    A dash marks a capability that is not yet implemented in that SDK. Every capability listed
-    above is currently available in all five SDKs. Check each SDK's README for detailed usage
+    A dash marks a capability that is not yet implemented in that SDK. All other capabilities
+    listed above are available in all five SDKs. Check each SDK's README for detailed usage
     and examples. New features are added across all SDKs incrementally.

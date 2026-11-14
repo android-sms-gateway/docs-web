@@ -137,12 +137,14 @@ stateDiagram-v2
 
 The message status response (`GET /3rdparty/v1/messages/{id}`) includes the following fields:
 
-| Field        | Type   | Description                                                           |
-| ------------ | ------ | --------------------------------------------------------------------- |
-| `id`         | string | Unique message identifier                                             |
-| `state`      | string | Current state (`Pending`, `Processed`, `Sent`, `Delivered`, `Failed`) |
-| `states`     | object | History of previous message states (map of state name to timestamp)   |
-| `recipients` | array  | Per-recipient delivery states                                         |
+| Field        | Type   | Description                                                                          |
+| ------------ | ------ | ------------------------------------------------------------------------------------ |
+| `id`         | string | Unique message identifier                                                            |
+| `state`      | string | Current state (`Pending`, `Processed`, `Sent`, `Delivered`, `Failed`)                |
+| `states`     | object | History of previous message states (map of state name to timestamp)                  |
+| `recipients` | array  | Per-recipient delivery states                                                        |
+| `createdAt`  | string | Message creation time (RFC 3339 / UTC)                                               |
+| `scheduleAt` | string | Scheduled delivery time (RFC 3339 / UTC); present only when the message is scheduled |
 
 ## Delivery Reports 📋
 
