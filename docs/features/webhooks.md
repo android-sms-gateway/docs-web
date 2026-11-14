@@ -639,9 +639,18 @@ The signing key is randomly generated at first request and can be changed in **S
     }
     ```
 
+!!! tip "Official SDK Helpers"
+    The Go SDK ships ready-made verification helpers - `smsgateway.VerifyWebhookSignature` and
+    `smsgateway.VerifyWebhookSignatureWithin` (checks timestamp freshness when `maxAge` is
+    positive) in [client-go](https://github.com/android-sms-gateway/client-go) - and the Rust
+    SDK provides `webhook::verify_signature` (with an optional maximum age for the timestamp)
+    in [client-rs](https://github.com/android-sms-gateway/client-rs). For TypeScript, Python
+    and PHP, use the examples above.
+
 !!! tip "Best Practices"
     - Use constant-time comparison to prevent timing attacks.
-    - Validate timestamps (e.g., accept only timestamps within ±5 minutes) to prevent replay attacks.
+    - Validate timestamps (e.g., accept only timestamps within ±5 minutes) to limit the replay window.
+    - Deduplicate events if repeated processing matters.
     - Store secret keys securely (e.g., environment variables, secure vaults).
 
 ## Inspecting the Delivery Queue 🔍
