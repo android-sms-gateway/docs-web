@@ -92,6 +92,7 @@ nav:
   - Privacy:
       - Policy: privacy/policy.md
       - Encryption: privacy/encryption.md
+      - DPA: privacy/dpa.md
   - Contributing: contributing.md
   - License: license.md
 validation:
