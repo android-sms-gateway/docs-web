@@ -22,10 +22,10 @@ We are committed to transparency and the protection of user privacy. This docume
     !!! info "Data Handling"
         - 🕒 Plaintext data hashed (SHA256) within 1 minute after processing
         - 📤 Shared data:
-            - Device manufacturer
-            - Device model
-            - App version
+            - Device manufacturer and model — set as the device name at registration
+            - App version — sent in the `User-Agent` header of every request (kept in request logs)
             - Firebase Cloud Messaging (FCM) token
+            - SIM details — phone number, carrier and ICCID are redacted on the device (only the last 4 characters are kept)
 
 === ":material-home: Private Server"
     !!! info "Push Notifications"
@@ -61,7 +61,7 @@ We are committed to transparency and the protection of user privacy. This docume
 | -------------------------------------------- | ------------------------------------- | -------- | ------------------------------------ |
 | Public Server :material-cloud:               | Inactive Devices (including messages) | 1 year   | Permanent deletion :material-delete: |
 | Public Server :material-cloud:               | Processed Messages                    | 1 minute | Hashing :fontawesome-solid-hashtag:  |
-| Public Server :material-cloud:               | Processed Messages                    | 1 month  | Permanent deletion :material-delete: |
+| Public Server :material-cloud:               | Processed Messages                    | 30 days  | Permanent deletion :material-delete: |
 | Certificate authority :material-certificate: | CSRs and certificates                 | 24h      | Permanent deletion :material-delete: |
 | Infrastructure :material-server:             | Server logs and metrics               | 10 days  | Permanent deletion :material-delete: |
 
@@ -70,6 +70,7 @@ We are committed to transparency and the protection of user privacy. This docume
 
 - **2024-10-16 (:material-android: 1.22+)**: Removed dependency on [ipify](https://www.ipify.org) for retrieving public IP address
 - **2025-03-17**: Decreased processed messages hashing period from 15 minutes to 1 minute
+- **2026-11-15**: Clarified device name, app version and SIM redaction handling
 
 ---
 
