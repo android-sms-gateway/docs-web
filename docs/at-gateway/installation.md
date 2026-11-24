@@ -9,7 +9,7 @@ AT Gateway runs anywhere you can attach a serial AT modem: directly on a Linux h
 - **Go 1.25+** only if building from source; Docker only if using the container image.
 
 !!! tip "Hardware first"
-    Wiring, port selection, udev rules, and complete hardware examples are in the [example setups in the AT Gateway repository](https://github.com/android-sms-gateway/at-gateway/blob/master/docs/example-setups.md). Probe the modem with `AT` before starting the gateway.
+    Wiring, port selection, udev rules, and complete hardware examples are on the [Hardware & Example Setups](./hardware.md) page. Probe the modem with `AT` before starting the gateway.
 
 ## 📦 Pre-built binary
 
@@ -70,5 +70,5 @@ Open `http://127.0.0.1:3000/api/v1/docs` for the interactive Swagger UI at the g
 ## 📚 See Also
 
 - [Overview](./index.md) — how AT Gateway compares with the Android app.
-- [Example Setups (repository)](https://github.com/android-sms-gateway/at-gateway/blob/master/docs/example-setups.md) — wiring schemes and modem options.
+- [Hardware & Example Setups](./hardware.md) — wiring schemes and modem options.
 - [Configuration](./configuration.md) — every setting, including the modem port.

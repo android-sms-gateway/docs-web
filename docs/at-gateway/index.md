@@ -55,6 +55,7 @@ AT Gateway uses the **same SMSGate API** as the other modes — the request and 
 
 ## 🧭 Next steps
 
+- [Hardware & Example Setups](./hardware.md) — wiring schemes and modem options.
 - [Installation](./installation.md) — run the gateway as a binary, in Docker, or from source.
 - [Configuration](./configuration.md) — serial port, auth, database, inbox, webhooks, and ping settings.
 - [Integration API](../integration/api.md) — the shared API used by every mode.

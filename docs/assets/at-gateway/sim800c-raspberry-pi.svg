@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 655" role="img" aria-label="SIM800C wired to a Raspberry Pi GPIO UART">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#0969da"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#cf222e"/>
+    </marker>
+    <g id="gnd-sym">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#57606a" stroke-width="2"/>
+      <line x1="-10" y1="10" x2="10" y2="10" stroke="#57606a" stroke-width="2"/>
+      <line x1="-6" y1="15" x2="6" y2="15" stroke="#57606a" stroke-width="2"/>
+      <line x1="-2" y1="20" x2="2" y2="20" stroke="#57606a" stroke-width="2"/>
+    </g>
+    <style>
+      .box { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1.5; }
+      .ttl { font: 700 14px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; fill: #1f2328; }
+      .sub { font: 11px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; fill: #57606a; }
+      .pin { font: 600 11px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; fill: #1f2328; }
+      .note { font: 11px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; fill: #57606a; }
+      .title { font: 700 17px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; fill: #1f2328; }
+      .hdr { fill: #d0d7de; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="655" fill="#ffffff"/>
+  <text x="450" y="52" text-anchor="middle" class="title">SIM800C + Raspberry Pi (GPIO UART)</text>
+
+  <!-- Raspberry Pi -->
+  <rect x="60" y="130" width="400" height="370" rx="8" class="box"/>
+  <text x="85" y="158" class="ttl">Raspberry Pi</text>
+  <text x="85" y="176" class="sub">any model with a 40-pin header</text>
+
+  <!-- 40-pin header inset (2 × 20, pin 1 top-left) -->
+  <text x="85" y="372" class="sub">40-pin GPIO header</text>
+  <rect x="85" y="380" width="8" height="8" fill="#cf222e"/>
+  <rect x="85" y="396" width="8" height="8" fill="#cf222e"/>
+  <rect x="97" y="396" width="8" height="8" fill="#cf222e"/>
+  <g class="hdr">
+    <rect x="97" y="380" width="8" height="8"/>
+    <rect x="109" y="380" width="8" height="8"/>
+    <rect x="121" y="380" width="8" height="8"/>
+    <rect x="133" y="380" width="8" height="8"/>
+    <rect x="145" y="380" width="8" height="8"/>
+    <rect x="157" y="380" width="8" height="8"/>
+    <rect x="169" y="380" width="8" height="8"/>
+    <rect x="181" y="380" width="8" height="8"/>
+    <rect x="193" y="380" width="8" height="8"/>
+    <rect x="205" y="380" width="8" height="8"/>
+    <rect x="217" y="380" width="8" height="8"/>
+    <rect x="229" y="380" width="8" height="8"/>
+    <rect x="241" y="380" width="8" height="8"/>
+    <rect x="253" y="380" width="8" height="8"/>
+    <rect x="265" y="380" width="8" height="8"/>
+    <rect x="277" y="380" width="8" height="8"/>
+    <rect x="289" y="380" width="8" height="8"/>
+    <rect x="301" y="380" width="8" height="8"/>
+    <rect x="313" y="380" width="8" height="8"/>
+    <rect x="109" y="396" width="8" height="8"/>
+    <rect x="121" y="396" width="8" height="8"/>
+    <rect x="145" y="396" width="8" height="8"/>
+    <rect x="157" y="396" width="8" height="8"/>
+    <rect x="169" y="396" width="8" height="8"/>
+    <rect x="181" y="396" width="8" height="8"/>
+    <rect x="193" y="396" width="8" height="8"/>
+    <rect x="205" y="396" width="8" height="8"/>
+    <rect x="217" y="396" width="8" height="8"/>
+    <rect x="229" y="396" width="8" height="8"/>
+    <rect x="241" y="396" width="8" height="8"/>
+    <rect x="253" y="396" width="8" height="8"/>
+    <rect x="265" y="396" width="8" height="8"/>
+    <rect x="277" y="396" width="8" height="8"/>
+    <rect x="289" y="396" width="8" height="8"/>
+    <rect x="301" y="396" width="8" height="8"/>
+    <rect x="313" y="396" width="8" height="8"/>
+  </g>
+  <rect x="109" y="396" width="8" height="8" fill="#57606a"/>
+  <rect x="121" y="396" width="8" height="8" fill="#0969da"/>
+  <rect x="133" y="396" width="8" height="8" fill="#0969da"/>
+  <text x="85" y="426" class="sub">1 = 3.3 V · 2/4 = 5 V — power the module separately</text>
+  <text x="85" y="442" class="sub">6 = GND · 8 = TXD (GPIO14) · 10 = RXD (GPIO15)</text>
+
+  <!-- Pi edge pins -->
+  <circle cx="460" cy="240" r="4" fill="#1f2328"/>
+  <text x="446" y="244" text-anchor="end" class="pin">TXD (pin 8)</text>
+  <circle cx="460" cy="285" r="4" fill="#1f2328"/>
+  <text x="446" y="289" text-anchor="end" class="pin">RXD (pin 10)</text>
+  <circle cx="460" cy="330" r="4" fill="#1f2328"/>
+  <text x="446" y="334" text-anchor="end" class="pin">GND (pin 6)</text>
+
+  <!-- SIM800C -->
+  <rect x="660" y="130" width="210" height="370" rx="8" class="box"/>
+  <text x="765" y="156" text-anchor="middle" class="ttl">SIM800C module</text>
+  <circle cx="660" cy="240" r="4" fill="#1f2328"/>
+  <text x="674" y="244" class="pin">TX</text>
+  <circle cx="660" cy="285" r="4" fill="#1f2328"/>
+  <text x="674" y="289" class="pin">RX</text>
+  <circle cx="660" cy="330" r="4" fill="#1f2328"/>
+  <text x="674" y="334" class="pin">GND</text>
+  <circle cx="660" cy="385" r="4" fill="#1f2328"/>
+  <text x="674" y="389" class="pin">VCC</text>
+  <circle cx="660" cy="460" r="4" fill="#1f2328"/>
+  <text x="674" y="464" class="pin">PWRKEY</text>
+  <rect x="725" y="415" width="95" height="34" rx="4" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="772" y="436" text-anchor="middle" class="sub">SIM card</text>
+  <line x1="870" y1="200" x2="888" y2="200" stroke="#57606a" stroke-width="2"/>
+  <circle cx="893" cy="200" r="4" fill="none" stroke="#57606a" stroke-width="2"/>
+  <text x="886" y="182" text-anchor="end" class="sub">Antenna</text>
+
+  <!-- Data wires (TX to RX, crossed) -->
+  <line x1="460" y1="240" x2="660" y2="285" stroke="#0969da" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="660" y1="240" x2="460" y2="285" stroke="#0969da" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- GND wire -->
+  <line x1="460" y1="330" x2="660" y2="330" stroke="#57606a" stroke-width="2"/>
+
+  <!-- Dedicated power supply -->
+  <rect x="470" y="350" width="175" height="90" rx="8" class="box"/>
+  <text x="557" y="380" text-anchor="middle" class="ttl">Dedicated supply</text>
+  <text x="557" y="400" text-anchor="middle" class="sub">3.4–4.4 V, ≥ 2 A (GSM burst)</text>
+  <text x="557" y="418" text-anchor="middle" class="sub">common ground with the Pi</text>
+  <circle cx="645" cy="385" r="4" fill="#cf222e"/>
+  <line x1="645" y1="385" x2="660" y2="385" stroke="#cf222e" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <circle cx="500" cy="350" r="4" fill="#57606a"/>
+  <line x1="500" y1="350" x2="500" y2="330" stroke="#57606a" stroke-width="2" stroke-dasharray="5,4"/>
+  <circle cx="500" cy="330" r="3.5" fill="#57606a"/>
+
+  <!-- PWRKEY button to ground -->
+  <line x1="660" y1="460" x2="605" y2="460" stroke="#57606a" stroke-width="2"/>
+  <circle cx="605" cy="460" r="4" fill="#ffffff" stroke="#1f2328" stroke-width="2"/>
+  <circle cx="575" cy="460" r="4" fill="#ffffff" stroke="#1f2328" stroke-width="2"/>
+  <line x1="603" y1="458" x2="579" y2="446" stroke="#1f2328" stroke-width="2"/>
+  <line x1="575" y1="460" x2="555" y2="460" stroke="#57606a" stroke-width="2"/>
+  <use href="#gnd-sym" transform="translate(555,460)"/>
+  <text x="590" y="498" text-anchor="middle" class="sub">hold ≈1 s</text>
+
+  <!-- Notes -->
+  <text x="20" y="546" class="note">• Enable the UART: raspi-config → Interface Options → Serial Port (login shell off, hardware on), then set enable_uart=1.</text>
+  <text x="20" y="568" class="note">• Power the module from a dedicated 3.4–4.4 V ≥ 2 A supply and tie its ground to the Pi ground.</text>
+  <text x="20" y="590" class="note">• Point AT Gateway at the header UART with MODEM__PORT=/dev/serial0 — not the Bluetooth UART.</text>
+  <text x="20" y="612" class="note">• Simpler variant: plug a ready-made USB modem into a USB port and use MODEM__PORT=/dev/ttyUSB0.</text>
+  <text x="20" y="634" class="note">• Pi GPIO is 3.3 V while the SIM800C UART is rated 2.8 V — direct wiring is the common practice; add a level divider on Pi TX to be strict.</text>
+</svg>
