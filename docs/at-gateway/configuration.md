@@ -4,7 +4,7 @@ AT Gateway reads configuration from an optional YAML file, a `.env` file in the 
 
 ## 🧩 How configuration is loaded
 
-1. **`CONFIG_PATH` YAML file** — optional; must be a process environment variable, not a line inside `.env` (the loader reads it with `os.Getenv`, which never sees the dotenv file).
+1. **`CONFIG_PATH` YAML file** — optional; must be a process environment variable, not a line inside `.env`.
 2. **`.env` in the working directory** — convenient for local installs; keep secrets out of version control.
 3. **Process environment variables** — highest precedence; recommended for passwords and signing keys.
 
