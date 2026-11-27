@@ -108,12 +108,12 @@ An SBC as a dedicated always-on gateway. Two ways in: the GPIO UART (below) or p
 
 ### Wiring (physical pin numbers)
 
-| SIM800C | Raspberry Pi                                            |
-| ------- | ------------------------------------------------------- |
-| TX      | pin 10 — RXD (GPIO15)                                   |
-| RX      | pin 8 — TXD (GPIO14)                                    |
-| GND     | pin 6 — GND                                             |
-| VCC     | dedicated 3.4–4.4 V ≥ 2 A supply, ground tied to the Pi |
+| SIM800C | Raspberry Pi                                                    |
+| ------- | --------------------------------------------------------------- |
+| TX      | pin 10 — RXD (GPIO15)                                           |
+| RX      | pin 8 — TXD (GPIO14), via a level divider or shifter (required) |
+| GND     | pin 6 — GND                                                     |
+| VCC     | dedicated 3.4–4.4 V ≥ 2 A supply, ground tied to the Pi         |
 
 Power-on: a breakout without automatic power-on needs a PWRKEY → GND pulse after power is applied — a momentary button held for ≈1 s, exactly as in the USB-UART wiring above. Boards that power on automatically skip this step.
 
@@ -134,7 +134,7 @@ MODEM__BAUD_RATE=115200
 
 ### Watch out
 
-- The Pi header is 3.3 V logic while the SIM800C UART is rated 2.8 V — direct wiring is common practice; add a level divider on the Pi's TX line to stay strictly within spec.
+- The Pi header is 3.3 V logic while the SIM800C UART is rated 2.8 V — a level divider or level shifter on the Pi's TX line is required; do not wire it directly.
 - Draw the ~2 A GSM burst from the modem's own supply, not from the Pi's power pins — sagging rails reset the modem or the board.
 
 ## 📡 4G/LTE USB dongles
@@ -162,6 +162,8 @@ MODEM__BAUD_RATE=115200
 Old laptop, mini PC or NAS: anything that runs Docker can run the gateway. The only hard requirement is USB passthrough of the modem.
 
 ```bash
+mkdir -p /path/to/at-gateway-data
+chown 1000:1000 /path/to/at-gateway-data
 docker run -d --name at-gateway \
   --device /dev/ttyUSB0 \
   --group-add "$(stat -c '%g' /dev/ttyUSB0)" \
@@ -175,7 +177,7 @@ docker run -d --name at-gateway \
 
 - Replace `AUTH__BASIC__PASSWORD` with your own strong value — the default Basic-auth user is `sms`. `-p 127.0.0.1:3000:3000` keeps the API on localhost; publish `0.0.0.0:3000` only when you intentionally want other hosts to reach it, ideally behind a reverse proxy or firewall.
 - `--device` passes the modem into the container. `--group-add` grants the container user (uid 1000) access to a device node that is typically owned by `root:dialout` with mode `660`.
-- `/app/data` must be persisted and writable by uid 1000 — see [Installation](./installation.md) for the full notes.
+- `/app/data` must exist with uid 1000 ownership before the first start and be persisted — see [Installation](./installation.md) for the full notes.
 - Probe the device with `AT` first (see above). For a stable name across reboots, use the host udev symlink in all three places: the device passthrough (`--device /dev/sms-modem:/dev/sms-modem`), the group lookup (`--group-add "$(stat -Lc '%g' /dev/sms-modem)"` — `-L` reads the target node's group, not the symlink's), and the gateway port (`-e MODEM__PORT=/dev/sms-modem`). A host symlink alone does not exist inside the container.
 
 ## 📄 Image credits

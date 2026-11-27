@@ -13,13 +13,14 @@ AT Gateway runs anywhere you can attach a serial AT modem: directly on a Linux h
 
 ## 📦 Pre-built binary
 
-Download the latest release binary from [GitHub Releases](https://github.com/android-sms-gateway/at-gateway/releases/latest), then build and run:
+Download the platform archive from [GitHub Releases](https://github.com/android-sms-gateway/at-gateway/releases/latest), extract it, and run the binary:
 
-```bash title="Build and start AT Gateway"
-make deps
-make build
-AUTH__BASIC__PASSWORD=change-me ./bin/at-gateway
+```bash title="Extract and start AT Gateway"
+tar -xzf at-gateway_Linux_x86_64.tar.gz
+AUTH__BASIC__PASSWORD=change-me ./at-gateway
 ```
+
+Use the archive matching your OS and architecture (Windows releases are `.zip`).
 
 Replace `change-me` with a strong password. When the password is unset, the gateway generates one on first boot and stores it in `data/storage.json`.
 
@@ -28,6 +29,8 @@ Replace `change-me` with a strong password. When the password is unset, the gate
 Pass the modem into the container and persist the data directory:
 
 ```bash title="Run AT Gateway in Docker"
+mkdir -p /path/to/at-gateway-data
+chown 1000:1000 /path/to/at-gateway-data
 docker run -d --name at-gateway \
   --device /dev/ttyUSB0 \
   --group-add "$(stat -c '%g' /dev/ttyUSB0)" \
@@ -40,7 +43,7 @@ docker run -d --name at-gateway \
 ```
 
 - `--device` passes the serial node through; `--group-add` grants the container user access to a node usually owned by `root:dialout` with mode `660`.
-- `/app/data` holds the SQLite database, the device identity, and the generated auth password. Create it with `chown 1000:1000 /path/to/at-gateway-data` and keep it on persistent storage.
+- `/app/data` holds the SQLite database, the device identity, and the generated auth password. The host directory must exist with UID 1000 ownership before the first start — see the commands above. Keep it on persistent storage.
 - `-p 127.0.0.1:3000:3000` keeps the API on localhost. Publish `0.0.0.0:3000` only when other hosts must reach it, ideally behind a reverse proxy or firewall.
 
 !!! warning "Keep the password out of the volume"

@@ -41,6 +41,9 @@ The SMSGate API supports two authentication methods:
 !!! tip "Recommendation"
     For new integrations, we strongly recommend using JWT authentication as it provides better security, scalability, and fine-grained access control through scopes. See [Authentication Guide](authentication.md) for detailed information.
 
+!!! note "AT Gateway"
+    AT Gateway supports only HTTP Basic Authentication — JWT is not available in that mode. See [AT Gateway](../at-gateway/index.md).
+
 ### Authentication Comparison
 
 | Feature          | JWT Authentication                 | Basic Authentication                        |

@@ -138,5 +138,5 @@
   <text x="20" y="568" class="note">• Power the module from a dedicated 3.4–4.4 V ≥ 2 A supply and tie its ground to the Pi ground.</text>
   <text x="20" y="590" class="note">• Point AT Gateway at the header UART with MODEM__PORT=/dev/serial0 — not the Bluetooth UART.</text>
   <text x="20" y="612" class="note">• Simpler variant: plug a ready-made USB modem into a USB port and use MODEM__PORT=/dev/ttyUSB0.</text>
-  <text x="20" y="634" class="note">• Pi GPIO is 3.3 V while the SIM800C UART is rated 2.8 V — direct wiring is the common practice; add a level divider on Pi TX to be strict.</text>
+  <text x="20" y="634" class="note">• Pi GPIO is 3.3 V while the SIM800C UART is rated 2.8 V — a level divider or shifter on Pi TX is required; do not wire it directly.</text>
 </svg>
