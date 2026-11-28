@@ -44,6 +44,11 @@ SMS Gateway for Android turns your Android smartphone into an SMS and MMS gatewa
 - 🤖 **Telegram Bridge:** Forward incoming SMS to a Telegram chat with a self-hosted webhook relay. See [Telegram Bridge](./services/telegram-bridge.md).
 - 🚀 **Twilio Fallback Service:** Provides a fallback mechanism for Twilio SMS messages using SMSGate. See [Twilio Fallback Service](./services/twilio-fallback.md) for more information.
 
+## 📟 Gateway Options
+
+- 📱 **Android app (default):** the gateway device for SMSGate's Local, Cloud, and Private server modes. Install it on an Android 5.0+ phone or tablet — see [Installation](./installation.md).
+- 📟 **AT Gateway (alternative device):** turn a serial AT modem into a self-contained SMS gateway. It uses the same SMSGate API at a local base URL, with modem-specific capabilities — see [AT Gateway](./at-gateway/index.md).
+
 ## Ideal For
 
 - 🔐 **Authentication & Verification:** Secure user accounts and transactions with SMS-based two-factor authentication, minimizing the risk of unauthorized access.

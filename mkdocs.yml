@@ -40,6 +40,11 @@ nav:
       - Private Server: getting-started/private-server.md
       - Custom Gateway Setup: getting-started/custom-gateway.md
       - Webhooks: getting-started/webhooks.md
+  - AT Gateway:
+      - Overview: at-gateway/index.md
+      - Hardware & Example Setups: at-gateway/hardware.md
+      - Installation: at-gateway/installation.md
+      - Configuration: at-gateway/configuration.md
   - Integration:
       - Overview: integration/index.md
       - Authentication: integration/authentication.md

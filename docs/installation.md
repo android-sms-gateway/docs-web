@@ -2,6 +2,10 @@
 
 The recommended way to install the application is from a prebuilt APK.
 
+## 📟 Alternative: AT Gateway (no Android device)
+
+The Android app is the default gateway device. If you want dedicated hardware instead, [AT Gateway](./at-gateway/index.md) runs on a serial AT modem and exposes its own HTTP API — no Android device or SMSGate server required. See [AT Gateway Installation](./at-gateway/installation.md) for binary, Docker, and source builds.
+
 ## 🔍 Prerequisites
 
 The app requires an Android device with Android 5.0 (Lollipop) or later.

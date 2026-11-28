@@ -2,6 +2,20 @@
 
 The SMSGate provides a robust API that allows you to send SMS messages programmatically from your own applications or services. This enables seamless integration with your existing infrastructure.
 
+## 🌐 One API across modes
+
+All SMSGate modes use the **same API and request format**. Only the base URL and the capabilities available on the gateway device differ, so switching modes is transparent for clients that configure their base URL.
+
+| Mode                   | API base URL                              | Notes                                                                            |
+| ---------------------- | ----------------------------------------- | -------------------------------------------------------------------------------- |
+| Public Cloud           | `https://api.sms-gate.app/3rdparty/v1`    | Managed cloud server                                                             |
+| Private Server         | `https://your-domain.com/api/3rdparty/v1` | Self-hosted server                                                               |
+| Local Server (Android) | `http://<device_ip>:8080`                 | Local network only; see [Local Server](../getting-started/local-server.md)       |
+| AT Gateway             | `http://<host>:3000/api/v1`               | Serial AT modem; SMS and DATA_SMS only; see [AT Gateway](../at-gateway/index.md) |
+
+!!! note "Capabilities differ"
+    Base URLs and capabilities are mode-specific — for example, AT Gateway does not support MMS. Mode differences belong on the mode's own page; the common contract is documented here.
+
 ## API Specification 📄
 
 You can find the OpenAPI specification for our API at the following link: [OpenAPI Specification](https://capcom6.github.io/android-sms-gateway/). This specification includes detailed information about the available endpoints, request/response structure, and more.
@@ -26,6 +40,9 @@ The SMSGate API supports two authentication methods:
 
 !!! tip "Recommendation"
     For new integrations, we strongly recommend using JWT authentication as it provides better security, scalability, and fine-grained access control through scopes. See [Authentication Guide](authentication.md) for detailed information.
+
+!!! note "AT Gateway"
+    AT Gateway supports only HTTP Basic Authentication — JWT is not available in that mode. See [AT Gateway](../at-gateway/index.md).
 
 ### Authentication Comparison
 
